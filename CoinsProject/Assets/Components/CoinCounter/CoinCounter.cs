@@ -17,8 +17,8 @@ public class CoinCounter : MonoBehaviour
     }
 
     void placeOnStart(){
-        Utils.setPositionRight(transform,20);
-        Utils.setPositionTop(transform,20);
+        Utils.setPositionRight(transform,15);
+        Utils.setPositionTop(transform,15);
 
         Utils.showComponent(transform);
     }
