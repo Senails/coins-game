@@ -16,6 +16,9 @@ public class User : MonoBehaviour
     void Update()
     {
         moveUser();
+        if (Input.GetKey(KeyCode.Y)){
+            CoinCounter.addCoins(2);
+        }
     }
 
     void moveUser(){
