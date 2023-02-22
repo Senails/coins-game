@@ -5,20 +5,15 @@ using UnityEngine;
 public class User : MonoBehaviour
 {
     public float speed;
-
-
+    public GameObject camera;
 
     void Start()
     {
-
     }
 
     void Update()
     {
         moveUser();
-        if (Input.GetKey(KeyCode.Y)){
-            CoinCounter.addCoins(2);
-        }
     }
 
     void moveUser(){
@@ -29,5 +24,6 @@ public class User : MonoBehaviour
         float deltaY = sinY*this.speed*Time.deltaTime;
 
         transform.Translate(new Vector2(deltaX,deltaY));
+        camera.transform.position= new Vector2(transform.position.x,transform.position.y);
     }
 }
