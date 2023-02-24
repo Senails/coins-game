@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public class BackButton : MonoBehaviour, IPointerClickHandler
-{
-
-    void Start()
-    {
-
-    }
-
+public class ChangeSceneButton : MonoBehaviour, IPointerClickHandler
+{   
+    public int sceneIndex;
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(1);
+        SceneManager.LoadScene(sceneIndex);
     }
 }
