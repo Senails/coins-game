@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class MoveController : MonoBehaviour
 {
+    public GameObject GameMap;
+
     public static float cosX=0;
     public static float sinY=0;
+
+    public static float minCameraX;
+    public static float maxCameraX;
+    public static float minCameraY;
+    public static float maxCameraY;
+
+    private void Start() {
+        findMaxMinCameraPosition();
+    }
 
     void Update()
     {
@@ -57,4 +68,22 @@ public class MoveController : MonoBehaviour
         MoveController.cosX=x/Radius;
         MoveController.sinY=y/Radius;
     }
+
+    void findMaxMinCameraPosition(){
+        Camera camera = Camera.main;
+
+        float heightCamera = camera.orthographicSize*2;
+        float widthCamera = camera.aspect*heightCamera;
+
+        float mapWidth = GameMap.transform.localScale.x;
+        float mapHeight = GameMap.transform.localScale.y;
+
+        MoveController.minCameraX = (widthCamera-mapWidth)/2+GameMap.transform.position.x;
+        MoveController.maxCameraX = -((widthCamera-mapWidth)/2-GameMap.transform.position.x);
+
+        MoveController.minCameraY = (heightCamera-mapHeight)/2+GameMap.transform.position.y;
+        MoveController.maxCameraY = -((heightCamera-mapHeight)/2-GameMap.transform.position.y);
+    }
+
+    
 }
