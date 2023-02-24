@@ -6,21 +6,21 @@ using UnityEngine.EventSystems;
 public class MoveController : MonoBehaviour
 {
     public GameObject GameMap;
+    public float speed=5;
 
     public static string movingMode = "mouse";
 
-    public static float cosX=0;
-    public static float sinY=0;
+    float cosX=0;
+    float sinY=0;
 
-    public static float minCameraX;
-    public static float maxCameraX;
-    public static float minCameraY;
-    public static float maxCameraY;
+    float minCameraX;
+    float maxCameraX;
+    float minCameraY;
+    float maxCameraY;
 
     private void Start() {
         findMaxMinCameraPosition();
     }
-
     void Update()
     {
         if (MoveController.movingMode=="mouse"){
@@ -28,16 +28,38 @@ public class MoveController : MonoBehaviour
         }else{
             findDirectionKeyboard();
         }
+
+        if (!(this.cosX==0 && this.sinY==0)){
+            moveUser();
+        }
     }
+
+
+    void findMaxMinCameraPosition(){
+        Camera camera = Camera.main;
+
+        float heightCamera = camera.orthographicSize*2;
+        float widthCamera = camera.aspect*heightCamera;
+
+        float mapWidth = GameMap.transform.localScale.x;
+        float mapHeight = GameMap.transform.localScale.y;
+
+        this.minCameraX = (widthCamera-mapWidth)/2+GameMap.transform.position.x;
+        this.maxCameraX = -((widthCamera-mapWidth)/2-GameMap.transform.position.x);
+
+        this.minCameraY = (heightCamera-mapHeight)/2+GameMap.transform.position.y;
+        this.maxCameraY = -((heightCamera-mapHeight)/2-GameMap.transform.position.y);
+    }
+
 
     void findDirectionKeyboard(){
         float x = 
-        MoveController.cosX>0 ? 1:
-        MoveController.cosX<0 ?-1: 0;
+        this.cosX>0 ? 1:
+        this.cosX<0 ?-1: 0;
 
         float y = 
-        MoveController.sinY>0 ? 1:
-        MoveController.sinY<0 ?-1: 0;
+        this.sinY>0 ? 1:
+        this.sinY<0 ?-1: 0;
 
 
         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S)){
@@ -63,8 +85,8 @@ public class MoveController : MonoBehaviour
 
 
         if (x==0 && y ==0 ){
-            MoveController.cosX=0;
-            MoveController.sinY=0;
+            this.cosX=0;
+            this.sinY=0;
 
             return;
         }
@@ -72,30 +94,14 @@ public class MoveController : MonoBehaviour
 
         float Radius = Mathf.Sqrt(Mathf.Pow(x,2)+Mathf.Pow(y,2));
 
-        MoveController.cosX=x/Radius;
-        MoveController.sinY=y/Radius;
-    }
-
-    void findMaxMinCameraPosition(){
-        Camera camera = Camera.main;
-
-        float heightCamera = camera.orthographicSize*2;
-        float widthCamera = camera.aspect*heightCamera;
-
-        float mapWidth = GameMap.transform.localScale.x;
-        float mapHeight = GameMap.transform.localScale.y;
-
-        MoveController.minCameraX = (widthCamera-mapWidth)/2+GameMap.transform.position.x;
-        MoveController.maxCameraX = -((widthCamera-mapWidth)/2-GameMap.transform.position.x);
-
-        MoveController.minCameraY = (heightCamera-mapHeight)/2+GameMap.transform.position.y;
-        MoveController.maxCameraY = -((heightCamera-mapHeight)/2-GameMap.transform.position.y);
+        this.cosX=x/Radius;
+        this.sinY=y/Radius;
     }
 
     void findDirectionMouse(){
         if (!Input.GetMouseButton(0)){
-            MoveController.cosX=0;
-            MoveController.sinY=0;
+            this.cosX=0;
+            this.sinY=0;
             return;
         }
        
@@ -130,8 +136,62 @@ public class MoveController : MonoBehaviour
 
         float Radius = Mathf.Sqrt(Mathf.Pow(deltaDX,2)+Mathf.Pow(deltaDY,2));
         
-        MoveController.cosX=-deltaDX/Radius;
-        MoveController.sinY=-deltaDY/Radius;
+        this.cosX=-deltaDX/Radius;
+        this.sinY=-deltaDY/Radius;
+    }
+
+
+    void moveUser(){
+        float cosX = this.cosX;
+        float sinY = this.sinY;
+
+        float deltaX = cosX*this.speed*Time.deltaTime;
+        float deltaY = sinY*this.speed*Time.deltaTime;
+
+        transform.Translate(new Vector2(deltaX,deltaY));
+        moveCamera();
+    }
+
+    void moveCamera(){
+        Camera camera = Camera.main;
+        const float rigidity = 10;
+
+        float heightCamera = camera.orthographicSize*2;
+        float widthCamera = camera.aspect*heightCamera;
+
+        float xCamera = camera.transform.position.x;
+        float yCamera = camera.transform.position.y;
+
+        float xUser = transform.position.x;
+        float yUser = transform.position.y;
+
+        float deltaX = xUser-xCamera;
+        float deltaY = yUser-yCamera;
+
+        float needCameraX = xCamera;
+        float needCameraY = yCamera;
+
+        if (Mathf.Abs(deltaX) > widthCamera/rigidity){
+            needCameraX = (deltaX>0)?
+            (xUser-widthCamera/rigidity):
+            (xUser+widthCamera/rigidity);
+        }
+
+        if (Mathf.Abs(deltaY) > heightCamera/rigidity){
+            needCameraY = (deltaY>0)?
+            (yUser-heightCamera/rigidity):
+            (yUser+heightCamera/rigidity);
+        }
+
+        needCameraX = 
+        (needCameraX>=maxCameraX)?maxCameraX:
+        (needCameraX<=minCameraX)?minCameraX:needCameraX;
+
+        needCameraY = 
+        (needCameraY>=maxCameraY)?maxCameraY:
+        (needCameraY<=minCameraY)?minCameraY:needCameraY;
+
+        Camera.main.transform.position= new Vector3(needCameraX,needCameraY,-10);
     }
 
 }
