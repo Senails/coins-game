@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MoveController : MonoBehaviour
 {
     public GameObject GameMap;
+
+    public static string movingMode = "mouse";
 
     public static float cosX=0;
     public static float sinY=0;
@@ -20,7 +23,11 @@ public class MoveController : MonoBehaviour
 
     void Update()
     {
-        findDirectionKeyboard();
+        if (MoveController.movingMode=="mouse"){
+            findDirectionMouse();
+        }else{
+            findDirectionKeyboard();
+        }
     }
 
     void findDirectionKeyboard(){
@@ -85,5 +92,46 @@ public class MoveController : MonoBehaviour
         MoveController.maxCameraY = -((heightCamera-mapHeight)/2-GameMap.transform.position.y);
     }
 
-    
+    void findDirectionMouse(){
+        if (!Input.GetMouseButton(0)){
+            MoveController.cosX=0;
+            MoveController.sinY=0;
+            return;
+        }
+       
+
+        float mouseX = Input.mousePosition.x;
+        float mouseY = Input.mousePosition.y;
+
+        float mouseDX = mouseX/Screen.width;
+        float mouseDY = mouseY/Screen.height;
+
+
+        Camera camera = Camera.main;
+
+        float heightCamera = camera.orthographicSize*2;
+        float widthCamera = camera.aspect*heightCamera;
+
+        float xCamera = camera.transform.position.x;
+        float yCamera = camera.transform.position.y;
+
+        float xUser = transform.position.x;
+        float yUser = transform.position.y;
+
+        float deltaX = xCamera-xUser;
+        float deltaY = yCamera-yUser;
+
+        float userDX = 1-(deltaX+widthCamera/2)/widthCamera;
+        float userDY = 1-(deltaY+heightCamera/2)/heightCamera;
+
+
+        float deltaDX = userDX-mouseDX;
+        float deltaDY = userDY-mouseDY;
+
+        float Radius = Mathf.Sqrt(Mathf.Pow(deltaDX,2)+Mathf.Pow(deltaDY,2));
+        
+        MoveController.cosX=-deltaDX/Radius;
+        MoveController.sinY=-deltaDY/Radius;
+    }
+
 }
