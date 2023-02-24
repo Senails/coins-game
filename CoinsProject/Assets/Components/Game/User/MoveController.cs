@@ -8,7 +8,7 @@ public class MoveController : MonoBehaviour
     public GameObject GameMap;
     public float speed=5;
 
-    public static string movingMode = "mouse";
+    string movingMode = "mouse";
 
     float cosX=0;
     float sinY=0;
@@ -20,10 +20,11 @@ public class MoveController : MonoBehaviour
 
     private void Start() {
         findMaxMinCameraPosition();
+        findMoveMode();
     }
     void Update()
     {
-        if (MoveController.movingMode=="mouse"){
+        if (movingMode=="mouse"){
             findDirectionMouse();
         }else{
             findDirectionKeyboard();
@@ -194,4 +195,14 @@ public class MoveController : MonoBehaviour
         Camera.main.transform.position= new Vector3(needCameraX,needCameraY,-10);
     }
 
+
+    void findMoveMode(){
+        int index = PlayerPrefs.GetInt("moveMode");
+
+        if (index==0){
+            movingMode="keyboard";  
+        }else{
+            movingMode="mouse"; 
+        }
+    }
 }

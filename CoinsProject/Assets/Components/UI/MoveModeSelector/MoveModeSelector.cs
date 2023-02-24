@@ -40,10 +40,12 @@ public class MoveModeSelector : MonoBehaviour
     }
 
     void SetInMemory(int index){
-        Debug.Log(index);
+        PlayerPrefs.SetInt("moveMode",index);
     }
 
     int GetFromMemory(){
-        return 0;
+        int index = PlayerPrefs.GetInt("moveMode");
+
+        return index;
     }
 }
