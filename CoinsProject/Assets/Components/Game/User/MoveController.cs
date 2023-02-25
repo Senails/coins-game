@@ -10,8 +10,8 @@ public class MoveController : MonoBehaviour
 
     string movingMode = "mouse";
 
-    float cosX=0;
-    float sinY=0;
+    static public float cosX=0;
+    static public float sinY=0;
 
     float minCameraX;
     float maxCameraX;
@@ -30,7 +30,7 @@ public class MoveController : MonoBehaviour
             findDirectionKeyboard();
         }
 
-        if (!(this.cosX==0 && this.sinY==0)){
+        if (!(MoveController.cosX==0 && MoveController.sinY==0)){
             moveUser();
         }
     }
@@ -55,12 +55,12 @@ public class MoveController : MonoBehaviour
 
     void findDirectionKeyboard(){
         float x = 
-        this.cosX>0 ? 1:
-        this.cosX<0 ?-1: 0;
+        MoveController.cosX>0 ? 1:
+        MoveController.cosX<0 ?-1: 0;
 
         float y = 
-        this.sinY>0 ? 1:
-        this.sinY<0 ?-1: 0;
+        MoveController.sinY>0 ? 1:
+        MoveController.sinY<0 ?-1: 0;
 
 
         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S)){
@@ -86,8 +86,8 @@ public class MoveController : MonoBehaviour
 
 
         if (x==0 && y ==0 ){
-            this.cosX=0;
-            this.sinY=0;
+            MoveController.cosX=0;
+            MoveController.sinY=0;
 
             return;
         }
@@ -95,14 +95,14 @@ public class MoveController : MonoBehaviour
 
         float Radius = Mathf.Sqrt(Mathf.Pow(x,2)+Mathf.Pow(y,2));
 
-        this.cosX=x/Radius;
-        this.sinY=y/Radius;
+        MoveController.cosX=x/Radius;
+        MoveController.sinY=y/Radius;
     }
 
     void findDirectionMouse(){
         if (!Input.GetMouseButton(0)){
-            this.cosX=0;
-            this.sinY=0;
+            MoveController.cosX=0;
+            MoveController.sinY=0;
             return;
         }
        
@@ -137,14 +137,14 @@ public class MoveController : MonoBehaviour
 
         float Radius = Mathf.Sqrt(Mathf.Pow(deltaDX,2)+Mathf.Pow(deltaDY,2));
         
-        this.cosX=-deltaDX/Radius;
-        this.sinY=-deltaDY/Radius;
+        MoveController.cosX=-deltaDX/Radius;
+        MoveController.sinY=-deltaDY/Radius;
     }
 
 
     void moveUser(){
-        float cosX = this.cosX;
-        float sinY = this.sinY;
+        float cosX = MoveController.cosX;
+        float sinY = MoveController.sinY;
 
         float deltaX = cosX*this.speed*Time.deltaTime;
         float deltaY = sinY*this.speed*Time.deltaTime;
