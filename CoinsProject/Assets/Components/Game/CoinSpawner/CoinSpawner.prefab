@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6508752249662696473}
   - component: {fileID: 3466962204452656683}
+  - component: {fileID: 873790447027873072}
   m_Layer: 0
   m_Name: CoinSpawner
   m_TagString: Untagged
@@ -84,3 +85,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &873790447027873072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7966380182344474438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a2184d3bdf8d3442af509a1befd67a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
