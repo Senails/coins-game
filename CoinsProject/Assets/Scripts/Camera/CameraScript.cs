@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveCamera : MonoBehaviour
+public class CameraScript : MonoBehaviour
 {
     public GameObject GameMap;
     public GameObject UserObject;
@@ -10,16 +10,29 @@ public class MoveCamera : MonoBehaviour
     float maxCameraX;
     float minCameraY;
     float maxCameraY; 
+    
+    float StartCameraSize;
 
     void Start()
     {   
         findMaxMinCameraPosition();
-
+        getStartCameraSize();
     }
 
     void Update()
     {
-        moveCamera();
+        float mw = Input.GetAxis("Mouse ScrollWheel");
+        if (Mathf.Abs(mw)>0){
+            if (mw<0){
+                changeCameraSize("more");
+            }else{
+                changeCameraSize("less");
+            }
+
+            moveCamera();
+        }else{
+            moveCamera();
+        }
     }
 
     void findMaxMinCameraPosition(){
@@ -80,4 +93,28 @@ public class MoveCamera : MonoBehaviour
         Camera.main.transform.position= new Vector3(needCameraX,needCameraY,-10);
     }
 
+    void getStartCameraSize(){
+        var camera = transform.GetComponent<Camera>();
+        StartCameraSize = camera.orthographicSize;
+    }
+
+    void changeCameraSize(string MoreLess){
+        var camera = transform.GetComponent<Camera>();
+        float size = camera.orthographicSize;;
+
+        if (MoreLess == "less"){
+            size= size*.95f;
+        }else{
+            size= size*1.05f;
+        }
+
+        if (size>this.StartCameraSize*2){
+            size=this.StartCameraSize*2;
+        }
+        if (size<this.StartCameraSize/2){
+            size=this.StartCameraSize/2;
+        }
+
+        camera.orthographicSize=size;
+    }
 }

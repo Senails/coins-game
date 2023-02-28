@@ -12,6 +12,7 @@ public class Coin : MonoBehaviour
     {
         if (!connect) return;
         if (Input.GetKey(KeyCode.E) || Input.GetMouseButton(1)){
+            // HintScript.disconnect();
             addCoin(2);
         }
     }
@@ -22,11 +23,14 @@ public class Coin : MonoBehaviour
         if (size == "small"){
             addCoin(1);
         }else{
+            HintScript.connect();
             this.connect = true;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other) {
+        if (size == "small") return;
+        HintScript.disconnect();
         this.connect = false;
     }
 
