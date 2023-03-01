@@ -129,6 +129,7 @@ public class MoveController : MonoBehaviour
 
         transform.Translate(new Vector2(deltaX,deltaY));
         CameraScript.MoveCamera();
+        MiniMap.changeMiniMap();
     }
 
     void findMoveMode(){

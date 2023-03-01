@@ -8,13 +8,12 @@ public class MiniMap : MonoBehaviour
     public GameObject GameMap;
     public GameObject User;
 
+    static MiniMap Self;
+
 
     void Start()
     {
-        
-    }
-    void Update()
-    {
+        MiniMap.Self = this;
         moveMiniMap();
     }
 
@@ -48,7 +47,10 @@ public class MiniMap : MonoBehaviour
         float needX = -x*MiniMapWidth;
         float needY = -y*MiniMapHeight;
 
-        Debug.Log($"{needX} {needY}");
+        ImageMap.transform.localPosition= new Vector2(needX,needY);
+    }
 
+    static public void changeMiniMap(){
+        MiniMap.Self.moveMiniMap();
     }
 }
