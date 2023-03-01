@@ -11,7 +11,8 @@ public class Coin : MonoBehaviour
     void Update()
     {
         if (!connect) return;
-        if (Input.GetKey(KeyCode.E) || Input.GetMouseButton(1)){
+        if (Input.GetKey(KeyCode.E) 
+        || Input.GetMouseButton(1)){
             // HintScript.disconnect();
             addCoin(2);
         }

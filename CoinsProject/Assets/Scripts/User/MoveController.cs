@@ -18,16 +18,42 @@ public class MoveController : MonoBehaviour
     }
     void Update()
     {
-        if (movingMode=="mouse"){
-            findDirectionMouse();
-        }else{
-            findDirectionKeyboard();
-        }
+        findDirection();
 
         if (!(MoveController.cosX==0 && MoveController.sinY==0)){
             moveUser();
         }
     }
+
+
+    void findDirection(){
+        if (movingMode=="hybrid"){
+            findDirectionKeyboard();
+
+            if (MoveController.cosX==0 
+            && MoveController.sinY==0){
+                findDirectionMouse();
+            }
+        }else if (movingMode=="keyboard"){
+            findDirectionKeyboard();
+        }else{
+            findDirectionMouse();
+        }
+    }
+    
+    void moveUser(){
+        float cosX = MoveController.cosX;
+        float sinY = MoveController.sinY;
+
+        float deltaX = cosX*this.speed*Time.deltaTime;
+        float deltaY = sinY*this.speed*Time.deltaTime;
+
+        transform.Translate(new Vector2(deltaX,deltaY));
+        CameraScript.MoveCamera();
+        MiniMap.changeMiniMap();
+    }
+
+
 
     void findDirectionKeyboard(){
         float x = findDirectionKeyboardX();
@@ -43,7 +69,7 @@ public class MoveController : MonoBehaviour
 
         changeDirection(x/Radius,y/Radius);
     }
-
+    
     int findDirectionKeyboardY(){
         if (!Input.GetKey(KeyCode.W) 
         && !Input.GetKey(KeyCode.S)) return 0;
@@ -57,7 +83,7 @@ public class MoveController : MonoBehaviour
 
         return 1;
     }
-
+   
     int findDirectionKeyboardX(){
         if (!Input.GetKey(KeyCode.A) 
         && !Input.GetKey(KeyCode.D)) return 0;
@@ -71,6 +97,7 @@ public class MoveController : MonoBehaviour
 
         return 1;
     }
+
 
 
     void findDirectionMouse(){
@@ -120,18 +147,6 @@ public class MoveController : MonoBehaviour
         changeDirection(-deltaDX/Radius,-deltaDY/Radius);
     }
 
-    void moveUser(){
-        float cosX = MoveController.cosX;
-        float sinY = MoveController.sinY;
-
-        float deltaX = cosX*this.speed*Time.deltaTime;
-        float deltaY = sinY*this.speed*Time.deltaTime;
-
-        transform.Translate(new Vector2(deltaX,deltaY));
-        CameraScript.MoveCamera();
-        MiniMap.changeMiniMap();
-    }
-
     void findMoveMode(){
         int index = PlayerPrefs.GetInt("moveMode");
 
@@ -142,6 +157,8 @@ public class MoveController : MonoBehaviour
         }else{
             movingMode="hybrid";
         }
+
+        Debug.Log(movingMode);
     }
 
     void changeDirection(float cos, float sin){
@@ -152,4 +169,5 @@ public class MoveController : MonoBehaviour
             UserImageController.recalculateImage();
         }
     }
+
 }
