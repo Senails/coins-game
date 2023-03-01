@@ -5,12 +5,11 @@ using UnityEngine;
 public class UserImageController : MonoBehaviour
 {
     int activeImage = 0;
-    void Update()
-    {
-        int imageIndex = findActiveImage();
-        if (imageIndex!=activeImage){
-            activeNeedImage(imageIndex);
-        }
+
+    static UserImageController Self;
+
+    void Start(){
+        UserImageController.Self=this;
     }
 
     int findActiveImage(){
@@ -31,9 +30,7 @@ public class UserImageController : MonoBehaviour
     void activeNeedImage(int index){
         int childCount = transform.childCount;
 
-
         for(int i=0; i<childCount;i++){
-            // Debug.Log(transform.GetChild(i));
             var child = transform.GetChild(i);
             child.gameObject.SetActive(false);
         }
@@ -42,6 +39,12 @@ public class UserImageController : MonoBehaviour
         needChild.gameObject.SetActive(true);
 
         activeImage=index;
-        // Debug.Log(childCount);
+    }
+
+    static public void recalculateImage(){
+        int imageIndex = Self.findActiveImage();
+        if (imageIndex!=Self.activeImage){
+            Self.activeNeedImage(imageIndex);
+        }
     }
 }
