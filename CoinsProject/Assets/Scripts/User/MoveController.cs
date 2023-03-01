@@ -125,6 +125,7 @@ public class MoveController : MonoBehaviour
         float deltaY = sinY*this.speed*Time.deltaTime;
 
         transform.Translate(new Vector2(deltaX,deltaY));
+        CameraScript.MoveCamera();
     }
 
     void findMoveMode(){

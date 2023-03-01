@@ -13,14 +13,22 @@ public class CameraScript : MonoBehaviour
     
     float StartCameraSize;
 
+    static CameraScript Self;
+
+    bool CameraMoved=false;
+
     void Start()
     {   
         findMaxMinCameraPosition();
         getStartCameraSize();
+
+        Self = this;
     }
 
     void Update()
     {
+        CameraMoved=false;
+
         float mw = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(mw)>0){
             if (mw<0){
@@ -29,8 +37,7 @@ public class CameraScript : MonoBehaviour
                 changeCameraSize("less");
             }
 
-            moveCamera();
-        }else{
+            findMaxMinCameraPosition();
             moveCamera();
         }
     }
@@ -52,6 +59,9 @@ public class CameraScript : MonoBehaviour
     }
 
     void moveCamera(){
+        if (CameraMoved) return;
+        CameraMoved=true;
+
         Camera camera = Camera.main;
         const float rigidity = 10;
 
@@ -116,5 +126,9 @@ public class CameraScript : MonoBehaviour
         }
 
         camera.orthographicSize=size;
+    }
+
+    static public void MoveCamera(){
+        CameraScript.Self.moveCamera();
     }
 }
