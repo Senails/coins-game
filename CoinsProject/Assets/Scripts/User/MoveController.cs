@@ -7,6 +7,9 @@ public class MoveController : MonoBehaviour
 {
     public GameObject GameMap;
     public float speed=5;
+    float activeSpeed=5;
+
+    float mouseSpeedKoef=0;
 
     string movingMode = "mouse";
 
@@ -19,8 +22,8 @@ public class MoveController : MonoBehaviour
     void Update()
     {
         findDirection();
-
         if (!(MoveController.cosX==0 && MoveController.sinY==0)){
+            findSpeed();
             moveUser();
         }
     }
@@ -28,14 +31,16 @@ public class MoveController : MonoBehaviour
 
     void findDirection(){
         if (movingMode=="hybrid"){
-            findDirectionKeyboard();
-
-            if (MoveController.cosX==0 
-            && MoveController.sinY==0){
+            if (Input.GetKey(KeyCode.W) 
+            || Input.GetKey(KeyCode.S)
+            || Input.GetKey(KeyCode.A) 
+            || Input.GetKey(KeyCode.D)){
+                findDirectionKeyboard();
+            }else{
                 findDirectionMouse();
             }
         }else if (movingMode=="keyboard"){
-            findDirectionKeyboard();
+            findDirectionKeyboard();;
         }else{
             findDirectionMouse();
         }
@@ -45,12 +50,32 @@ public class MoveController : MonoBehaviour
         float cosX = MoveController.cosX;
         float sinY = MoveController.sinY;
 
-        float deltaX = cosX*this.speed*Time.deltaTime;
-        float deltaY = sinY*this.speed*Time.deltaTime;
+        float deltaX = cosX*activeSpeed*Time.deltaTime;
+        float deltaY = sinY*activeSpeed*Time.deltaTime;
 
         transform.Translate(new Vector2(deltaX,deltaY));
-        CameraScript.MoveCamera();
-        MiniMap.changeMiniMap();
+        CameraScript.MoveCamera(); 
+        MiniMap.changeMiniMap(); 
+    }
+
+    void findSpeed(){
+        if (Input.GetKey(KeyCode.LeftShift)){
+            activeSpeed=speed;
+            return;
+        }
+
+        activeSpeed=speed*0.6f;
+
+        if (Input.GetKey(KeyCode.W) 
+        || Input.GetKey(KeyCode.S)
+        || Input.GetKey(KeyCode.A) 
+        || Input.GetKey(KeyCode.D)) return;
+
+        float koef = 
+        this.mouseSpeedKoef>0.2?0.2f
+        :this.mouseSpeedKoef;
+
+        activeSpeed=speed*0.6f+(speed*0.4f)*(koef/0.2f);
     }
 
 
@@ -69,7 +94,7 @@ public class MoveController : MonoBehaviour
 
         changeDirection(x/Radius,y/Radius);
     }
-    
+
     int findDirectionKeyboardY(){
         if (!Input.GetKey(KeyCode.W) 
         && !Input.GetKey(KeyCode.S)) return 0;
@@ -138,7 +163,8 @@ public class MoveController : MonoBehaviour
 
 
         float Radius = Mathf.Sqrt(Mathf.Pow(deltaDX,2)+Mathf.Pow(deltaDY,2));
-        
+        this.mouseSpeedKoef=Radius;
+
         if (Radius<0.01){
             changeDirection(0,0);
             return;
@@ -157,8 +183,6 @@ public class MoveController : MonoBehaviour
         }else{
             movingMode="hybrid";
         }
-
-        Debug.Log(movingMode);
     }
 
     void changeDirection(float cos, float sin){
