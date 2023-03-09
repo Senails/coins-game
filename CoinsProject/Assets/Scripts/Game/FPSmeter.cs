@@ -16,8 +16,8 @@ public class FPSmeter : MonoBehaviour
     {   
         lastChanges+=Time.deltaTime;
         tikCount++;
-        if (lastChanges>0.2){
-            renderFPS(Mathf.FloorToInt(tikCount*5));
+        if (lastChanges>1){
+            renderFPS(Mathf.FloorToInt(tikCount));
             tikCount=0;
             lastChanges=0;
         }
