@@ -6,6 +6,10 @@ public class CameraScript : MonoBehaviour
 {
     public GameObject GameMap;
     public GameObject UserObject;
+
+    public float rigidityPosition = 20;
+    public float rigiditySpeed = 10;
+
     float minCameraX;
     float maxCameraX;
     float minCameraY;
@@ -40,6 +44,8 @@ public class CameraScript : MonoBehaviour
             findMaxMinCameraPosition();
             moveCamera();
         }
+
+        moveCamera();
     }
 
     void findMaxMinCameraPosition(){
@@ -63,7 +69,6 @@ public class CameraScript : MonoBehaviour
         CameraMoved=true;
 
         Camera camera = Camera.main;
-        const float rigidity = 10;
 
         float heightCamera = camera.orthographicSize*2;
         float widthCamera = camera.aspect*heightCamera;
@@ -80,16 +85,16 @@ public class CameraScript : MonoBehaviour
         float needCameraX = xCamera;
         float needCameraY = yCamera;
 
-        if (Mathf.Abs(deltaX) > widthCamera/rigidity){
+        if (Mathf.Abs(deltaX) > widthCamera/rigidityPosition){
             needCameraX = (deltaX>0)?
-            (xUser-widthCamera/rigidity):
-            (xUser+widthCamera/rigidity);
+            (xUser-widthCamera/(rigidityPosition)):
+            (xUser+widthCamera/(rigidityPosition));
         }
 
-        if (Mathf.Abs(deltaY) > heightCamera/rigidity){
+        if (Mathf.Abs(deltaY) > heightCamera/rigidityPosition){
             needCameraY = (deltaY>0)?
-            (yUser-heightCamera/rigidity):
-            (yUser+heightCamera/rigidity);
+            (yUser-heightCamera/rigidityPosition):
+            (yUser+heightCamera/rigidityPosition);
         }
 
         needCameraX = 
@@ -100,7 +105,10 @@ public class CameraScript : MonoBehaviour
         (needCameraY>=maxCameraY)?maxCameraY:
         (needCameraY<=minCameraY)?minCameraY:needCameraY;
 
-        Camera.main.transform.position= new Vector3(needCameraX,needCameraY,-10);
+        float calculateX = xCamera + (needCameraX-xCamera)/(1000/rigiditySpeed);
+        float calculateY = yCamera + (needCameraY-yCamera)/(1000/rigiditySpeed);
+
+        Camera.main.transform.position= new Vector3(calculateX,calculateY,-10);
     }
 
     void getStartCameraSize(){

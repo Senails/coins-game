@@ -53,8 +53,7 @@ public class MoveController : MonoBehaviour
         float deltaX = cosX*activeSpeed*Time.deltaTime;
         float deltaY = sinY*activeSpeed*Time.deltaTime;
 
-        transform.Translate(new Vector2(deltaX,deltaY));
-        CameraScript.MoveCamera(); 
+        transform.Translate(new Vector2(deltaX,deltaY)); 
         MiniMap.changeMiniMap(); 
     }
 
