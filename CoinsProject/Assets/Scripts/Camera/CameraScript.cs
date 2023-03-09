@@ -70,7 +70,7 @@ public class CameraScript : MonoBehaviour
         float needCameraX = xCamera;
         float needCameraY = yCamera;
 
-        
+
         if (Mathf.Abs(deltaX) > widthCamera/rigidityPosition){
             needCameraX = (deltaX>0)?
             (xUser-widthCamera/rigidityPosition):
@@ -84,27 +84,26 @@ public class CameraScript : MonoBehaviour
         }
 
 
+        float num1 = (needCameraX-xCamera);
+        float num2 = (needCameraY-yCamera);
+
         needCameraX = xCamera + (needCameraX-xCamera)/(1000/rigiditySpeed);
         needCameraY = yCamera + (needCameraY-yCamera)/(1000/rigiditySpeed);
-
 
         fakeX=needCameraX;
         fakeY=needCameraY;
 
-
-        needCameraX=fakeX+deltaX+deltaX;
-        needCameraY=fakeY+deltaY+deltaY;
+        needCameraX=fakeX+deltaX+deltaX/2;
+        needCameraY=fakeY+deltaY+deltaY/2; 
 
 
         needCameraX = 
         (needCameraX>maxCameraX)?maxCameraX:
         (needCameraX<minCameraX)?minCameraX:needCameraX;
 
-
         needCameraY = 
         (needCameraY>maxCameraY)?maxCameraY:
         (needCameraY<minCameraY)?minCameraY:needCameraY;
-
 
         Camera.main.transform.position= new Vector3(needCameraX,needCameraY,-10);
     }
@@ -165,7 +164,7 @@ public class CameraScript : MonoBehaviour
         float size = camera.orthographicSize;
 
         if (Mathf.Abs(this.activeCameraSize-size)>0.001){
-            size=size+(this.activeCameraSize-size)/((1/Time.deltaTime)/10);
+            size=size+(this.activeCameraSize-size)/((1/Time.deltaTime)/5);
 
 
             camera.orthographicSize=size;
