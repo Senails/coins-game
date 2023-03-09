@@ -50917,8 +50917,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameMap: {fileID: 1851209271}
   UserObject: {fileID: 1212898356}
-  rigidityPosition: 30
-  rigiditySpeed: 10
+  rigidityPosition: 20
+  rigiditySpeed: 20
 --- !u!1001 &998010567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54031,12 +54031,12 @@ PrefabInstance:
     - target: {fileID: 98068928675224140, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 70
+      value: 131.47
       objectReference: {fileID: 0}
     - target: {fileID: 98068928675224140, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 24
+      value: 21.07
       objectReference: {fileID: 0}
     - target: {fileID: 98068928675224140, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
         type: 3}
@@ -54076,12 +54076,12 @@ PrefabInstance:
     - target: {fileID: 98068928675224140, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -135
+      value: -165.73
       objectReference: {fileID: 0}
     - target: {fileID: 98068928675224140, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 22
+      value: 23.459991
       objectReference: {fileID: 0}
     - target: {fileID: 98068928675224140, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
         type: 3}
@@ -54102,6 +54102,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: FPSmeter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4913314405631957336, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
+        type: 3}
+      propertyPath: m_text
+      value: 100(89) fps(min)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4913314405631957336, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4913314405631957336, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4913314405631957336, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc,
+        type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87f4b60fbc8840d4dac35ae68ebd2fbc, type: 3}

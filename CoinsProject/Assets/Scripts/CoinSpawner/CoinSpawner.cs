@@ -38,16 +38,16 @@ public class CoinSpawner : MonoBehaviour
     }
 
     void findMinMaxPosition(){
-        float mapWidth = GameMap.transform.localScale.x;
-        float mapHeight = GameMap.transform.localScale.y;
+        float mapWidthPart = GameMap.transform.localScale.x/2;
+        float mapHeightPart = GameMap.transform.localScale.y/2;
 
         float mapX = GameMap.transform.position.x;
         float mapY = GameMap.transform.position.y;
 
-        this.minX = mapX-mapWidth/2;
-        this.maxX = mapX+mapWidth/2;
-        this.minY = mapY-mapHeight/2;
-        this.maxY = mapY+mapHeight/2;
+        this.minX = mapX-mapWidthPart;
+        this.maxX = mapX+mapWidthPart;
+        this.minY = mapY-mapHeightPart;
+        this.maxY = mapY+mapHeightPart;
     }
 
     void spawnCoins(){

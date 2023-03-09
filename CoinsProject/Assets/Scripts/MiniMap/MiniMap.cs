@@ -27,11 +27,8 @@ public class MiniMap : MonoBehaviour
         float UserX = User.transform.position.x;
         float UserY = User.transform.position.y;
 
-        float MapDX = (UserX - MapX)/MapWidth;
-        float MapDY = (UserY - MapY)/MapHeight;
-
-        x = MapDX;
-        y = MapDY;
+        x = (UserX - MapX)/MapWidth;
+        y = (UserY - MapY)/MapHeight;
     }
 
     void moveMiniMap(){
