@@ -14,6 +14,11 @@ public class CameraScript : MonoBehaviour
     float maxCameraX;
     float minCameraY;
     float maxCameraY; 
+
+
+    float fakeX;
+    float fakeY;
+
     
     float StartCameraSize;
     float activeCameraSize;
@@ -30,6 +35,10 @@ public class CameraScript : MonoBehaviour
         getStartCameraSize();
 
         Self = this;
+
+        Camera camera = Camera.main;
+        fakeX = camera.transform.position.x;
+        fakeY = camera.transform.position.y;
     }
     void Update()
     {
@@ -49,8 +58,8 @@ public class CameraScript : MonoBehaviour
         float heightCamera = camera.orthographicSize*2;
         float widthCamera = camera.aspect*heightCamera;
 
-        float xCamera = camera.transform.position.x;
-        float yCamera = camera.transform.position.y;
+        float xCamera = fakeX;
+        float yCamera = fakeY;
 
         float xUser = UserObject.transform.position.x;
         float yUser = UserObject.transform.position.y;
@@ -77,6 +86,14 @@ public class CameraScript : MonoBehaviour
 
         needCameraX = xCamera + (needCameraX-xCamera)/(1000/rigiditySpeed);
         needCameraY = yCamera + (needCameraY-yCamera)/(1000/rigiditySpeed);
+
+
+        fakeX=needCameraX;
+        fakeY=needCameraY;
+
+
+        needCameraX=fakeX+deltaX+deltaX;
+        needCameraY=fakeY+deltaY+deltaY;
 
 
         needCameraX = 
