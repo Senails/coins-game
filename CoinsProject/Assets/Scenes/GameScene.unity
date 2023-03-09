@@ -50917,7 +50917,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameMap: {fileID: 1851209271}
   UserObject: {fileID: 1212898356}
-  rigidityPosition: 20
+  rigidityPosition: 30
   rigiditySpeed: 10
 --- !u!1001 &998010567
 PrefabInstance:
