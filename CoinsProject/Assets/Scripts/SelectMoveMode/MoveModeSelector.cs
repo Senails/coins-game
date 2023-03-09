@@ -36,7 +36,8 @@ public class MoveModeSelector : MonoBehaviour
     }
 
     void SetInMemory(int index){
-        PlayerPrefs.SetInt("moveMode",index);
+        PlayerPrefs.SetInt("moveMode",index); 
+        MoveController.refindMode();
     }
 
     int GetFromMemory(){

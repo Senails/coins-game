@@ -16,8 +16,12 @@ public class MoveController : MonoBehaviour
     static public float cosX=0;
     static public float sinY=0;
 
+    static MoveController Self;
+
     private void Start() {
         findMoveMode();
+        Self=this;
+        Time.timeScale=1;
     }
     void Update()
     {
@@ -193,4 +197,10 @@ public class MoveController : MonoBehaviour
         }
     }
 
+
+    static public void refindMode(){
+        if (Self){
+            Self.findMoveMode();
+        }
+    }
 }
