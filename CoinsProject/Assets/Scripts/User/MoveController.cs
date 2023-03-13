@@ -6,7 +6,9 @@ using UnityEngine.EventSystems;
 public class MoveController : MonoBehaviour
 {
     public GameObject GameMap;
-    public float speed=5;
+    public float maxSpeed=5;
+
+    public float minSpeed=0.8f;
     float activeSpeed=5;
 
     float mouseSpeedKoef=0;
@@ -23,8 +25,7 @@ public class MoveController : MonoBehaviour
         Self=this;
         Time.timeScale=1;
     }
-    void Update()
-    {
+    void Update(){
         findDirection();
         if (!(MoveController.cosX==0 && MoveController.sinY==0)){
             findSpeed();
@@ -63,11 +64,11 @@ public class MoveController : MonoBehaviour
 
     void findSpeed(){
         if (Input.GetKey(KeyCode.LeftShift)){
-            activeSpeed=speed;
+            activeSpeed = maxSpeed;
             return;
         }
 
-        activeSpeed=speed*0.6f;
+        activeSpeed=maxSpeed*minSpeed;
 
         if (Input.GetKey(KeyCode.W) 
         || Input.GetKey(KeyCode.S)
@@ -78,7 +79,7 @@ public class MoveController : MonoBehaviour
         this.mouseSpeedKoef>0.2?0.2f
         :this.mouseSpeedKoef;
 
-        activeSpeed=speed*0.6f+(speed*0.4f)*(koef/0.2f);
+        activeSpeed=maxSpeed*minSpeed+(maxSpeed*(1-minSpeed))*(koef/0.2f);
     }
 
 
