@@ -6,6 +6,8 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     static public Inventory Self;
+    public GameObject ItemConteiner;
+    public GameObject ItemIconPrefab;
     List<InventoryItem> ItemList = new List<InventoryItem>();
     private InventoryStatus status = InventoryStatus.show;
 
