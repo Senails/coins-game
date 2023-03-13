@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemIcon : MonoBehaviour, IPointerClickHandler
+public class ItemIcon : MonoBehaviour, IPointerDownHandler
 {
-    public void OnPointerClick(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         Inventory.togleInventory();
     }
