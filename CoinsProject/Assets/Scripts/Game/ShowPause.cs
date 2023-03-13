@@ -12,10 +12,10 @@ public class ShowPause : MonoBehaviour, IPointerClickHandler
     {
         if (ShowHide=="show"){
             PauseMenu.gameObject.SetActive(true);
-            Time.timeScale=0;
+            GameMeneger.pauseGame();
         }else{
             PauseMenu.gameObject.SetActive(false);
-            Time.timeScale=1;
+            GameMeneger.playGame();
         }
     }
 }

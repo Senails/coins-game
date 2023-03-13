@@ -38,6 +38,18 @@ public class Coin : MonoBehaviour
     void addCoin(int count){
         CoinCounter.addCoins(count);
         Destroy(gameObject);
+
+        List<Item> itemDB = ItemDataBase.Self.ItemDB;
+        Item item;
+
+        if (count==1){
+            item = itemDB.Find(item=> item.name == "Small_Coin");
+        }else{
+            item = itemDB.Find(item=> item.name == "Large_Coin");
+        }
+
+        Inventory.addItem(item,1);
     }
+
 
 }

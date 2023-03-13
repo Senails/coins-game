@@ -7,11 +7,10 @@ public class ItemDataBase: MonoBehaviour
 {
 
     public List<Item> ItemDB;
+    static public ItemDataBase Self;
 
     private void Start() {
-        // Item ider = ItemDB.Find(item => item.id==2);
-
-        // Debug.Log(ider);
+        ItemDataBase.Self = this;
     }
 }
 

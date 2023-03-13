@@ -23,7 +23,6 @@ public class MoveController : MonoBehaviour
     private void Start() {
         findMoveMode();
         Self=this;
-        Time.timeScale=1;
     }
     void Update(){
         findDirection();
