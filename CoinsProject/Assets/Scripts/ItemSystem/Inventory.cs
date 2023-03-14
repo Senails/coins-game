@@ -99,7 +99,7 @@ public enum InventoryStatus{
     hide,
 }
 
-class InventoryItem
+public class InventoryItem
 {
     public int count;
     public Item item;

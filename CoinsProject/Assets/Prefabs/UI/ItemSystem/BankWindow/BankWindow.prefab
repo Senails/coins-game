@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 75%
+  m_text: 2131%
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -232,9 +232,6 @@ MonoBehaviour:
   ItemConteiner: {fileID: 4383808026925958350}
   ItemIconPrefab: {fileID: 5856660297547164746, guid: 5b71d52489083584ba1254844da3d76d,
     type: 3}
-  bankName: 12321
-  maxMass: 5
-  activeMass: 3
 --- !u!1 &3723592508391802617
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,7 +243,7 @@ GameObject:
   - component: {fileID: 9159752461150204281}
   - component: {fileID: 7564601385071806217}
   - component: {fileID: 7565366888572953733}
-  - component: {fileID: 1929626604967149362}
+  - component: {fileID: 5632684334142516896}
   m_Layer: 5
   m_Name: CloseBank
   m_TagString: Untagged
@@ -312,7 +309,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1929626604967149362
+--- !u!114 &5632684334142516896
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,7 +318,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3723592508391802617}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bc73dc8e0ba85c40bc5e834c09ef9b3, type: 3}
+  m_Script: {fileID: 11500000, guid: c7a2837bc2e50654dad485d44ee9b6e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4383808026925958350
@@ -579,7 +576,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Bank 1lvl
+  m_text: Beleberda
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

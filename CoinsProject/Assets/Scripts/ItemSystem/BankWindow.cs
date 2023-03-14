@@ -9,18 +9,13 @@ public class BankWindow : MonoBehaviour
     static public BankWindow Self;
     public GameObject ItemConteiner;
     public GameObject ItemIconPrefab;
-
-    public string bankName;
-    public int maxMass;
-    public int activeMass;
-    List<InventoryItem> ItemList = new List<InventoryItem>();
-
     private InventoryStatus status = InventoryStatus.show;
+
+    Bank connectionBank;
 
     private void Start() {
         BankWindow.Self = this;
-        render();
-
+        hideBankWindow();
     }
 
     
@@ -53,6 +48,8 @@ public class BankWindow : MonoBehaviour
         renderMassIndicator();
         renderBankName();
 
+        List<InventoryItem> ItemList = connectionBank.ItemList;
+
         if (ItemList.Count<=0) return;
         for(int i=0; i<ItemList.Count;i++){
             renderOneChild(ItemList[i]);
@@ -67,7 +64,7 @@ public class BankWindow : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-
+   
     void renderOneChild(InventoryItem InvInem){
         GameObject child = Object.Instantiate(ItemIconPrefab,ItemConteiner.transform);
         Transform childTransform = child.transform;
@@ -81,13 +78,17 @@ public class BankWindow : MonoBehaviour
         Image image = imageComp.GetComponent<Image>();
         image.sprite = InvInem.item.itemImage;
     }
-
+    
     void renderMassIndicator(){
         Transform parent = transform.GetChild(4);
         Transform progressLine = parent.GetChild(0);
         Transform textBlock = transform.GetChild(3);
 
         RectTransform rectTr = progressLine.GetComponent<RectTransform>();
+
+        int activeMass = connectionBank.activeMass;
+        int maxMass = connectionBank.maxMass;
+
 
         float parentWidth = parent.GetComponent<RectTransform>().rect.size.x;
         float needWidth = ((float)activeMass/(float)maxMass)*parentWidth;
@@ -99,12 +100,17 @@ public class BankWindow : MonoBehaviour
         TMP_Text text = textBlock.GetComponent<TMPro.TMP_Text>();
         text.text=$"{percent}%";
     }
-
+   
     void renderBankName(){
         Transform textBlock = transform.GetChild(1);
         TMP_Text text = textBlock.GetComponent<TMPro.TMP_Text>();
 
-        text.text=$"{bankName}";
+        text.text=$"{connectionBank.bankName}";
     }
 
+
+    static public void connectWhithBank(Bank bank){
+        Self.connectionBank=bank;
+        showBankWindow();
+    }
 }
