@@ -12,8 +12,8 @@ public class ItemIcon : MonoBehaviour, IPointerDownHandler
     public ItemParent parent;
 
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
+    public void OnPointerDown(PointerEventData eventData){
+        if (DropableZone.Self.droping) return;
         DropableZone.dragStart(this.gameObject);
     }
 
