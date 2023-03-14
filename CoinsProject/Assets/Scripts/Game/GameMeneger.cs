@@ -5,6 +5,8 @@ using UnityEngine;
 public class GameMeneger : MonoBehaviour
 {
     static GameMeneger Self;
+
+    static public string status = "play";
     int blockGameLavel = 0;
 
     private void OnEnable() {
@@ -20,6 +22,7 @@ public class GameMeneger : MonoBehaviour
 
     static public void pauseGame(){
         Time.timeScale=0;
+        GameMeneger.status = "pause";
         Self.blockGameLavel++;
     }
     static public void playGame(){
@@ -29,6 +32,7 @@ public class GameMeneger : MonoBehaviour
 
         if (Self.blockGameLavel==0){
             Time.timeScale=1;
+            GameMeneger.status = "play";
         }
     }
 }

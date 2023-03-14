@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
     public GameObject ItemConteiner;
     public GameObject ItemIconPrefab;
     List<InventoryItem> ItemList = new List<InventoryItem>();
-    private InventoryStatus status = InventoryStatus.show;
+    public InventoryStatus status = InventoryStatus.hide;
 
     private void Start() {
         Inventory.Self = this;
@@ -94,7 +94,7 @@ public class Inventory : MonoBehaviour
 }
 
 [System.Serializable]
-enum InventoryStatus{
+public enum InventoryStatus{
     show,
     hide,
 }

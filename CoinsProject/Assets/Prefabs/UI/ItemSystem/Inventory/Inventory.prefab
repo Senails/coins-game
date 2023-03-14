@@ -205,6 +205,7 @@ MonoBehaviour:
   ItemConteiner: {fileID: 5449070128650003912}
   ItemIconPrefab: {fileID: 5856660297547164746, guid: 5b71d52489083584ba1254844da3d76d,
     type: 3}
+  status: 1
 --- !u!1 &7392062575435331545
 GameObject:
   m_ObjectHideFlags: 0

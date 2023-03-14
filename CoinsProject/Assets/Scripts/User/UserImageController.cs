@@ -42,6 +42,8 @@ public class UserImageController : MonoBehaviour
     }
 
     static public void recalculateImage(){
+        if (GameMeneger.status == "pause") return;
+        
         int imageIndex = Self.findActiveImage();
         if (imageIndex!=Self.activeImage){
             Self.activeNeedImage(imageIndex);

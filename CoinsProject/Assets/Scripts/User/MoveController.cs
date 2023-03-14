@@ -25,6 +25,8 @@ public class MoveController : MonoBehaviour
         Self=this;
     }
     void Update(){
+        if (GameMeneger.status == "pause") return;
+
         findDirection();
         if (!(MoveController.cosX==0 && MoveController.sinY==0)){
             findSpeed();

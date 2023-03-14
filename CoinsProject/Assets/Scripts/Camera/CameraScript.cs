@@ -42,8 +42,9 @@ public class CameraScript : MonoBehaviour
     }
     void Update()
     {
-        CameraMoved=false;
+        if (GameMeneger.status == "pause") return;
 
+        CameraMoved=false;
         resizeCameraHandler();
         moveCamera();
     }
