@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class GameMeneger : MonoBehaviour
 {
-    private void Start() {
-        playGame();
+    static GameMeneger Self;
+    int blockGameLavel = 0;
+
+    private void OnEnable() {
+        GameMeneger.Self = this;
+        GameMeneger.playGame();
     }
 
     private void Update() {
@@ -16,8 +20,15 @@ public class GameMeneger : MonoBehaviour
 
     static public void pauseGame(){
         Time.timeScale=0;
+        Self.blockGameLavel++;
     }
     static public void playGame(){
-        Time.timeScale=1;
+        if (Self.blockGameLavel>0){
+            Self.blockGameLavel--;
+        }
+
+        if (Self.blockGameLavel==0){
+            Time.timeScale=1;
+        }
     }
 }
