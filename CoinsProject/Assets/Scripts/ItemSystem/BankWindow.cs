@@ -9,7 +9,7 @@ public class BankWindow : MonoBehaviour
     static public BankWindow Self;
     public GameObject ItemConteiner;
     public GameObject ItemIconPrefab;
-    private InventoryStatus status = InventoryStatus.show;
+    public InventoryStatus status = InventoryStatus.show;
 
     Bank connectionBank;
 
