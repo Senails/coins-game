@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ItemDataBase: MonoBehaviour
 {
-
+    public GameObject ItemIconPrefab;
     public List<Item> ItemDB;
     static public ItemDataBase Self;
 

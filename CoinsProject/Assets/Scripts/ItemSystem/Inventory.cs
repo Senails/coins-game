@@ -63,7 +63,7 @@ public class Inventory : MonoBehaviour
         removeChildrens();
         if (ItemList.Count<=0) return;
         for(int i=0; i<ItemList.Count;i++){
-            renderOneChild(ItemList[i]);
+            ItemIcon.renderOneItem(ItemList[i],ItemConteiner,ItemParent.inventory);
         }
     }
 
@@ -76,27 +76,18 @@ public class Inventory : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-
-    void renderOneChild(InventoryItem InvInem){
-        GameObject child = Object.Instantiate(ItemIconPrefab,ItemConteiner.transform);
-        Transform childTransform = child.transform;
-
-        Transform textComp = childTransform.GetChild(3);
-        Transform imageComp = childTransform.GetChild(1);
-        
-        TMP_Text text = textComp.GetComponent<TMPro.TMP_Text>();
-        text.text=$"{InvInem.count}";
-
-        Image image = imageComp.GetComponent<Image>();
-        image.sprite = InvInem.item.itemImage;
-    }
-
+    
 }
 
 [System.Serializable]
 public enum InventoryStatus{
     show,
     hide,
+}
+
+public enum ItemParent{
+    bank,
+    inventory,
 }
 
 public class InventoryItem

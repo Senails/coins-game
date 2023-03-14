@@ -26,9 +26,7 @@ public class BagIcon : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     bool checkLastTime(){
         double now = Time.realtimeSinceStartup;
-        Debug.Log(lastClick);
-        Debug.Log(now);
-
+        
         if ((now-lastClick)>0.2) return false;
         return true;
     }

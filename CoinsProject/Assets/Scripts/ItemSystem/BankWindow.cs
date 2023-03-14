@@ -52,7 +52,7 @@ public class BankWindow : MonoBehaviour
 
         if (ItemList.Count<=0) return;
         for(int i=0; i<ItemList.Count;i++){
-            renderOneChild(ItemList[i]);
+            ItemIcon.renderOneItem(ItemList[i],ItemConteiner,ItemParent.bank);
         }
     }
 
@@ -65,20 +65,6 @@ public class BankWindow : MonoBehaviour
         }
     }
    
-    void renderOneChild(InventoryItem InvInem){
-        GameObject child = Object.Instantiate(ItemIconPrefab,ItemConteiner.transform);
-        Transform childTransform = child.transform;
-
-        Transform textComp = childTransform.GetChild(3);
-        Transform imageComp = childTransform.GetChild(1);
-        
-        TMP_Text text = textComp.GetComponent<TMPro.TMP_Text>();
-        text.text=$"{InvInem.count}";
-
-        Image image = imageComp.GetComponent<Image>();
-        image.sprite = InvInem.item.itemImage;
-    }
-    
     void renderMassIndicator(){
         Transform parent = transform.GetChild(4);
         Transform progressLine = parent.GetChild(0);
