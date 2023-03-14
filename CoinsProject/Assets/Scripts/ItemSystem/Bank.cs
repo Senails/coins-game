@@ -13,10 +13,13 @@ public class Bank : MonoBehaviour
 
     private void Update() {
         if (!connect) return;
-        if (BankWindow.Self.status == InventoryStatus.show) return;
-        if (Input.GetKeyDown(KeyCode.E) 
-        || Input.GetMouseButton(1)){
-            connectWithUI();
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(1)){
+            if (BankWindow.Self.status == InventoryStatus.show){
+                if (!Input.GetKeyDown(KeyCode.E)) return;
+                BankWindow.hideBankWindow();
+            }else{
+                connectWithUI();
+            }
         }
     }
 

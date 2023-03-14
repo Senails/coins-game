@@ -22,13 +22,15 @@ public class BankWindow : MonoBehaviour
 
     static public void hideBankWindow(){
         Self.transform.gameObject.SetActive(false);
-        Self.status= InventoryStatus.hide;
+        Self.status = InventoryStatus.hide;
         GameMeneger.playGame();
+        Inventory.hideInventory();
     }
     static public void showBankWindow(){
         Self.transform.gameObject.SetActive(true);
         Self.status = InventoryStatus.show;
         GameMeneger.pauseGame();
+        Inventory.showInventory();
 
         Self.render();
     }

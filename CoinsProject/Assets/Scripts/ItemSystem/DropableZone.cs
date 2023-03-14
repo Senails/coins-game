@@ -5,8 +5,15 @@ using UnityEngine.EventSystems;
 
 public class DropableZone : MonoBehaviour
 {
-    static DropableZone Self;
+    static public DropableZone Self;
+    float dX = 0;
+    float dY = 0;
+    bool droping = false;
     GameObject clone; 
+    GameObject origin;
+
+    
+
     private void Start() {
         DropableZone.Self = this;
         this.gameObject.SetActive(false);
@@ -23,21 +30,36 @@ public class DropableZone : MonoBehaviour
 
     static public void dragStart(GameObject obj){
         Self.gameObject.SetActive(true);
-        Self.clone = Object.Instantiate(obj,Self.transform);
-    }
+        Self.droping = true;
 
+        Self.createClone(obj);
+    }
 
     public void pointerUp()
     {   
-        Debug.Log($"{clone}");
+        droping = false;
+        Destroy(clone);
+        dX=0;
+        dY=0;
+        gameObject.SetActive(false);
+        setOpacity(origin,1f);
 
-        // Destroy(clone);
-        Self.gameObject.SetActive(false);
+
     }
 
     public void pointerMove(){ 
-        float mouseDX = Input.mousePosition.x/Screen.width;
-        float mouseDY = Input.mousePosition.y/Screen.height;
+        if (!droping) return;
+
+        float x = 0;
+        float y = 0;
+        findMousePosition(ref x,ref y);
+
+        clone.transform.localPosition = new Vector3(x+dX,y+dY);
+    }
+
+    void findMousePosition(ref float x,ref float y){
+        float mouseDX = Input.mousePosition.x/Screen.width-0.5f;
+        float mouseDY = Input.mousePosition.y/Screen.height-0.5f;
 
         RectTransform rectTr = transform.GetComponent<RectTransform>();
         Rect rect = rectTr.rect;
@@ -45,10 +67,34 @@ public class DropableZone : MonoBehaviour
         float width = rect.width;
         float height = rect.height;
 
-        float needX = width*mouseDX;
-        float needY = height*mouseDY;
-
-
-        clone.transform.localPosition = new Vector2(100,100);
+        x = width*mouseDX+this.dX;
+        y = height*mouseDY+this.dY;
     }
+
+    void createClone(GameObject obj){
+        float x = 0;
+        float y = 0;
+        findMousePosition(ref x,ref y);
+
+        clone = Object.Instantiate(obj,transform);
+        origin = obj;
+
+        RectTransform rectTrClone = clone.GetComponent<RectTransform>();
+        Rect rectOrigin = obj.GetComponent<RectTransform>().rect;
+
+        rectTrClone.sizeDelta = new Vector2(rectOrigin.width,rectOrigin.height);
+
+        clone.transform.localPosition = 
+        new Vector3(x+dX,y+dY);
+
+        setOpacity(origin,0.5f);
+    }
+
+    void setOpacity(GameObject obj,float opacity){
+        CanvasGroup elem = obj.GetComponent<CanvasGroup>();
+        if (elem==null) return;
+
+        elem.alpha = opacity;
+    }
+
 }

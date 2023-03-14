@@ -10,7 +10,7 @@ public class Inventory : MonoBehaviour
     public GameObject ItemConteiner;
     public GameObject ItemIconPrefab;
     List<InventoryItem> ItemList = new List<InventoryItem>();
-    public InventoryStatus status = InventoryStatus.hide;
+    public InventoryStatus status = InventoryStatus.show;
 
     private void Start() {
         Inventory.Self = this;
@@ -19,11 +19,15 @@ public class Inventory : MonoBehaviour
 
 
     static public void hideInventory(){
+        if (Self.status==InventoryStatus.hide) return;
+
         Self.transform.gameObject.SetActive(false);
         Self.status= InventoryStatus.hide;
         GameMeneger.playGame();
     }
     static public void showInventory(){
+        if (Self.status==InventoryStatus.show) return;
+
         Self.transform.gameObject.SetActive(true);
         Self.status = InventoryStatus.show;
         GameMeneger.pauseGame();
