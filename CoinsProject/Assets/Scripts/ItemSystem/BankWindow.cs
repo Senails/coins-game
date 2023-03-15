@@ -11,7 +11,7 @@ public class BankWindow : MonoBehaviour
     public GameObject ItemIconPrefab;
     public InventoryStatus status = InventoryStatus.show;
 
-    Bank connectionBank;
+    public Bank connectionBank;
 
     private void Start() {
         BankWindow.Self = this;
@@ -42,8 +42,38 @@ public class BankWindow : MonoBehaviour
         }
     }
 
+    static public void addItem(InventoryItem item){
+        List<InventoryItem> ItemList = Self.connectionBank.ItemList;
 
+        InventoryItem itemInList = 
+        ItemList.Find(elem => elem.item.name==item.item.name);
 
+        if (itemInList == null){
+            ItemList.Add(new InventoryItem(item.item, item.count));
+        }else{
+            itemInList.count+=item.count;
+        }
+
+        Self.connectionBank.activeMass+=item.count*item.item.mass;
+
+        if (Self.status==InventoryStatus.show){
+            Self.render();
+        }
+    }
+
+    static public void removeItem(InventoryItem item, int count){
+        item.count-=count;
+        Self.connectionBank.activeMass-=item.item.mass*count;
+
+        if (item.count==0){
+            List<InventoryItem> ItemList = Self.connectionBank.ItemList;
+            ItemList.Remove(item);
+        }
+
+        if (Self.status==InventoryStatus.show){
+            Self.render();
+        }
+    }
 
     void render(){
         removeChildrens();

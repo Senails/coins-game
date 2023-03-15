@@ -12,7 +12,7 @@ public class DropableZone : MonoBehaviour
     GameObject clone; 
     GameObject origin;
 
-    
+    public onDragEnd callback;
 
     private void Start() {
         DropableZone.Self = this;
@@ -28,10 +28,11 @@ public class DropableZone : MonoBehaviour
         pointerMove();
     }
 
-    static public void dragStart(GameObject obj){
+    static public void dragStart(GameObject obj,onDragEnd callback){
         Self.gameObject.SetActive(true);
         Self.droping = true;
 
+        Self.callback=callback;
         Self.createClone(obj);
     }
 
@@ -45,6 +46,11 @@ public class DropableZone : MonoBehaviour
         setOpacity(origin,1f);
 
 
+        float mouseX = 0;
+        float mouseY = 0;
+        
+        findMousePositionAboutCanvas(ref mouseX,ref mouseY);
+        callback(mouseX,mouseY);
     }
 
     public void pointerMove(){ 
@@ -96,6 +102,22 @@ public class DropableZone : MonoBehaviour
         y = height*deltaY;
     }
 
+    static public bool checkDropOnRect( float x, float y,GameObject obj){
+        float objX = 0;
+        float objY = 0;
+        findUIPositionAboutCanvas(ref objX,ref objY,obj);
+
+        Rect rect = obj.GetComponent<RectTransform>().rect;
+
+        float objWidth = rect.width;
+        float objHeight = rect.height;
+
+        if (Mathf.Abs(objX-x)>objWidth/2) return false;
+        if (Mathf.Abs(objY-y)>objHeight/2) return false;
+
+        return true;
+    }
+
     void createClone(GameObject obj){
         float mouseX = 0;
         float mouseY = 0;
@@ -132,3 +154,6 @@ public class DropableZone : MonoBehaviour
     }
 
 }
+
+[System.Serializable]
+public delegate void onDragEnd(float dropX, float dropY);

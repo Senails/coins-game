@@ -42,22 +42,31 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    static public void addItem(Item item , int count){
+    static public void addItem(InventoryItem item){
+        List<InventoryItem> ItemList = Self.ItemList;
+
         InventoryItem itemInList = 
-        Self.ItemList.Find(elem => elem.item.name==item.name);
+        ItemList.Find(elem => elem.item.name==item.item.name);
 
         if (itemInList == null){
-            Self.ItemList.Add(new InventoryItem(item,count));
+            ItemList.Add(new InventoryItem(item.item, item.count));
         }else{
-            itemInList.count+=count;
+            itemInList.count+=item.count;
         }
 
         if (Self.status==InventoryStatus.show){
             Self.render();
         }
     }
-    static public void removeItem(Item item , int count){
-        
+
+    static public void removeItem(InventoryItem item, int count){
+        item.count-=count;
+
+        if (item.count==0){
+            List<InventoryItem> ItemList = Self.ItemList;
+            ItemList.Remove(item);
+        }
+
         if (Self.status==InventoryStatus.show){
             Self.render();
         }

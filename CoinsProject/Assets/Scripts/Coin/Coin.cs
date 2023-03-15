@@ -48,7 +48,7 @@ public class Coin : MonoBehaviour
             item = itemDB.Find(item=> item.name == "Large_Coin");
         }
 
-        Inventory.addItem(item,1);
+        Inventory.addItem(new InventoryItem(item,1));
     }
 
 

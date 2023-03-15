@@ -14,7 +14,21 @@ public class ItemIcon : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData){
         if (DropableZone.Self.droping) return;
-        DropableZone.dragStart(this.gameObject);
+        if (!Input.GetMouseButtonDown(0)) return;
+
+        DropableZone.dragStart(this.gameObject,(x,y)=>{
+            if (parent==ItemParent.inventory){
+                if (BankWindow.Self.status == InventoryStatus.hide) return;
+                bool res = DropableZone.checkDropOnRect(x,y,BankWindow.Self.gameObject);
+                if (!res) return;
+                tryMoveToBank();
+            }else{
+                if (Inventory.Self.status == InventoryStatus.hide) return;
+                bool res = DropableZone.checkDropOnRect(x,y,Inventory.Self.gameObject);
+                if (!res) return;
+                tryMoveToInventory();
+            }
+        });
     }
 
     static public GameObject renderOneItem( InventoryItem InvInem, GameObject parent, ItemParent owner){
@@ -38,4 +52,17 @@ public class ItemIcon : MonoBehaviour, IPointerDownHandler
 
         return child;
     }
+
+    void tryMoveToBank(){
+        BankWindow.addItem(item);
+        Inventory.removeItem(item,item.count);
+
+        Debug.Log($"tryMoveToBank");
+    }
+    void tryMoveToInventory(){
+        Inventory.addItem(item);
+        BankWindow.removeItem(item,item.count);
+        Debug.Log($"tryMoveToInventory");
+    }
+    
 }
