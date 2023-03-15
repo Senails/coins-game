@@ -12,6 +12,7 @@ public class Inventory : MonoBehaviour
     public InventoryStatus status = InventoryStatus.hide;
 
     static public void hideInventory(){
+        if (ChoiceQuantity.Self.status == InventoryStatus.show) return;
         if (Self.status==InventoryStatus.hide) return;
 
         Self.transform.gameObject.SetActive(false);

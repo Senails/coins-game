@@ -15,13 +15,21 @@ public class ItemIcon : MonoBehaviour, IPointerDownHandler
     public void OnPointerDown(PointerEventData eventData){
         if (DropableZone.Self.droping) return;
 
+        if (Input.GetMouseButtonDown(0) 
+        && Input.GetKey(KeyCode.LeftControl)){
+            int posibleCount = findPosibleCount();
+            if (posibleCount==0) return;
+            ChoiceQuantity.initPanel(posibleCount,(int count)=>{
+                moveWhithChoice(count);
+            });
+        }
+
         if (Input.GetMouseButtonDown(1)){
             moveOnRightClick();
             return;
         }
 
         if (!Input.GetMouseButtonDown(0)) return;
-
         DropableZone.dragStart(this.gameObject,(x,y)=>{
             if (parent==ItemParent.inventory){
                 if (BankWindow.Self.status == InventoryStatus.hide) return;
@@ -93,4 +101,31 @@ public class ItemIcon : MonoBehaviour, IPointerDownHandler
             tryMoveToInventory();
         }
     }
+
+    int findPosibleCount(){
+        if (parent == ItemParent.bank){
+            return item.count;
+        }
+
+        Bank bank =  BankWindow.Self.connectionBank;
+        int freeMass = bank.maxMass-bank.activeMass;
+
+        int massOneItem = item.item.mass;
+        int enalbeCount = freeMass/massOneItem;
+
+        if (enalbeCount>item.count) return item.count;
+        return enalbeCount;
+    }
+
+    void moveWhithChoice(int count){
+        if (parent == ItemParent.bank){
+            Inventory.addItem(new InventoryItem(item.item, count));
+            BankWindow.removeItem(item , count);
+            return;
+        }
+
+        Inventory.removeItem(item , count);
+        BankWindow.addItem(new InventoryItem(item.item, count));
+    }
+
 }
