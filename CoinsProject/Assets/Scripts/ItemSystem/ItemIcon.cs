@@ -54,15 +54,27 @@ public class ItemIcon : MonoBehaviour, IPointerDownHandler
     }
 
     void tryMoveToBank(){
-        BankWindow.addItem(item);
-        Inventory.removeItem(item,item.count);
+        Bank bank =  BankWindow.Self.connectionBank;
+        int freeMass = bank.maxMass-bank.activeMass;
 
-        Debug.Log($"tryMoveToBank");
+        int massOneItem = item.item.mass;
+
+        if (freeMass>massOneItem*item.count){
+            BankWindow.addItem(item);
+            Inventory.removeItem(item,item.count);
+            return;
+        }
+
+        int enalbeCount = freeMass/massOneItem;
+
+        if (enalbeCount==0) return;
+
+        BankWindow.addItem(new InventoryItem(item.item,enalbeCount));
+        Inventory.removeItem(item,enalbeCount);
     }
     void tryMoveToInventory(){
         Inventory.addItem(item);
         BankWindow.removeItem(item,item.count);
-        Debug.Log($"tryMoveToInventory");
     }
     
 }

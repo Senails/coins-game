@@ -8,7 +8,6 @@ public class BankWindow : MonoBehaviour
 {
     static public BankWindow Self;
     public GameObject ItemConteiner;
-    public GameObject ItemIconPrefab;
     public InventoryStatus status = InventoryStatus.show;
 
     public Bank connectionBank;

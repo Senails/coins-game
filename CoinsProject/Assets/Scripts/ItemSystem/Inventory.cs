@@ -8,7 +8,6 @@ public class Inventory : MonoBehaviour
 { 
     static public Inventory Self;
     public GameObject ItemConteiner;
-    public GameObject ItemIconPrefab;
     List<InventoryItem> ItemList = new List<InventoryItem>();
     public InventoryStatus status = InventoryStatus.show;
 
@@ -67,9 +66,9 @@ public class Inventory : MonoBehaviour
 
     static public void removeItem(InventoryItem item, int count){
         if (item.item.name == "Large_Coin"){
-            CoinCounter.removeCoins(item.count*2);
+            CoinCounter.removeCoins(count*2);
         }else if (item.item.name == "Small_Coin"){
-            CoinCounter.removeCoins(item.count);
+            CoinCounter.removeCoins(count);
         }
         
         item.count-=count;
