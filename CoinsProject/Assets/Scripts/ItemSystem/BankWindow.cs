@@ -8,16 +8,9 @@ public class BankWindow : MonoBehaviour
 {
     static public BankWindow Self;
     public GameObject ItemConteiner;
-    public InventoryStatus status = InventoryStatus.show;
+    public InventoryStatus status = InventoryStatus.hide;
 
     public Bank connectionBank;
-
-    private void Start() {
-        BankWindow.Self = this;
-        hideBankWindow();
-    }
-
-    
 
     static public void hideBankWindow(){
         Self.transform.gameObject.SetActive(false);

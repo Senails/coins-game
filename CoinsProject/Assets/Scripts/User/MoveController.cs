@@ -69,7 +69,7 @@ public class MoveController : MonoBehaviour
             return;
         }
 
-        activeSpeed=maxSpeed*minSpeed;
+        activeSpeed=maxSpeed*(minSpeed/maxSpeed);
 
         if (Input.GetKey(KeyCode.W) 
         || Input.GetKey(KeyCode.S)
@@ -80,7 +80,7 @@ public class MoveController : MonoBehaviour
         this.mouseSpeedKoef>0.2?0.2f
         :this.mouseSpeedKoef;
 
-        activeSpeed=maxSpeed*minSpeed+(maxSpeed*(1-minSpeed))*(koef/0.2f);
+        activeSpeed=maxSpeed*(minSpeed/maxSpeed)+(maxSpeed*(1-(minSpeed/maxSpeed)))*(koef/0.2f);
     }
 
 

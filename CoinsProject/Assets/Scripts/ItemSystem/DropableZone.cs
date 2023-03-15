@@ -14,11 +14,6 @@ public class DropableZone : MonoBehaviour
 
     public onDragEnd callback;
 
-    private void Start() {
-        DropableZone.Self = this;
-        this.gameObject.SetActive(false);
-    }
-
     private void Update() {
         if (Input.GetMouseButtonUp(0)){
             pointerUp();

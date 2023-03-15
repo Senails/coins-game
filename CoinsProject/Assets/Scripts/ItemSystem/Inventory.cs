@@ -9,13 +9,7 @@ public class Inventory : MonoBehaviour
     static public Inventory Self;
     public GameObject ItemConteiner;
     List<InventoryItem> ItemList = new List<InventoryItem>();
-    public InventoryStatus status = InventoryStatus.show;
-
-    private void Start() {
-        Inventory.Self = this;
-        Inventory.hideInventory();
-    }
-
+    public InventoryStatus status = InventoryStatus.hide;
 
     static public void hideInventory(){
         if (Self.status==InventoryStatus.hide) return;
