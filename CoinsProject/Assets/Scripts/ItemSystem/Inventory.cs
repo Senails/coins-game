@@ -57,9 +57,21 @@ public class Inventory : MonoBehaviour
         if (Self.status==InventoryStatus.show){
             Self.render();
         }
+
+        if (item.item.name == "Large_Coin"){
+            CoinCounter.addCoins(item.count*2);
+        }else if (item.item.name == "Small_Coin"){
+            CoinCounter.addCoins(item.count);
+        }
     }
 
     static public void removeItem(InventoryItem item, int count){
+        if (item.item.name == "Large_Coin"){
+            CoinCounter.removeCoins(item.count*2);
+        }else if (item.item.name == "Small_Coin"){
+            CoinCounter.removeCoins(item.count);
+        }
+        
         item.count-=count;
 
         if (item.count==0){

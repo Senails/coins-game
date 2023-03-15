@@ -36,7 +36,6 @@ public class Coin : MonoBehaviour
     }
 
     void addCoin(int count){
-        CoinCounter.addCoins(count);
         Destroy(gameObject);
 
         List<Item> itemDB = ItemDataBase.Self.ItemDB;

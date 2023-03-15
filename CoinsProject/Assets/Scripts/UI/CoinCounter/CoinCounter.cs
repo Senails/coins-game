@@ -34,6 +34,14 @@ public class CoinCounter : MonoBehaviour
         Self.countCoins+=count;
         Self.textBlock.text = Self.countCoins.ToString();
     }
+    static public void removeCoins(int count){
+        Debug.Log($"Remove coins {count}");
+
+        Self.showObject();
+        Self.lastChanges = Time.timeAsDouble;
+        Self.countCoins-=count;
+        Self.textBlock.text = Self.countCoins.ToString();
+    }
 
     void hideObject(){
         if (this.visible){
