@@ -80,7 +80,7 @@ public class MoveController : MonoBehaviour
         this.mouseSpeedKoef>0.2?0.2f
         :this.mouseSpeedKoef;
 
-        activeSpeed=maxSpeed*(minSpeed/maxSpeed)+(maxSpeed*(1-(minSpeed/maxSpeed)))*(koef/0.2f);
+        activeSpeed=maxSpeed*(koef/0.2f);
     }
 
 
