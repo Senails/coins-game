@@ -59,8 +59,10 @@ public class MoveController : MonoBehaviour
         float deltaX = cosX*activeSpeed*Time.deltaTime;
         float deltaY = sinY*activeSpeed*Time.deltaTime;
 
-        transform.Translate(new Vector2(deltaX,deltaY)); 
+        transform.Translate(new Vector2(deltaX,deltaY));
+
         MiniMap.changeMiniMap(); 
+        PositionText.updatePosition();
     }
 
     void findSpeed(){
@@ -80,7 +82,7 @@ public class MoveController : MonoBehaviour
         this.mouseSpeedKoef>0.2?0.2f
         :this.mouseSpeedKoef;
 
-        activeSpeed=maxSpeed*(minSpeed/maxSpeed)+(maxSpeed*(1-(minSpeed/maxSpeed)))*(koef/0.2f);
+        activeSpeed=maxSpeed*(koef/0.2f);
     }
 
 
