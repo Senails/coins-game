@@ -28,13 +28,13 @@ public class ChoiceQuantity : MonoBehaviour
     static public void showPanel(){
         Self.gameObject.SetActive(true);
         Self.status = InventoryStatus.show;
-        GameMeneger.pauseGame();
+        GameMeneger.PauseGame();
     }
 
     static public void hidePanel(){
         Self.gameObject.SetActive(false);
         Self.status = InventoryStatus.hide;
-        GameMeneger.playGame();
+        GameMeneger.PlayGame();
     }
 
     static public void MoveItem(){
