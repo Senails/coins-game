@@ -73,8 +73,7 @@ public static class GameCordsLib{
 
     public static bool CheckFreePosition(Vector2 cords, float radius){
         Collider2D check = Physics2D.OverlapCircle(cords,1);
-        if (check==null) return true;
-        return false;
+        return check==null;
     }
     public static Vector2 FindFreeCordsInGameRect(GameObject rect,float freeRadius){
         int counter = 0;
@@ -100,10 +99,6 @@ public static class GameCordsLib{
         public float MaxX = 0;
         public float MinY = 0;
         public float MaxY = 0;
-    };
-    public record Sizes{
-        public float Width = 0;
-        public float Height = 0;
     };
 }
 
