@@ -17,14 +17,14 @@ public class PositionText : MonoBehaviour
         startX = Player.transform.position.x;
         startY = Player.transform.position.y;
 
-        updatePosition();
+        UpdatePosition();
     }
     private void Update(){
         if (Player==null) return;
-        updatePosition();
+        UpdatePosition();
     }
 
-    public void updatePosition()
+    public void UpdatePosition()
     {
         TMP_Text text = this.GetComponent<TMPro.TMP_Text>();
 
