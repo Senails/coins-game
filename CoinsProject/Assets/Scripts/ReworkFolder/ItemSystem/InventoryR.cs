@@ -1,18 +1,23 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryR : MonoBehaviour
+
+using ItemSystemTypes;
+
+
+public class InventoryR
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public int SlotsCount = 30;
+    public ItemOnInventoryR[] ItemArray;
+    public Action OnChange;
+
+    
+    public InventoryR(){
+        ItemArray = new ItemOnInventoryR[SlotsCount];
+        for (int i = 0; i < ItemArray.Length; i++){
+            ItemArray[i] = new ItemOnInventoryR();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

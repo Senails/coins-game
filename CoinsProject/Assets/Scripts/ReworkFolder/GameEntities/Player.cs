@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     }
     private void Update(){
         if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
+
         var direction = FindDirection();
         MovePlayer(direction);
         RecalculateImage(direction);
@@ -72,6 +73,7 @@ public class Player : MonoBehaviour
     }
     private Vector2 FindDirectionMouse(){
         if (!Input.GetMouseButton(0)) return new Vector2(0,0);
+        if (EventSystem.current.IsPointerOverGameObject()) return new Vector2(0,0);
 
         Vector2 mouseCords = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 userCords = transform.position;

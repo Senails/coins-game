@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 using static GameCordsLib;
 using static AsyncLib;
 
-using static GameMeneger;
 
 public class CameraController : MonoBehaviour
 {
@@ -45,6 +43,7 @@ public class CameraController : MonoBehaviour
         _rb.position = needCords;
     }
     private void ResizeCamera(){
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         float mw = Input.GetAxis("Mouse ScrollWheel");
         if (Mathf.Abs(mw)>0){
             if (mw<0){
