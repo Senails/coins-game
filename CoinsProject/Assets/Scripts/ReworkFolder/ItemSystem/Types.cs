@@ -24,5 +24,6 @@ namespace ItemSystemTypes{
         public int HowManyCanAddItem(ItemOnInventoryR item);
         public void AddItem(ItemOnInventoryR item,ItemSlot preferSlot = null);
         public void RemoveItem(ItemOnInventoryR item,ItemSlot preferSlot);
+        public void Render();
     }
 }

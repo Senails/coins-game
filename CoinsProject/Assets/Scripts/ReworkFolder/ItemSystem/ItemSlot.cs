@@ -24,17 +24,15 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
 
     public void OnPointerClick(PointerEventData eventData){ 
-        if (Item.count==0) return;
-        if (IsMoving) return;
+        if (Item.count==0 || IsMoving) return;
         if (eventData.button != PointerEventData.InputButton.Right) return;
-        DropOnLeftButtonClick();
+        ReplaceOnLeftButtonClick();
     }
     public void OnPointerDown(PointerEventData eventData){ 
-        if (Item.count==0) return;
-        if (IsMoving) return;
+        if (Item.count==0 || IsMoving) return;
         if (eventData.button != PointerEventData.InputButton.Left) return;
         if (Input.GetKey(KeyCode.LeftControl)){
-            DropWhithChoise();
+            ReplaceWhithChoise();
             return;
         }
         DragAndDropHandler();
@@ -53,20 +51,69 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     }
 
 
-
     private void DragAndDropHandler(){
         IsMoving = true;
-
-        Debug.Log(1);
-
-
-        IsMoving = false;
+        DropableZone.Self.dragStart(this.gameObject,(x,y)=>{
+            ItemSlot dropSlot = FindDropEndSlot(x,y);
+            IsMoving = false;
+            if (dropSlot==null) return;
+            if (dropSlot.Parent == Parent){
+                DropInMyParent(dropSlot);
+                return;
+            }
+            DropInAnotherParent(dropSlot);
+        });
     }
-    private void DropWhithChoise(){
+    private ItemSlot FindDropEndSlot(float x,float y){
+        foreach(var slot in ListAllSlotsOnScreen){
+            if (DropableZone.checkDropOnRect(x,y,slot.gameObject)) return slot;
+        }
+        return null;
+    }
+    private void DropInMyParent(ItemSlot toSlot){
+        if (toSlot.Item.count==0){
+            //replace item in inventory
+            toSlot.Item.count = Item.count;
+            toSlot.Item.item = Item.item;
+            Item.count = 0;
+        }else if (toSlot.Item.item.id != Item.item.id){
+            //swap item in inventory
+            ItemR myItem = Item.item;
+            int myCount = Item.count;
+
+            Item.item = toSlot.Item.item;
+            Item.count = toSlot.Item.count;
+
+            toSlot.Item.item = myItem;
+            toSlot.Item.count = myCount;
+        }else{
+            //stack item in inventory
+            int itemsForStack = Math.Min((StackCount - toSlot.Item.count),Item.count);
+            toSlot.Item.count+=itemsForStack;
+            Item.count-=itemsForStack;
+        }
+        Parent.Render();
+    }
+    private void DropInAnotherParent(ItemSlot toSlot){
+        int dropItemsCount = toSlot.Parent.HowManyCanAddItem(Item);
+
+        Debug.Log(dropItemsCount);
+        ItemOnInventoryR dropingItems = new ItemOnInventoryR{
+            item = Item.item,
+            count = Math.Min(Item.count,dropItemsCount),
+        };
+
+        toSlot.Parent.AddItem(dropingItems,toSlot);
+        Parent.RemoveItem(dropingItems,this);
+    }
+
+
+    private void ReplaceWhithChoise(){
         IsMoving = true;
         ItemListConteiner another = FindAnotheConteiner();
         if (another==null) return;
         int countForDrop = another.HowManyCanAddItem(Item);
+        if (countForDrop==0) return;
 
         int countRange = Math.Min(Item.count,countForDrop);
         ItemManager.Self.ActiveChoiseWindow(countRange,(num)=>{
@@ -76,14 +123,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
                     count = num,
                 };
 
-
                 another.AddItem(dropingItems);
                 Parent.RemoveItem(dropingItems,this);
             }
             IsMoving = false;
         });
     }
-    private void DropOnLeftButtonClick(){
+    private void ReplaceOnLeftButtonClick(){
         ItemListConteiner another = FindAnotheConteiner();
         if (another==null) return;
         int countForDrop = another.HowManyCanAddItem(Item);
@@ -104,8 +150,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
         }
         return null;
     }
-
-
 
 
     private void Render(){

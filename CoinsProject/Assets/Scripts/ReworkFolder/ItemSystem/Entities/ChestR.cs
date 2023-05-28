@@ -47,7 +47,7 @@ public class ChestR: ItemListConteiner
         }
 
         //check free mass
-        int freeMassPosiions = MaxMass - ActiveMass;
+        int freeMassPosiions = (MaxMass - ActiveMass)/Item.item.mass;
 
 
         freePositions = Mathf.Min(freePositions,freeMassPosiions);
