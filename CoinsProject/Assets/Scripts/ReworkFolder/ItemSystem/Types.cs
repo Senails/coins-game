@@ -1,8 +1,10 @@
 using UnityEngine;
 
 
+
 namespace ItemSystemTypes{
-    public record ItemR {
+    [System.Serializable]
+    public class ItemR {
         public int id;
         public string name;
         public Sprite itemImage;
@@ -10,14 +12,17 @@ namespace ItemSystemTypes{
     }
 
 
-    public record ItemOnInventoryR {
-        public Item item = null;
+    public class ItemOnInventoryR {
+        public ItemR item = null;
         public int count = 0;
     }
+    
 
+    public interface ItemListConteiner{
+        public ItemOnInventoryR[] ItemArray { get; set; }
 
-    public enum SlotParent{
-        chest,
-        inventory,
+        public int HowManyCanAddItem(ItemOnInventoryR item);
+        public void AddItem(ItemOnInventoryR item,ItemSlot preferSlot = null);
+        public void RemoveItem(ItemOnInventoryR item,ItemSlot preferSlot);
     }
 }

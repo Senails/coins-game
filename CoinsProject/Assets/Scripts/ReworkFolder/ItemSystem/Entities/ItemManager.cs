@@ -7,6 +7,7 @@ public class ItemManager : MonoBehaviour
     public ChestR ConectedChest;
 
 
+    public GameObject SlotPrefab;
     public InventoryWindow InventoryWin;
     public ChestWindow ChestWin;
     public ChoiseWindow ChoiseWin;
@@ -17,30 +18,19 @@ public class ItemManager : MonoBehaviour
         Self = this;
     }
     private void Update() {
-        if (Input.GetKey(KeyCode.U)){
-            ActiveChoiseWindow(5,(inta)=>{
-                Debug.Log(inta);
-            });
-        }
-        if (Input.GetKey(KeyCode.C)){
-            if (ChestWin.gameObject.activeSelf) return;
-            ChestR chest = new ChestR{
-
-            };
-
-            OpenChestWindow(chest);
+        if (Input.GetKeyDown(KeyCode.I)){
+            TogleInventoryWindow();
         }
     }
 
 
-    public void OpenInventoryWindow()
-    {
-        InventoryWin.Init();
+    public void OpenInventoryWindow(){
         InventoryWin.gameObject.SetActive(true);
+        InventoryWin.Init();
     }
-    public void CloseInventoryWindow()
-    {
+    public void CloseInventoryWindow(){
         if (ChoiseWin.gameObject.activeSelf) return;
+        InventoryWin.RemoveSlots();
         InventoryWin.gameObject.SetActive(false);
     }
     public void TogleInventoryWindow(){
@@ -52,15 +42,15 @@ public class ItemManager : MonoBehaviour
     }
 
 
-    public void OpenChestWindow(ChestR chest)
-    {
+    public void OpenChestWindow(ChestR chest){
         ConectedChest = chest;
-        ChestWin.Init();
         ChestWin.gameObject.SetActive(true);
+        ChestWin.Init();
+        OpenInventoryWindow();
     }
-    public void CloseChestWindow()
-    {
+    public void CloseChestWindow(){
         if (ChoiseWin.gameObject.activeSelf) return;
+        ChestWin.RemoveSlots();
         ChestWin.gameObject.SetActive(false);
     }
     public void TogleChestWindow(ChestR chest){
@@ -72,13 +62,16 @@ public class ItemManager : MonoBehaviour
     }
 
 
-    public void ActiveChoiseWindow(int count, Action<int> callback)
-    {   
+    public void ActiveChoiseWindow(int count, Action<int> callback){   
         if (ChoiseWin.gameObject.activeSelf) return;
         ChoiseWin.Init(count,(num)=>{
             callback(num);
             ChoiseWin.gameObject.SetActive(false);
         });
         ChoiseWin.gameObject.SetActive(true);
+    }
+    public void CloseChoiseWindow(){
+        ChoiseWin.gameObject.SetActive(false);
+        ItemSlot.IsMoving = false;
     }
 }

@@ -6,7 +6,6 @@ using ItemSystemTypes;
 public class ChestWindow : MonoBehaviour
 {
     public GameObject SlotConteiner;
-    public GameObject SlotPrefab;
 
 
     public TMP_Text TextPercent;
@@ -24,6 +23,7 @@ public class ChestWindow : MonoBehaviour
 
 
     private void Render(){
+        if (!gameObject.activeSelf) return;
         ChestR chest = ItemManager.Self.ConectedChest;
 
         //render name chest
@@ -45,14 +45,14 @@ public class ChestWindow : MonoBehaviour
         ItemOnInventoryR[] arr = ItemManager.Self.ConectedChest.ItemArray;
 
         foreach(var Item in arr){
-            GameObject slot = UnityEngine.Object.Instantiate(SlotPrefab,SlotConteiner.transform);
+            GameObject slot = UnityEngine.Object.Instantiate(ItemManager.Self.SlotPrefab,SlotConteiner.transform);
             ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
-            itemSlot.Init(Item,SlotParent.chest);
+            itemSlot.Init(Item,ItemManager.Self.ConectedChest);
         }
     }
-    private void RemoveSlots(){
+    public void RemoveSlots(){
         foreach(var slot in ItemSlot.ListAllSlotsOnScreen.ToArray()){
-            if (slot.Parent==SlotParent.chest) slot.Remove();
+            if (slot.Parent==ItemManager.Self.ConectedChest) slot.Remove();
         }
     }
 }

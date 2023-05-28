@@ -5,14 +5,18 @@ using UnityEngine.EventSystems;
 
 public class DropableZone : MonoBehaviour
 {
-    static public DropableZone Self;
-    float dX = 0;
-    float dY = 0;
+    public static DropableZone Self;
+
+
+    private float dX = 0;
+    private float dY = 0;
+
+
     public bool droping = false;
     GameObject clone; 
     GameObject origin;
 
-    public onDragEnd callback;
+    public onDragEnd _callback;
 
     private void Update() {
         if (Input.GetMouseButtonUp(0)){
@@ -23,12 +27,12 @@ public class DropableZone : MonoBehaviour
         pointerMove();
     }
 
-    static public void dragStart(GameObject obj,onDragEnd callback){
-        Self.gameObject.SetActive(true);
-        Self.droping = true;
+    public void dragStart(GameObject obj,onDragEnd callback){
+        gameObject.SetActive(true);
+        droping = true;
 
-        Self.callback=callback;
-        Self.createClone(obj);
+        _callback=callback;
+        createClone(obj);
     }
 
     public void pointerUp()
@@ -45,7 +49,7 @@ public class DropableZone : MonoBehaviour
         float mouseY = 0;
         
         findMousePositionAboutCanvas(ref mouseX,ref mouseY);
-        callback(mouseX,mouseY);
+        _callback(mouseX,mouseY);
     }
 
     public void pointerMove(){ 

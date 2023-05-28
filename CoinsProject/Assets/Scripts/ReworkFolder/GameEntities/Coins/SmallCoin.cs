@@ -5,7 +5,6 @@ using UnityEngine;
 public class SmallCoin : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other) {
-        Destroy(gameObject);
-        LootManager.LootSmallCoins();
+        LootManager.LootSmallCoins(gameObject);
     }
 }

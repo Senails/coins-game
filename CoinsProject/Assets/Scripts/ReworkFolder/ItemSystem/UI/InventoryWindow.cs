@@ -5,7 +5,6 @@ using ItemSystemTypes;
 public class InventoryWindow : MonoBehaviour
 {   
     public GameObject SlotConteiner;
-    public GameObject SlotPrefab;
 
 
     public void Init(){
@@ -18,18 +17,19 @@ public class InventoryWindow : MonoBehaviour
  
 
     private void RenderSlots(){
+        if (!gameObject.activeSelf) return;
         RemoveSlots();
         ItemOnInventoryR[] arr = ItemManager.Self.Inventory.ItemArray;
 
         foreach(var Item in arr){
-            GameObject slot = Object.Instantiate(SlotPrefab,SlotConteiner.transform);
+            GameObject slot = Object.Instantiate(ItemManager.Self.SlotPrefab,SlotConteiner.transform);
             ItemSlot itemSlot = slot.GetComponent<ItemSlot>();
-            itemSlot.Init(Item,SlotParent.inventory);
+            itemSlot.Init(Item,ItemManager.Self.Inventory);
         }
     }
-    private void RemoveSlots(){
+    public void RemoveSlots(){
         foreach(var slot in ItemSlot.ListAllSlotsOnScreen.ToArray()){
-            if (slot.Parent==SlotParent.inventory) slot.Remove();
+            if (slot.Parent==ItemManager.Self.Inventory) slot.Remove();
         }
     }
 }

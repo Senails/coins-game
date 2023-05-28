@@ -5,8 +5,8 @@ using ItemSystemTypes;
 
 public class ItemDB : MonoBehaviour
 {
-    public List<ItemR> ItemListDB;
-    static public ItemDB Self;
+    public List<ItemR> itemListDB;
+    public static ItemDB Self;
 
 
     private void Start() {

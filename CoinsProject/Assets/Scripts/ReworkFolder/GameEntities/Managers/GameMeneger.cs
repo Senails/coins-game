@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameMeneger : MonoBehaviour
 {
+    public MenuScript Menu;
     public static GameStatus Status = GameStatus.play;
     private static int blockGameLavel = 0;
 
@@ -12,7 +13,11 @@ public class GameMeneger : MonoBehaviour
         blockGameLavel = 0;
         GameMeneger.PlayGame();
     }
-
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            Menu.TogleMenu();
+        }
+    }
 
     static public void PauseGame(){
         blockGameLavel++;

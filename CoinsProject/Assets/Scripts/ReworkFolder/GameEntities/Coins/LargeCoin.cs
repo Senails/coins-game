@@ -25,7 +25,6 @@ public class LargeCoin : MonoBehaviour
     }
 
     private void OnHoldCoin(){
-        Destroy(gameObject);
-        LootManager.LootLargeCoins();
+        LootManager.LootLargeCoins(gameObject);
     }
 }
