@@ -6,6 +6,8 @@ public class ItemManager : MonoBehaviour
     public InventoryR Inventory = new InventoryR();
     public ChestR ConectedChest;
 
+    public DropableZone GragAndDropZone;
+
 
     public GameObject SlotPrefab;
     public InventoryWindow InventoryWin;

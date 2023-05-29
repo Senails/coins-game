@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 
 
 using ItemSystemTypes;
+using static UiCordsLib;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 {
@@ -53,7 +54,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
     private void DragAndDropHandler(){
         IsMoving = true;
-        DropableZone.Self.dragStart(this.gameObject,(x,y)=>{
+        ItemManager.Self.GragAndDropZone.dragStart(this.gameObject,(x,y)=>{
             ItemSlot dropSlot = FindDropEndSlot(x,y);
             IsMoving = false;
             if (dropSlot==null) return;
@@ -66,7 +67,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     }
     private ItemSlot FindDropEndSlot(float x,float y){
         foreach(var slot in ListAllSlotsOnScreen){
-            if (DropableZone.checkDropOnRect(x,y,slot.gameObject)) return slot;
+            if (CheckCordsInRect(x,y,slot.gameObject)) return slot;
         }
         return null;
     }
@@ -76,6 +77,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
             toSlot.Item.count = Item.count;
             toSlot.Item.item = Item.item;
             Item.count = 0;
+            Item.item = null;
         }else if (toSlot.Item.item.id != Item.item.id){
             //swap item in inventory
             ItemR myItem = Item.item;
@@ -97,7 +99,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     private void DropInAnotherParent(ItemSlot toSlot){
         int dropItemsCount = toSlot.Parent.HowManyCanAddItem(Item);
 
-        Debug.Log(dropItemsCount);
         ItemOnInventoryR dropingItems = new ItemOnInventoryR{
             item = Item.item,
             count = Math.Min(Item.count,dropItemsCount),

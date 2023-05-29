@@ -18,7 +18,6 @@ public class LootManager : MonoBehaviour
         if (freeCount == 0) return;
 
         inventory.AddItem(newItem);
-        ScoreMeneger.AddCoins(1);
         Destroy(gameObject);
     }
     public static void LootLargeCoins(GameObject gameObject){
@@ -32,7 +31,6 @@ public class LootManager : MonoBehaviour
         if (freeCount == 0) return;
 
         inventory.AddItem(newItem);
-        ScoreMeneger.AddCoins(2);
         Destroy(gameObject);
     }
 

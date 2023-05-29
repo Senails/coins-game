@@ -51,6 +51,19 @@ public class InventoryR: ItemListConteiner
 
         if (CountItemsForAdd!=0){
             foreach(var slot in ItemArray){
+                if (slot.item == null || slot.item.id != Item.item.id) continue;
+                int addedItemsCount = TryAddItemToSlot(new ItemOnInventoryR{
+                    item = Item.item,
+                    count = CountItemsForAdd
+                }, slot);
+
+                CountItemsForAdd -= addedItemsCount;
+                if (CountItemsForAdd==0) break;
+            }
+        }
+
+        if (CountItemsForAdd!=0){
+            foreach(var slot in ItemArray){
                 int addedItemsCount = TryAddItemToSlot(new ItemOnInventoryR{
                     item = Item.item,
                     count = CountItemsForAdd
@@ -60,6 +73,7 @@ public class InventoryR: ItemListConteiner
             }
         }
 
+        ChangeToScoreMeneger(Item,true);
         OnChange?.Invoke();
     }
     public void RemoveItem(ItemOnInventoryR item,ItemSlot whichSlot){
@@ -71,10 +85,30 @@ public class InventoryR: ItemListConteiner
             ItemArray[index].count -= item.count;
         }
 
+        ChangeToScoreMeneger(item,false);
         OnChange?.Invoke();
     }
     public void Render(){
         OnChange?.Invoke();
+    }
+
+
+    public void ChangeToScoreMeneger(ItemOnInventoryR item,bool isAdd){
+        if (isAdd){
+            if (item.item.id == 0){
+                ScoreMeneger.AddCoins(item.count);   
+            }
+            if (item.item.id == 1){
+                ScoreMeneger.AddCoins(item.count*2);
+            }
+        }else{
+            if (item.item.id == 0){
+                ScoreMeneger.RemoveCoins(item.count);   
+            }
+            if (item.item.id == 1){
+                ScoreMeneger.RemoveCoins(item.count*2);
+            }
+        }
     }
 
 

@@ -63,6 +63,19 @@ public class ChestR: ItemListConteiner
 
         if (CountItemsForAdd!=0){
             foreach(var slot in ItemArray){
+                if (slot.item == null || slot.item.id != Item.item.id) continue;
+                int addedItemsCount = TryAddItemToSlot(new ItemOnInventoryR{
+                    item = Item.item,
+                    count = CountItemsForAdd
+                }, slot);
+
+                CountItemsForAdd -= addedItemsCount;
+                if (CountItemsForAdd==0) break;
+            }
+        }
+
+        if (CountItemsForAdd!=0){
+            foreach(var slot in ItemArray){
                 int addedItemsCount = TryAddItemToSlot(new ItemOnInventoryR{
                     item = Item.item,
                     count = CountItemsForAdd
