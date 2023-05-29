@@ -86,7 +86,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6323651958284740394}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67c2f5c7e0cfdf142a485956e3c63cf4, type: 3}
+  m_Script: {fileID: 11500000, guid: c9faa5924c79e3f4fb40b4be15b19c11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droping: 0

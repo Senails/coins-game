@@ -442,6 +442,11 @@ PrefabInstance:
       propertyPath: m_PreserveAspect
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5914000470832713975, guid: 0028bb93a3009f141bac1446a2177e1b,
+        type: 3}
+      propertyPath: sceneIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5914000470832713978, guid: 0028bb93a3009f141bac1446a2177e1b,
         type: 3}
       propertyPath: m_Pivot.x
