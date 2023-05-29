@@ -17,14 +17,14 @@ public class Inventory : MonoBehaviour
 
         Self.transform.gameObject.SetActive(false);
         Self.status= InventoryStatus.hide;
-        GameMeneger.playGame();
+        GameMeneger.PlayGame();
     }
     static public void showInventory(){
         if (Self.status==InventoryStatus.show) return;
 
         Self.transform.gameObject.SetActive(true);
         Self.status = InventoryStatus.show;
-        GameMeneger.pauseGame();
+        GameMeneger.PauseGame();
 
         Self.render();
     }
@@ -53,17 +53,17 @@ public class Inventory : MonoBehaviour
         }
 
         if (item.item.name == "Large_Coin"){
-            CoinCounter.addCoins(item.count*2);
+            ScoreMeneger.AddCoins(item.count*2);
         }else if (item.item.name == "Small_Coin"){
-            CoinCounter.addCoins(item.count);
+            ScoreMeneger.AddCoins(item.count);
         }
     }
 
     static public void removeItem(InventoryItem item, int count){
         if (item.item.name == "Large_Coin"){
-            CoinCounter.removeCoins(count*2);
+            ScoreMeneger.RemoveCoins(count*2);
         }else if (item.item.name == "Small_Coin"){
-            CoinCounter.removeCoins(count);
+            ScoreMeneger.RemoveCoins(count);
         }
         
         item.count-=count;

@@ -24,12 +24,12 @@ public class Bank : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        HintScript.connect();
+        HintManager.Connect();
         this.connect = true;
     }
 
     private void OnTriggerExit2D(Collider2D other) {
-        HintScript.disconnect();
+        HintManager.Disconnect();
         this.connect = false;
     }
 

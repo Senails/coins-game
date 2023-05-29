@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6019260103888167474}
   - component: {fileID: 835302784147788451}
   - component: {fileID: 9070828900423380564}
-  - component: {fileID: 3622406637083271913}
+  - component: {fileID: 7569507883158452686}
   m_Layer: 5
   m_Name: PauseButton
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3622406637083271913
+--- !u!114 &7569507883158452686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6177030112233974210}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e379ec9f4c490634ea9c58d501d2a4e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 06245042b14fdbf4189fc44b42da116e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneIndex: 0
+  PauseMenu: {fileID: 0}

@@ -16,13 +16,13 @@ public class BankWindow : MonoBehaviour
         if (ChoiceQuantity.Self.status == InventoryStatus.show) return;
         Self.transform.gameObject.SetActive(false);
         Self.status = InventoryStatus.hide;
-        GameMeneger.playGame();
+        GameMeneger.PlayGame();
         Inventory.hideInventory();
     }
     static public void showBankWindow(){
         Self.transform.gameObject.SetActive(true);
         Self.status = InventoryStatus.show;
-        GameMeneger.pauseGame();
+        GameMeneger.PauseGame();
         Inventory.showInventory();
 
         Self.render();
