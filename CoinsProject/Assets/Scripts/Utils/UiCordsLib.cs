@@ -55,15 +55,14 @@ public static class UiCordsLib{
         if (Mathf.Abs(objUiCords.y-y)>objUiSizes.y/2) return false;
         return true;
     }
-    
 
-    private static Vector2 GetMouseCordsRelativeScreen(){
+    public static Vector2 GetMouseCordsRelativeScreen(){
         return new Vector2{
             x = Input.mousePosition.x/Screen.width-0.5f,
             y = Input.mousePosition.y/Screen.height-0.5f,
         };
     }
-    private static GameObject getCanvas(){
+    public static GameObject getCanvas(){
         if (_canvas!=null) return _canvas;
 
         GameObject[] rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();

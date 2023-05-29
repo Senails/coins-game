@@ -6,6 +6,7 @@ public class ItemManager : MonoBehaviour
     public InventoryR Inventory = new InventoryR();
     public ChestR ConectedChest;
 
+
     public DropableZone GragAndDropZone;
 
 
