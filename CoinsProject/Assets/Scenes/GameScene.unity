@@ -57169,12 +57169,12 @@ PrefabInstance:
     - target: {fileID: 2687509016527164385, guid: 5e23a3231177a9348924d9dc53bceb74,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.04971082
+      value: 0.0165
       objectReference: {fileID: 0}
     - target: {fileID: 2687509016527164385, guid: 5e23a3231177a9348924d9dc53bceb74,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.12690258
+      value: 0.1055
       objectReference: {fileID: 0}
     - target: {fileID: 2687509016527164385, guid: 5e23a3231177a9348924d9dc53bceb74,
         type: 3}
@@ -57225,6 +57225,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629672173433295559, guid: 5e23a3231177a9348924d9dc53bceb74,
+        type: 3}
+      propertyPath: MaxMass
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629672173433295559, guid: 5e23a3231177a9348924d9dc53bceb74,
+        type: 3}
+      propertyPath: BankName
+      value: Chest1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629672173433295559, guid: 5e23a3231177a9348924d9dc53bceb74,
+        type: 3}
+      propertyPath: SlotsCount
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8159997312480625505, guid: 5e23a3231177a9348924d9dc53bceb74,
         type: 3}
