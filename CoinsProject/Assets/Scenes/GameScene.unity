@@ -52110,6 +52110,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1103776564460629081, guid: 14dbf910028afde4db5237855120a89b,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2544862369171804244, guid: 14dbf910028afde4db5237855120a89b,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3102871908629003067, guid: 14dbf910028afde4db5237855120a89b,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6232355967325840725, guid: 14dbf910028afde4db5237855120a89b,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14dbf910028afde4db5237855120a89b, type: 3}
 --- !u!4 &1073962102 stripped
@@ -56802,6 +56822,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 564976794}
     m_Modifications:
+    - target: {fileID: 975396207805885328, guid: 11a1ad800793a6940b07f9e40ce18183,
+        type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3347389159586974315, guid: 11a1ad800793a6940b07f9e40ce18183,
         type: 3}
       propertyPath: m_Name

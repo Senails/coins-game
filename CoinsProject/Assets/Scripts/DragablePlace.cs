@@ -11,17 +11,9 @@ public class DragablePlace : MonoBehaviour, IPointerDownHandler
 
     public GameObject UiWindow;
 
-
-    public void OnPointerDown(PointerEventData eventData){ 
-        if (Input.GetMouseButton(0)){
-            _active = true;
-            Vector2 windowCords = findUIPositionInCanvas(UiWindow);
-            Vector2 mouseCords = findMousePositionInCanvas();
-            _deltaCords = windowCords - mouseCords;
-        }
+    private void OnDisable() {
+        _active = false;
     }
-
-
     public void Update(){
         if (!_active) return;
         if (Input.GetMouseButtonUp(0)){
@@ -31,7 +23,14 @@ public class DragablePlace : MonoBehaviour, IPointerDownHandler
         MovingWindow();
     }
 
-
+    public void OnPointerDown(PointerEventData eventData){ 
+        if (Input.GetMouseButton(0)){
+            _active = true;
+            Vector2 windowCords = findUIPositionInCanvas(UiWindow);
+            Vector2 mouseCords = findMousePositionInCanvas();
+            _deltaCords = windowCords - mouseCords;
+        }
+    }
     public void MovingWindow(){
         Vector2 mouseCords = findMousePositionInCanvas();
         Vector2 newPosition = mouseCords + _deltaCords;
