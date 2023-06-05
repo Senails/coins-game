@@ -21,8 +21,9 @@ public class Player : MonoBehaviour
     private void Update(){
         if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
 
-        var direction = FindDirection();
+        Vector2 direction = FindDirection();
         MovePlayer(direction);
+        if (direction.magnitude==0) return;
         RecalculateImage(direction);
     }
 
