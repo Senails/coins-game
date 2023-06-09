@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1617528483537967048
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5897622391525091452}
+  - component: {fileID: 671126038221522271}
+  m_Layer: 0
+  m_Name: RomsDB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5897622391525091452
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617528483537967048}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -128.5437, y: -2.0909255, z: 4.8446198}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &671126038221522271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617528483537967048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6687fdd65593c41a1d5648b5f04a1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RoomList:
+  - Id: 0
+    DoorsCount: 1
+    RoomPrefab: {fileID: 4037246305911429339, guid: 62002cd2013e29f42801a37ad4c79086,
+      type: 3}
+  - Id: 1
+    DoorsCount: 1
+    RoomPrefab: {fileID: 4037246305911429339, guid: 2547fe02c7ad8c048abe9fa8e3898803,
+      type: 3}
+  - Id: 2
+    DoorsCount: 1
+    RoomPrefab: {fileID: 4037246305911429339, guid: f0cc70b42ca57d445a5b5bcfae4af287,
+      type: 3}
+  - Id: 3
+    DoorsCount: 1
+    RoomPrefab: {fileID: 4037246305911429339, guid: 1d81dafa2a942f84787dfb20ac626e1a,
+      type: 3}
+  - Id: 4
+    DoorsCount: 2
+    RoomPrefab: {fileID: 1443253864339185097, guid: 194ea88a6b3e31b47bc611e8cde01d7d,
+      type: 3}
+  - Id: 5
+    DoorsCount: 2
+    RoomPrefab: {fileID: 2551459568269617605, guid: c19f22517ba53724cbf638de449575c3,
+      type: 3}
+  - Id: 6
+    DoorsCount: 3
+    RoomPrefab: {fileID: 6622153459100531466, guid: 2e93c87284a20844c987b3ea7b1905e1,
+      type: 3}
+  - Id: 7
+    DoorsCount: 3
+    RoomPrefab: {fileID: 1853333145196618729, guid: 5344996e4d4cb2c49849311e5ec3a33a,
+      type: 3}
+  - Id: 8
+    DoorsCount: 3
+    RoomPrefab: {fileID: 7677129539785937014, guid: 26451217aa5703148bda6cb196003def,
+      type: 3}
+  - Id: 9
+    DoorsCount: 3
+    RoomPrefab: {fileID: 5093486478312793868, guid: 16e4928505cfabb4b853c1dcb07a18ad,
+      type: 3}
+  - Id: 10
+    DoorsCount: 4
+    RoomPrefab: {fileID: 2030097557574286524, guid: d842f981df5e07040b1cf22ec1d37434,
+      type: 3}
