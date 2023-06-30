@@ -48,13 +48,10 @@ public class LargeMapImage : MonoBehaviour, IPointerEnterHandler,IPointerExitHan
         Vector2 mouseNowPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 mouseDeltaPosition = mouseNowPosition - _mouseStartPosition;
 
-        Vector2 MapImageSizes = GetSizesGameObject(gameObject);
+        Vector2 MapImageSizes = GetGlobalUiSizes(gameObject);
         Vector2 MapCameraSizes = GetSizesGameObject(MapWindow.MapCamera.GetComponent<Camera>());
 
-
-        Debug.Log(MapImageSizes);
-
-        Vector2 newCameraCords = _cameraStartPosition - mouseDeltaPosition;
+        Vector2 newCameraCords = _cameraStartPosition - mouseDeltaPosition*(MapCameraSizes/MapImageSizes);
         MapWindow.MapCamera.SetPosition(newCameraCords);
     }
 

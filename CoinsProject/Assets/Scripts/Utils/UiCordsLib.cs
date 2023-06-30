@@ -47,6 +47,13 @@ public static class UiCordsLib{
             y = rect.height
         };
     }
+    public static Vector2 GetGlobalUiSizes(GameObject uiObject){
+        RectTransform rectTransform = uiObject.GetComponent<RectTransform>();
+        Vector2 localSize = rectTransform.rect.size;
+        return rectTransform.TransformVector(localSize);
+    }
+
+
     public static bool CheckCordsInUIRect(float x, float y,GameObject obj){
         Vector2 objUiCords = findUIPositionInCanvas(obj);
         Vector2 objUiSizes = GetUiSizes(obj);
