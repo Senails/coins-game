@@ -16,8 +16,7 @@ public class ItemManager : MonoBehaviour
     public ChoiseWindow ChoiseWin;
     public static ItemManager Self;
 
-
-    private void Start() {
+    private void Awake() {
         Self = this;
     }
     private void Update() {

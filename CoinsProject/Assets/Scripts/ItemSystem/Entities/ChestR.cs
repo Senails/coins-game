@@ -11,7 +11,7 @@ public class ChestR: ItemListConteiner
     public string Name = "Chest999";
     public int MaxMass;
     public int ActiveMass = 0;
-    public int SlotsCount;
+    public int SlotsCount = 10;
     public Action OnChange;
 
 
