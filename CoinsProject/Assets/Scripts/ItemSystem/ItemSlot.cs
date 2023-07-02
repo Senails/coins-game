@@ -25,11 +25,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
 
     public void OnPointerClick(PointerEventData eventData){ 
+        if (!Parent.IsConteiner) return;
         if (Item.count==0 || IsMoving) return;
         if (eventData.button != PointerEventData.InputButton.Right) return;
         ReplaceOnLeftButtonClick();
     }
-    public void OnPointerDown(PointerEventData eventData){ 
+    public void OnPointerDown(PointerEventData eventData){
+        if (!Parent.IsConteiner) return;
         if (Item.count==0 || IsMoving) return;
         if (eventData.button != PointerEventData.InputButton.Left) return;
         if (Input.GetKey(KeyCode.LeftControl)){
@@ -147,7 +149,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     }
     private ItemListConteiner FindAnotheConteiner(){
         foreach(var slot in ListAllSlotsOnScreen){
-            if (slot.Parent!=Parent) return slot.Parent;
+            if (slot.Parent!=Parent && slot.Parent.IsConteiner == true) return slot.Parent;
         }
         return null;
     }

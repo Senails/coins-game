@@ -20,6 +20,8 @@ namespace ItemSystemTypes{
 
     public interface ItemListConteiner{
         public ItemOnInventoryR[] ItemArray { get; set; }
+        public bool IsConteiner { get; set; }
+
 
         public int HowManyCanAddItem(ItemOnInventoryR item);
         public void AddItem(ItemOnInventoryR item,ItemSlot preferSlot = null);

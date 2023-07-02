@@ -15,6 +15,7 @@ public class ChestR: ItemListConteiner
     public event Action OnChange;
 
 
+    public bool IsConteiner { get; set; } = true;
     public ItemOnInventoryR[] ItemArray { get; set; }
 
 
@@ -34,7 +35,6 @@ public class ChestR: ItemListConteiner
         int stackCount = ItemSlot.StackCount;
         int freePositions = 0;
 
-        //check free positions
         foreach(var itemPlace in ItemArray){
             if (itemPlace.count==0){
                 freePositions += stackCount;
