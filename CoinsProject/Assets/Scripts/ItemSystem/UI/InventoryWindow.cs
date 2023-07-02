@@ -8,7 +8,8 @@ public class InventoryWindow : MonoBehaviour
 
 
     public void Init(){
-        ItemManager.Self.Inventory.OnChange = RenderSlots;
+        ItemManager.Self.Inventory.OnChange -= RenderSlots;
+        ItemManager.Self.Inventory.OnChange += RenderSlots;
         RenderSlots();
     }
     public void CancelInventoryWindow(){

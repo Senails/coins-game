@@ -14,7 +14,8 @@ public class ChestWindow : MonoBehaviour
 
 
     public void Init(){
-        ItemManager.Self.ConectedChest.OnChange = Render;
+        ItemManager.Self.ConectedChest.OnChange -= Render;
+        ItemManager.Self.ConectedChest.OnChange += Render;
         Render();
     }
     public void CancelChestWindow(){

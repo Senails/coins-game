@@ -12,7 +12,7 @@ public class ChestR: ItemListConteiner
     public int MaxMass;
     public int ActiveMass = 0;
     public int SlotsCount = 10;
-    public Action OnChange;
+    public event Action OnChange;
 
 
     public ItemOnInventoryR[] ItemArray { get; set; }

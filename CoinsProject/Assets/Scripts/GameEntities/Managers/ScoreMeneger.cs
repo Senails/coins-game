@@ -1,14 +1,16 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using TMPro;
 
+using ItemSystemTypes;
 using static AsyncLib;
 
 public class ScoreMeneger : MonoBehaviour
 {
-    private static int _countCoins = 0;
+    private int _countCoins = 0;
     private static ScoreMeneger _self;
-    private static Action _cancelAction;
+    private Action _cancelAction;
 
 
     public TMP_Text ScoreText;
@@ -20,26 +22,35 @@ public class ScoreMeneger : MonoBehaviour
         _countCoins=0;
         ScoreText.text = _countCoins.ToString();
 
-        // ItemManager.Self.Inventory.OnChange +=
+        ItemManager.Self.Inventory.OnChange += ()=>{
+            _countCoins = RecaculateScore();
+            ShowObject();
+        };
+    }
+ 
+
+    public int RecaculateScore(){
+        int count = 0;
+
+        foreach(ItemOnInventoryR elem in ItemManager.Self.Inventory.ItemArray){
+            if (elem.item==null || elem.count==0) continue;
+            if (elem.item.id==0){
+                count+=elem.count;
+            }
+            if (elem.item.id==1){
+                count+=elem.count*2;
+            }
+        }
+        
+        return count;
     }
 
-
-    public static void AddCoins(int count){
-        _countCoins+=count;
-        ShowObject();
-    }
-    public static void RemoveCoins(int count){
-        _countCoins-=count;
-        ShowObject();
-    }
-
-
-    private static void ShowObject(){
-        _self.ScoreText.text = _countCoins.ToString();
+    private void ShowObject(){
+        ScoreText.text = _countCoins.ToString();
         _cancelAction?.Invoke();
-        _self.ScoreUi.SetActive(true);
+        ScoreUi.SetActive(true);
         _cancelAction = setTimeout(()=>{
-            _self.ScoreUi.SetActive(false);
+            ScoreUi.SetActive(false);
         },3000);
     }
 }

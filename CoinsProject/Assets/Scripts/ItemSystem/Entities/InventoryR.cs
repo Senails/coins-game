@@ -9,7 +9,7 @@ using ItemSystemTypes;
 public class InventoryR: ItemListConteiner
 {
     public int SlotsCount = 30;
-    public Action OnChange;
+    public event Action OnChange;
 
 
     public ItemOnInventoryR[] ItemArray { get; set; }
@@ -73,7 +73,6 @@ public class InventoryR: ItemListConteiner
             }
         }
 
-        ChangeToScoreMeneger(Item,true);
         OnChange?.Invoke();
     }
     public void RemoveItem(ItemOnInventoryR item,ItemSlot whichSlot){
@@ -85,30 +84,10 @@ public class InventoryR: ItemListConteiner
             ItemArray[index].count -= item.count;
         }
 
-        ChangeToScoreMeneger(item,false);
         OnChange?.Invoke();
     }
     public void Render(){
         OnChange?.Invoke();
-    }
-
-
-    public void ChangeToScoreMeneger(ItemOnInventoryR item,bool isAdd){
-        if (isAdd){
-            if (item.item.id == 0){
-                ScoreMeneger.AddCoins(item.count);   
-            }
-            if (item.item.id == 1){
-                ScoreMeneger.AddCoins(item.count*2);
-            }
-        }else{
-            if (item.item.id == 0){
-                ScoreMeneger.RemoveCoins(item.count);   
-            }
-            if (item.item.id == 1){
-                ScoreMeneger.RemoveCoins(item.count*2);
-            }
-        }
     }
 
 
