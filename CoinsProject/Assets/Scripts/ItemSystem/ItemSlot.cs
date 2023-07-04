@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 using ItemSystemTypes;
 using static UiCordsLib;
+using static MyDateLib;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 {
@@ -22,6 +23,8 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
     public TMP_Text CountText;
     public Image IconImage;
+
+    public Action OnLeftClick;
 
 
     public void OnPointerClick(PointerEventData eventData){ 
@@ -54,10 +57,22 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
 
     private void DragAndDropHandler(){
+        Vector2 mP = findMousePositionInCanvas();
+        long startDate = getDateMilisec();
+
         IsMoving = true;
-        ItemManager.Self.GragAndDropZone.dragStart(this.gameObject,(x,y)=>{
-            ItemSlot dropSlot = FindDropEndSlot(x,y);
+        ItemManager.Self.GragAndDropZone.dragStart(this.gameObject,(vec2)=>{
             IsMoving = false;
+
+            long endDate = getDateMilisec();
+            long deltaDate = endDate - startDate;
+
+            if ((vec2-mP).magnitude<3 && deltaDate<200){
+                OnLeftClick?.Invoke();
+                return;
+            }
+
+            ItemSlot dropSlot = FindDropEndSlot(vec2.x,vec2.y);
             
             if (dropSlot==null) return;
             if (dropSlot==this) return;

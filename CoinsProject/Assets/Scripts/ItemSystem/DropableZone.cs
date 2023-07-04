@@ -8,7 +8,7 @@ public class DropableZone : MonoBehaviour
     private Vector2 _deltaCords;
     private GameObject _clone; 
     private GameObject _origin;
-    private Action<float,float> _callback;
+    private Action<Vector2> _callback;
 
 
     private void Update() {
@@ -18,7 +18,7 @@ public class DropableZone : MonoBehaviour
         }
         pointerMove();
     }
-    public void dragStart(GameObject obj,Action<float,float> callback){
+    public void dragStart(GameObject obj,Action<Vector2> callback){
         gameObject.SetActive(true);
 
         _callback=callback;
@@ -34,7 +34,7 @@ public class DropableZone : MonoBehaviour
         }catch{}
 
         Vector2 mP = findMousePositionInCanvas();
-        _callback(mP.x,mP.y);
+        _callback(mP);
     }
     public void pointerMove(){
         Vector2 mP = findMousePositionInCanvas();

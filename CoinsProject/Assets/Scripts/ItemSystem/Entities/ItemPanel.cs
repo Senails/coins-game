@@ -55,6 +55,8 @@ public class ItemPanel: ItemListConteiner
     }
     public void UseItemInSlot(int index){
         ItemR item = ItemArray[index].item;
+        if (item==null || ItemArray[index].count==0) return;
+
         if (item.OnUseAction!=null){
             item.OnUseAction?.Invoke();
             ItemOnInventoryR Item = new ItemOnInventoryR();
