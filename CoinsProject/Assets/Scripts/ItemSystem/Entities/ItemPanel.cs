@@ -8,7 +8,11 @@ using ItemSystemTypes;
 
 public class ItemPanel: ItemListConteiner
 {
-    public bool IsConteiner { get; set; } = false;
+    public bool CanDrop { get; set; } = true;
+    public bool CanPlace { get; set; } = false;
+    public bool CanTake { get; set; } = false;
+
+
     public ItemOnInventoryR[] ItemArray { get; set; }
     public event Action OnChange;
 
@@ -28,8 +32,6 @@ public class ItemPanel: ItemListConteiner
     public int HowManyCanAddItem(ItemOnInventoryR item){
         return 0;
     }
-
-
     public void AddItem(ItemOnInventoryR Item,ItemSlot preferSlot = null){
         RemoveClonLink(Item);
         preferSlot.Item.item = Item.item;
@@ -41,6 +43,8 @@ public class ItemPanel: ItemListConteiner
         RecalculateCount();
         OnChange?.Invoke();
     }
+    
+    
     public void RemoveClonLink(ItemOnInventoryR Item){
         foreach(ItemOnInventoryR elem in ItemArray){
             if (elem.item != null && elem.item.id == Item.item.id){
@@ -49,8 +53,16 @@ public class ItemPanel: ItemListConteiner
             }
         }
     }
-
-
+    public void UseItemInSlot(int index){
+        ItemR item = ItemArray[index].item;
+        if (item.OnUseAction!=null){
+            item.OnUseAction?.Invoke();
+            ItemOnInventoryR Item = new ItemOnInventoryR();
+            Item.count = 1;
+            Item.item = item;
+            ItemManager.Self.Inventory.RemoveItem(Item,null);
+        }
+    }
     public void RecalculateCount(){
         ItemOnInventoryR[] invItemArray = ItemManager.Self.Inventory.ItemArray;
 
@@ -66,6 +78,8 @@ public class ItemPanel: ItemListConteiner
             Item.count = count;
         }
     }
+    
+    
     public void Render(){
         OnChange?.Invoke();
     }

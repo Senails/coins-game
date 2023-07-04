@@ -8,12 +8,16 @@ using ItemSystemTypes;
 
 public class InventoryR: ItemListConteiner
 {
-    public int SlotsCount = 30;
+    public bool CanDrop { get; set; } = true;
+    public bool CanPlace { get; set; } = true;
+    public bool CanTake { get; set; } = true;
+
+
+    public ItemOnInventoryR[] ItemArray { get; set; }
     public event Action OnChange;
 
 
-    public bool IsConteiner { get; set; } = true;
-    public ItemOnInventoryR[] ItemArray { get; set; }
+    public int SlotsCount = 30;
 
 
     public InventoryR(){
@@ -42,6 +46,8 @@ public class InventoryR: ItemListConteiner
         return Mathf.Clamp(freePositions,0,stackCount);
     }
     public void AddItem(ItemOnInventoryR Item,ItemSlot preferSlot = null){
+        if(Item.count==0) return;
+
         int CountItemsForAdd = Item.count;
 
         if (preferSlot!=null){
@@ -75,13 +81,21 @@ public class InventoryR: ItemListConteiner
 
         OnChange?.Invoke();
     }
-    public void RemoveItem(ItemOnInventoryR item,ItemSlot whichSlot){
-        int index = Array.IndexOf(ItemArray,whichSlot.Item);
-        if (item.count>=whichSlot.Item.count){
-            ItemArray[index].count = 0;
-            ItemArray[index].item = null;
+    public void RemoveItem(ItemOnInventoryR Item,ItemSlot whichSlot = null){
+        if(Item.count==0) return;
+
+        ItemOnInventoryR inventorySlot = null;
+        if (whichSlot==null){
+            inventorySlot = FindSlotWhithItem(Item);
         }else{
-            ItemArray[index].count -= item.count;
+            inventorySlot = whichSlot.Item;
+        }
+
+        if (Item.count>=inventorySlot.count){
+            inventorySlot.count = 0;
+            inventorySlot.item = null;
+        }else{
+            inventorySlot.count -= Item.count;
         }
 
         OnChange?.Invoke();
@@ -91,6 +105,14 @@ public class InventoryR: ItemListConteiner
     }
 
 
+
+    private ItemOnInventoryR FindSlotWhithItem(ItemOnInventoryR Item){
+        foreach(var elem in ItemArray){
+            if (elem.count == 0) continue;
+            if (elem.item.id == Item.item.id) return elem;
+        }
+        return null;
+    }
     private int TryAddItemToSlot(ItemOnInventoryR Item,ItemOnInventoryR slot){
         if (slot.count!=0 && Item.item.id != slot.item.id) return 0;
 

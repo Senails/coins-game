@@ -1,14 +1,16 @@
+using System;
 using UnityEngine;
 
 
 
 namespace ItemSystemTypes{
-    [System.Serializable]
+    [Serializable]
     public class ItemR {
         public int id;
         public string name;
         public Sprite itemImage;
         public int mass;
+        public ActionBase OnUseAction;
     }
 
 
@@ -20,12 +22,19 @@ namespace ItemSystemTypes{
 
     public interface ItemListConteiner{
         public ItemOnInventoryR[] ItemArray { get; set; }
-        public bool IsConteiner { get; set; }
+        public bool CanDrop { get; set; }
+        public bool CanPlace { get; set; }
+        public bool CanTake { get; set; }
 
 
         public int HowManyCanAddItem(ItemOnInventoryR item);
         public void AddItem(ItemOnInventoryR item,ItemSlot preferSlot = null);
         public void RemoveItem(ItemOnInventoryR item,ItemSlot preferSlot);
         public void Render();
+    }
+
+    public abstract class ActionBase : MonoBehaviour
+    {
+        public abstract void Invoke();
     }
 }

@@ -25,13 +25,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
 
     public void OnPointerClick(PointerEventData eventData){ 
-        if (!Parent.IsConteiner) return;
         if (Item.count==0 || IsMoving) return;
-        if (eventData.button != PointerEventData.InputButton.Right) return;
-        ReplaceOnLeftButtonClick();
+        if (eventData.button == PointerEventData.InputButton.Right){
+            ReplaceOnRightButtonClick();
+        }
     }
     public void OnPointerDown(PointerEventData eventData){
-        if (!Parent.IsConteiner) return;
         if (Item.count==0 || IsMoving) return;
         if (eventData.button != PointerEventData.InputButton.Left) return;
         if (Input.GetKey(KeyCode.LeftControl)){
@@ -59,11 +58,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
         ItemManager.Self.GragAndDropZone.dragStart(this.gameObject,(x,y)=>{
             ItemSlot dropSlot = FindDropEndSlot(x,y);
             IsMoving = false;
+            
             if (dropSlot==null) return;
+            if (dropSlot==this) return;
             if (dropSlot.Parent == Parent){
                 DropInMyParent(dropSlot);
                 return;
             }
+
+            if (!Parent.CanTake) return;
+            if (!dropSlot.Parent.CanDrop) return;
             DropInAnotherParent(dropSlot);
         });
     }
@@ -112,13 +116,17 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
 
     private void ReplaceWhithChoise(){
-        IsMoving = true;
         ItemListConteiner another = FindAnotheConteiner();
+
+        if (!Parent.CanTake) return;
         if (another==null) return;
+
         int countForDrop = another.HowManyCanAddItem(Item);
         if (countForDrop==0) return;
 
         int countRange = Math.Min(Item.count,countForDrop);
+
+        IsMoving = true;
         ItemManager.Self.ActiveChoiseWindow(countRange,(num)=>{
             if (num!=0){
                 ItemOnInventoryR dropingItems = new ItemOnInventoryR{
@@ -132,11 +140,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
             IsMoving = false;
         });
     }
-    private void ReplaceOnLeftButtonClick(){
+    private void ReplaceOnRightButtonClick(){
         ItemListConteiner another = FindAnotheConteiner();
-        if (another==null) return;
-        int countForDrop = another.HowManyCanAddItem(Item);
 
+        if (!Parent.CanTake) return;
+        if (another==null) return;
+
+        int countForDrop = another.HowManyCanAddItem(Item);
 
         ItemOnInventoryR dropingItems = new ItemOnInventoryR{
             item = Item.item,
@@ -149,7 +159,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     }
     private ItemListConteiner FindAnotheConteiner(){
         foreach(var slot in ListAllSlotsOnScreen){
-            if (slot.Parent!=Parent && slot.Parent.IsConteiner == true) return slot.Parent;
+            if (slot.Parent!=Parent && slot.Parent.CanPlace == true) return slot.Parent;
         }
         return null;
     }
