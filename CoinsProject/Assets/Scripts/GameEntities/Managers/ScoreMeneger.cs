@@ -19,6 +19,8 @@ public class ScoreMeneger : MonoBehaviour
         _self = this;
         _countCoins=0;
         ScoreText.text = _countCoins.ToString();
+
+        // ItemManager.Self.Inventory.OnChange +=
     }
 
 
