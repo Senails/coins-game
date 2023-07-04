@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 
 using ItemSystemTypes;
 using static UiCordsLib;
+using static MyDateLib;
 
 public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 {
@@ -23,13 +24,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     public TMP_Text CountText;
     public Image IconImage;
 
+    public Action OnLeftClick;
+
 
     public void OnPointerClick(PointerEventData eventData){ 
         if (Item.count==0 || IsMoving) return;
-        if (eventData.button != PointerEventData.InputButton.Right) return;
-        ReplaceOnLeftButtonClick();
+        if (eventData.button == PointerEventData.InputButton.Right){
+            ReplaceOnRightButtonClick();
+        }
     }
-    public void OnPointerDown(PointerEventData eventData){ 
+    public void OnPointerDown(PointerEventData eventData){
         if (Item.count==0 || IsMoving) return;
         if (eventData.button != PointerEventData.InputButton.Left) return;
         if (Input.GetKey(KeyCode.LeftControl)){
@@ -53,15 +57,32 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
 
     private void DragAndDropHandler(){
+        Vector2 mP = findMousePositionInCanvas();
+        long startDate = getDateMilisec();
+
         IsMoving = true;
-        ItemManager.Self.GragAndDropZone.dragStart(this.gameObject,(x,y)=>{
-            ItemSlot dropSlot = FindDropEndSlot(x,y);
+        ItemManager.Self.GragAndDropZone.dragStart(this.gameObject,(vec2)=>{
             IsMoving = false;
+
+            long endDate = getDateMilisec();
+            long deltaDate = endDate - startDate;
+
+            if ((vec2-mP).magnitude<3 && deltaDate<200){
+                OnLeftClick?.Invoke();
+                return;
+            }
+
+            ItemSlot dropSlot = FindDropEndSlot(vec2.x,vec2.y);
+            
             if (dropSlot==null) return;
+            if (dropSlot==this) return;
             if (dropSlot.Parent == Parent){
                 DropInMyParent(dropSlot);
                 return;
             }
+
+            if (!Parent.CanTake) return;
+            if (!dropSlot.Parent.CanDrop) return;
             DropInAnotherParent(dropSlot);
         });
     }
@@ -110,13 +131,17 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 
 
     private void ReplaceWhithChoise(){
-        IsMoving = true;
         ItemListConteiner another = FindAnotheConteiner();
+
+        if (!Parent.CanTake) return;
         if (another==null) return;
+
         int countForDrop = another.HowManyCanAddItem(Item);
         if (countForDrop==0) return;
 
         int countRange = Math.Min(Item.count,countForDrop);
+
+        IsMoving = true;
         ItemManager.Self.ActiveChoiseWindow(countRange,(num)=>{
             if (num!=0){
                 ItemOnInventoryR dropingItems = new ItemOnInventoryR{
@@ -130,11 +155,13 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
             IsMoving = false;
         });
     }
-    private void ReplaceOnLeftButtonClick(){
+    private void ReplaceOnRightButtonClick(){
         ItemListConteiner another = FindAnotheConteiner();
-        if (another==null) return;
-        int countForDrop = another.HowManyCanAddItem(Item);
 
+        if (!Parent.CanTake) return;
+        if (another==null) return;
+
+        int countForDrop = another.HowManyCanAddItem(Item);
 
         ItemOnInventoryR dropingItems = new ItemOnInventoryR{
             item = Item.item,
@@ -147,7 +174,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
     }
     private ItemListConteiner FindAnotheConteiner(){
         foreach(var slot in ListAllSlotsOnScreen){
-            if (slot.Parent!=Parent) return slot.Parent;
+            if (slot.Parent!=Parent && slot.Parent.CanPlace == true) return slot.Parent;
         }
         return null;
     }

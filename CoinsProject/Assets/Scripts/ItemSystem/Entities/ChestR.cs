@@ -8,15 +8,20 @@ using ItemSystemTypes;
 
 public class ChestR: ItemListConteiner
 {
+    public bool CanDrop { get; set; } = true;
+    public bool CanPlace { get; set; } = true;
+    public bool CanTake { get; set; } = true;
+
+
+    public ItemOnInventoryR[] ItemArray { get; set; }
+    public event Action OnChange;
+
+
     public string Name = "Chest999";
     public int MaxMass;
     public int ActiveMass = 0;
     public int SlotsCount = 10;
-    public Action OnChange;
-
-
-    public ItemOnInventoryR[] ItemArray { get; set; }
-
+    
 
     public ChestR(string name ="Chest999" , int maxMass = 10, int slotsCount = 20){
         Name = name;
@@ -34,7 +39,6 @@ public class ChestR: ItemListConteiner
         int stackCount = ItemSlot.StackCount;
         int freePositions = 0;
 
-        //check free positions
         foreach(var itemPlace in ItemArray){
             if (itemPlace.count==0){
                 freePositions += stackCount;
@@ -54,6 +58,7 @@ public class ChestR: ItemListConteiner
         return Mathf.Clamp(freePositions,0,stackCount);
     }
     public void AddItem(ItemOnInventoryR Item,ItemSlot preferSlot = null){
+        if (Item.count == 0) return;
         int CountItemsForAdd = Item.count;
 
         if (preferSlot!=null){
@@ -88,13 +93,15 @@ public class ChestR: ItemListConteiner
         RecalculateActiveMass();
         OnChange?.Invoke();
     }
-    public void RemoveItem(ItemOnInventoryR item,ItemSlot whichSlot){
+    public void RemoveItem(ItemOnInventoryR Item,ItemSlot whichSlot){
+        if(Item.count==0) return;
+
         int index = Array.IndexOf(ItemArray,whichSlot.Item);
-        if (item.count>=whichSlot.Item.count){
+        if (Item.count>=whichSlot.Item.count){
             ItemArray[index].count = 0;
             ItemArray[index].item = null;
         }else{
-            ItemArray[index].count -= item.count;
+            ItemArray[index].count -= Item.count;
         }
 
         RecalculateActiveMass();
