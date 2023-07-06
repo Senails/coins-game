@@ -27,7 +27,7 @@ public class ItemPanelWindow : MonoBehaviour
 
         int i = 0;
         foreach(var Item in _itemPanel.ItemArray){
-            if (Input.GetKeyDown(KyeDictionary[$"ячейка {i+1}"])){
+            if (Input.GetKeyDown(KyeDictionary[$"Ячейка {i+1}"])){
                 _itemPanel.UseItemInSlot(i);
             }
             i++;
@@ -50,7 +50,7 @@ public class ItemPanelWindow : MonoBehaviour
 
             int j = i++;
 
-            KeyCode code = KyeDictionary[$"ячейка {i}"];
+            KeyCode code = KyeDictionary[$"Ячейка {i}"];
             slot.Init(GetNameKey(code));
 
             itemSlot.OnLeftClick = ()=>{

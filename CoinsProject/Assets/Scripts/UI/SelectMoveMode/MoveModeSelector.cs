@@ -7,22 +7,22 @@ using OptionsTypes;
 
 public class MoveModeSelector : MonoBehaviour
 {
-    static MoveModeSelector self;
+    public static MoveModeSelector Self;
 
-    void Start()
+    public void Start()
     {
-        MoveModeSelector.self = this;
-        selectFromMemory(); 
+        MoveModeSelector.Self = this;
+        SelectFromMemory(); 
     }
 
     static public void Select(Transform obj){
-        for (int i = 0; i < self.transform.childCount; i++){
-            var child = self.transform.GetChild(i);
+        for (int i = 0; i < Self.transform.childCount; i++){
+            var child = Self.transform.GetChild(i);
 
             if (child == obj){
                 var sr = child.GetComponent<Image>();
                 sr.color = new Color(1, 1, 1, 1);
-                self.SetInMemory(i);
+                Self.SetInMemory(i);
             }else{
                 var sr = child.GetComponent<Image>();
                 sr.color = new Color(1, 1, 1, 0.5f);
@@ -30,13 +30,13 @@ public class MoveModeSelector : MonoBehaviour
         }
     }
 
-    void selectFromMemory(){
+    public void SelectFromMemory(){
         int index = (int) OptionsManager.Config.MoveMode;
         var child = transform.GetChild(index);
         MoveModeSelector.Select(child);
     }
 
-    void SetInMemory(int index){
+    public void SetInMemory(int index){
         OptionsManager.Self.SetMoveMode((MoveModeEnum)index);
     }
 }

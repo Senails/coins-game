@@ -23,8 +23,6 @@ public class OptionsManager : MonoBehaviour
 
 
     private void SaveOptionsConfig(){
-        if (Config == null) return;
-
         string textConfig = JsonSerializer.Serialize(Config);
         PlayerPrefs.SetString("options",textConfig);
         OnChangeConfig?.Invoke();
@@ -46,6 +44,10 @@ public class OptionsManager : MonoBehaviour
     }
     public void SetMoveMode(MoveModeEnum mode){
         Config.MoveMode = mode;
+        SaveOptionsConfig();
+    }
+    public void ResetOptions(){
+        Config = new OptionsConfig();
         SaveOptionsConfig();
     }
 }
