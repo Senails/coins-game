@@ -36,8 +36,8 @@ public class OptionsManager : MonoBehaviour
 
 
     public void SetActionKey(string actionName, KeyCode code){
-        if (!Config.KyeDictionary.ContainsKey(actionName)) return;
-        if (Config.KyeDictionary.ContainsValue(code)) return;
+        if (!Config.KyeDictionary.ContainsKey(actionName)) return ;
+        if (Config.KyeDictionary.ContainsValue(code)) return ;
 
         Config.KyeDictionary[actionName] = code;
         SaveOptionsConfig();

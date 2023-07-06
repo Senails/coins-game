@@ -54,7 +54,9 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
         ListAllSlotsOnScreen.Remove(this);
         GameObject.Destroy(this.gameObject);
     }
-
+    public void OnDisable() {
+        Remove();
+    }
 
     private void DragAndDropHandler(){
         Vector2 mP = findMousePositionInCanvas();
@@ -87,6 +89,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
         });
     }
     private ItemSlot FindDropEndSlot(float x,float y){
+        Debug.Log(ListAllSlotsOnScreen.Count);
         foreach(var slot in ListAllSlotsOnScreen){
             if (CheckCordsInUIRect(x,y,slot.gameObject)) return slot;
         }

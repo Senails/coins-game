@@ -6,8 +6,10 @@ public class KeyOptionsUI : MonoBehaviour
 {
     public GameObject LineObjectPrefab;
 
-    void Start()
-    {
+    private void Start() {
+        Render();
+    }
+    private void OnEnable() {
         Render();
     }
 
