@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-using static OptionsManager;
+using OptionsTypes;
 
 public class MoveModeSelector : MonoBehaviour
 {
@@ -31,12 +31,12 @@ public class MoveModeSelector : MonoBehaviour
     }
 
     void selectFromMemory(){
-        int index = (int) OptionsManager.MoveMode;
+        int index = (int) OptionsManager.Config.MoveMode;
         var child = transform.GetChild(index);
         MoveModeSelector.Select(child);
     }
 
     void SetInMemory(int index){
-        OptionsManager.SetMoveMode((MoveModeEnum)index);
+        OptionsManager.Self.SetMoveMode((MoveModeEnum)index);
     }
 }

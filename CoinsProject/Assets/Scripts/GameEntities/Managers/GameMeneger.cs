@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameMeneger : MonoBehaviour
 {
+    public LargeMapWindow LargeMap;
     public MenuScript Menu;
     public static GameStatus Status = GameStatus.play;
     private static int blockGameLavel = 0;
@@ -17,19 +18,23 @@ public class GameMeneger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)){
             Menu.TogleMenu();
         }
+        if (Input.GetKeyDown(OptionsManager.Config.KyeDictionary["Карта"])){
+            LargeMap.TogleMap();
+        }
     }
 
-    static public void PauseGame(){
+
+    public static void PauseGame(){
         blockGameLavel++;
         PlayPauseGame();
     }
-    static public void PlayGame(){
+    public static void PlayGame(){
         blockGameLavel--;
         PlayPauseGame();
     }
 
 
-    static private void PlayPauseGame(){
+    private static void PlayPauseGame(){
         if (blockGameLavel>0){
             Status = GameStatus.pause;
             Time.timeScale=0;

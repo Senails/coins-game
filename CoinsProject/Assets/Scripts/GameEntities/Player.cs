@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-using static OptionsManager;
+using OptionsTypes;
 using static GameCordsLib;
 
 public class Player : MonoBehaviour
@@ -51,13 +51,13 @@ public class Player : MonoBehaviour
 
 
     private Vector2 FindDirection(){
-        if (OptionsManager.MoveMode==MoveModeEnum.hybrid){
+        if (OptionsManager.Config.MoveMode==MoveModeEnum.hybrid){
             Vector2 direction = FindDirectionKeyboard();
             if (direction.magnitude==0){
                 direction = FindDirectionMouse();
             }
             return direction;
-        }else if (OptionsManager.MoveMode==MoveModeEnum.keyboard){
+        }else if (OptionsManager.Config.MoveMode==MoveModeEnum.keyboard){
             return FindDirectionKeyboard();;
         }
         return FindDirectionMouse();
