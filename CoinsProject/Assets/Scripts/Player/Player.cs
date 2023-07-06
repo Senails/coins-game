@@ -64,13 +64,25 @@ public class Player : MonoBehaviour
     }
     private Vector2 FindDirectionKeyboard(){
         Vector2 direction = new Vector2(){
-            x = Input.GetAxisRaw("Horizontal"),
-            y = Input.GetAxisRaw("Vertical"),
+            x = FindDirectionKeyboardX(),
+            y = FindDirectionKeyboardY(),
         }.normalized;
         
         return Input.GetKey(KeyCode.LeftShift)?
         direction*MaxSpeed:
         direction*MinSpeed;
+    }
+    private float FindDirectionKeyboardX(){
+        int i = 0;
+        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Вправо"])) i++;
+        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Влево"])) i--;
+        return i;
+    }
+    private float FindDirectionKeyboardY(){
+        int i = 0;
+        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Вверх"])) i++;
+        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Вниз"])) i--;
+        return i;
     }
     private Vector2 FindDirectionMouse(){
         if (!Input.GetMouseButton(0)) return new Vector2(0,0);

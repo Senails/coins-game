@@ -16,7 +16,7 @@ namespace OptionsTypes{
             { "Карта" , KeyCode.M},
             { "Инвентарь" , KeyCode.I},
             { "Взаимодействие" , KeyCode.E},
-            { "Атака" , KeyCode.A},
+            { "Атака" , KeyCode.Space},
 
             { "Ячейка 1" , KeyCode.Alpha1},
             { "Ячейка 2" , KeyCode.Alpha2},
