@@ -89,7 +89,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
         });
     }
     private ItemSlot FindDropEndSlot(float x,float y){
-        Debug.Log(ListAllSlotsOnScreen.Count);
         foreach(var slot in ListAllSlotsOnScreen){
             if (CheckCordsInUIRect(x,y,slot.gameObject)) return slot;
         }
