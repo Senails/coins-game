@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class MiniMapCamera : MonoBehaviour
 {
-    public GameObject Player;
-
     private void Update()
     {
-        transform.position = new Vector3(Player.transform.position.x,Player.transform.position.y,-10);
+        transform.position = new Vector3(Player.Self.transform.position.x,Player.Self.transform.position.y,-10);
     }
 }

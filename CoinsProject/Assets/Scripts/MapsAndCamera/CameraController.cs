@@ -9,9 +9,8 @@ using static AsyncLib;
 public class CameraController : MonoBehaviour
 {
     public GameObject BorderRectForCamera;
-    public GameObject UserObject;
-
-
+    
+    private Player _playerObject;
     private Rigidbody2D _rb;
     private Vector2 _virtualCameraPosition;
     private float _normalCameraSize;
@@ -21,6 +20,8 @@ public class CameraController : MonoBehaviour
         _virtualCameraPosition = Camera.main.transform.position;
         _normalCameraSize = Camera.main.orthographicSize;
         _rb = this.GetComponent<Rigidbody2D>();
+
+        _playerObject = Player.Self;
     }
     private void LateUpdate () {
         if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
@@ -32,7 +33,7 @@ public class CameraController : MonoBehaviour
     
 
     private void MoveCamera(){
-        Vector2 userCords = this.UserObject.transform.position; 
+        Vector2 userCords = _playerObject.transform.position; 
         BorderCords borderCords = GetBorderCordsForCamera(this.BorderRectForCamera);
 
         Vector2 needCords = (userCords - _virtualCameraPosition)*2 + _virtualCameraPosition;
@@ -71,7 +72,7 @@ public class CameraController : MonoBehaviour
     private void CalculateNewCameraPosition(){
         Vector2 cameraSizes = GetSizesGameObject(Camera.main);
 
-        Vector2 user = this.UserObject.transform.position; 
+        Vector2 user = _playerObject.transform.position; 
         Vector2 camera = _virtualCameraPosition; 
 
 

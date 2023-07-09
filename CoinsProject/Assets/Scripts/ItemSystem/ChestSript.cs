@@ -21,11 +21,13 @@ public class ChestSript : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other){
+        if (other.tag != "Player") return;
         HintManager.Connect();
         this.connect = true;
     }
-    private void OnTriggerExit2D(Collider2D other) {
+    private void OnTriggerExit2D(Collider2D other){
+        if (other.tag != "Player") return;
         HintManager.Disconnect();
         this.connect = false;
         ItemManager.Self.CloseChestWindow();

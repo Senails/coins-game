@@ -10,44 +10,40 @@ public class Player : MonoBehaviour
     public float MinSpeed=4;
 
 
-    public GameObject ImagesConteiner;
-    private int _indexActiveImage;
+    private Animator _animator;
     private Rigidbody2D _rb;
 
 
+    public static Player Self;
+
+    private void Awake() {
+        Self = this;
+    }
     private void Start() {
         _rb = this.GetComponent<Rigidbody2D>();
+        _animator = this.GetComponent<Animator>();
     }
     private void Update(){
         if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
 
         Vector2 direction = FindDirection();
         MovePlayer(direction);
-        if (direction.magnitude==0) return;
-        RecalculateImage(direction);
+        ChangeAnimation(direction);
     }
 
 
     private void MovePlayer(Vector2 Direction){
         _rb.velocity = Direction;
     }
-    private void RecalculateImage(Vector2 Direction){
-        int imageIndex = 
-        Mathf.Abs(Direction.y) > Mathf.Abs(Direction.x)?
-        (Direction.y>0 ? 1:0):
-        (Direction.x>0 ? 3:2);
+    private void ChangeAnimation(Vector2 Direction){
+        Vector2 vector = Direction.normalized;
 
-        if (Direction.magnitude==0) imageIndex = 0;
 
-        for(int i=0; i<ImagesConteiner.transform.childCount;i++){
-            var child = ImagesConteiner.transform.GetChild(i);
-            child.gameObject.SetActive(i==imageIndex);
-        }
-
-        _indexActiveImage = imageIndex;
+        _animator.SetFloat("activeSpeed",vector.magnitude);
+        if(vector.magnitude==0) return;
+        _animator.SetFloat("directionX",vector.x);
+        _animator.SetFloat("directionY",vector.y);
     }
-
-
 
 
     private Vector2 FindDirection(){
