@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 using ItemSystemTypes;
+using static ItemSystemUtils;
 
 
 public class InventoryR: ItemListConteiner
@@ -43,7 +44,17 @@ public class InventoryR: ItemListConteiner
             if(freePositions>=stackCount) break;
         }
 
-        return Mathf.Clamp(freePositions,0,stackCount);
+        int result = Mathf.Clamp(freePositions,0,stackCount);
+
+
+        //limit heal potions in inventory
+        if (Item.item.id==2){
+            int potionInInventory = FindCountItemsInConteiner(this,2);
+            if (potionInInventory>3) return 0;
+            result = Mathf.Min(result,4-potionInInventory);
+        }
+
+        return result;
     }
     public void AddItem(ItemOnInventoryR Item,ItemSlot preferSlot = null){
         if(Item.count==0) return;

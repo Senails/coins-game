@@ -6,6 +6,6 @@ using ItemSystemTypes;
 public class HealAction : ActionBase
 {
     override public void Invoke(){
-        Debug.Log("Use Heal");
+        Player.Self.AddHealth(30);
     }
 }
