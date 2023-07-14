@@ -15,6 +15,7 @@ public class ChestR: ItemListConteiner
 
     public ItemOnInventoryR[] ItemArray { get; set; }
     public event Action OnChange;
+    public Action OnOpenChest;
 
 
     public string Name = "Chest999";

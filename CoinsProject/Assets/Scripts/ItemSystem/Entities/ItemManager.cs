@@ -21,7 +21,7 @@ public class ItemManager : MonoBehaviour
         Self = this;
     }
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.I)){
+        if (Input.GetKeyDown(OptionsManager.Config.KyeDictionary["Инвентарь"])){
             TogleInventoryWindow();
         }
     }
@@ -47,6 +47,7 @@ public class ItemManager : MonoBehaviour
 
     public void OpenChestWindow(ChestR chest){
         ConectedChest = chest;
+        chest.OnOpenChest?.Invoke();
         ChestWin.gameObject.SetActive(true);
         ChestWin.Init();
         OpenInventoryWindow();

@@ -3,6 +3,8 @@ using UnityEngine;
 using TMPro;
 using ItemSystemTypes;
 
+using static KeyUtils;
+
 public class ItemPanelWindow : MonoBehaviour
 {
     public GameObject SlotConteiner;
@@ -12,32 +14,30 @@ public class ItemPanelWindow : MonoBehaviour
 
     private void Start() {
         _itemPanel = new ItemPanel();
-        _itemPanel.OnChange+=()=>{
-            Render();
-        };
+
+        _itemPanel.OnChange += Render;
+        OptionsManager.Self.OnChangeConfig += Render;
+
         Render();
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.Alpha1)){
-            _itemPanel.UseItemInSlot(0);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2)){
-            _itemPanel.UseItemInSlot(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3)){
-            _itemPanel.UseItemInSlot(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4)){
-            _itemPanel.UseItemInSlot(3);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5)){
-            _itemPanel.UseItemInSlot(4);
+        var KyeDictionary = OptionsManager.Config.KyeDictionary;
+        ItemOnInventoryR[] arr = _itemPanel.ItemArray;
+
+        int i = 0;
+        foreach(var Item in _itemPanel.ItemArray){
+            if (Input.GetKeyDown(KyeDictionary[$"Ячейка {i+1}"])){
+                _itemPanel.UseItemInSlot(i);
+            }
+            i++;
         }
     }
 
+
     public void Render(){
         RemoveSlots();
+        var KyeDictionary = OptionsManager.Config.KyeDictionary;
         ItemOnInventoryR[] arr = _itemPanel.ItemArray;
 
         int i = 0;
@@ -49,7 +49,10 @@ public class ItemPanelWindow : MonoBehaviour
             itemSlot.Init(Item,_itemPanel);
 
             int j = i++;
-            slot.Init($"{j+1}");
+
+            KeyCode code = KyeDictionary[$"Ячейка {i}"];
+            slot.Init(GetNameKey(code));
+
             itemSlot.OnLeftClick = ()=>{
                 _itemPanel.UseItemInSlot(j);
             };
@@ -63,4 +66,5 @@ public class ItemPanelWindow : MonoBehaviour
             GameObject.Destroy(SlotConteiner.transform.GetChild(i).gameObject);
         }
     }
+
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
 
+using static MyDateLib;
+
 static class AsyncLib {
     //отложеный запуск с возможностью отмены
     static public Action setTimeout(AsyncAction action,int ms){
@@ -64,6 +66,20 @@ static class AsyncLib {
 
         return ()=>{
             flag = true;
+        };
+    }
+
+
+    //создает функцию которая принимает колбек , но срабатывает с ограничением по времени
+    static public Action<Action> CreateTrotlingFunc(int ms){
+        long lastUse = getDateMilisec(); 
+
+        return (Action callback)=>{
+            long now = getDateMilisec();
+            if ( now-lastUse < ms) return;
+
+            lastUse = now;
+            callback.Invoke();
         };
     }
 
