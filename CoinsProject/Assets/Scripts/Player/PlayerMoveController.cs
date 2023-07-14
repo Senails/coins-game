@@ -6,6 +6,7 @@ using static GameCordsLib;
 
 public class PlayerMoveController : MonoBehaviour
 {
+    public static Vector2 PlayerDirection;
     public float MaxSpeed=5;
     public float MinSpeed=4;
 
@@ -36,6 +37,7 @@ public class PlayerMoveController : MonoBehaviour
 
         _animator.SetFloat("activeSpeed",vector.magnitude);
         if(vector.magnitude==0) return;
+        PlayerDirection = Direction;
         _animator.SetFloat("directionX",vector.x);
         _animator.SetFloat("directionY",vector.y);
     }

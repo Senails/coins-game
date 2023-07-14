@@ -50,8 +50,8 @@ public class InventoryR: ItemListConteiner
         //limit heal potions in inventory
         if (Item.item.id==2){
             int potionInInventory = FindCountItemsInConteiner(this,2);
-            if (potionInInventory>3) return 0;
-            result = Mathf.Min(result,4-potionInInventory);
+            if (potionInInventory>9) return 0;
+            result = Mathf.Min(result,10-potionInInventory);
         }
 
         return result;

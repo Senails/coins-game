@@ -12,9 +12,10 @@ public class Player : MonoBehaviour
     private Action<Action> _trotlingAttack = CreateTrotlingFunc(800);
 
 
-    public int MaxHealth;
-    public int Health;
-    public int PowerAttack;
+    public int MaxHealth = 100;
+    public int Health = 100;
+    public int PowerAttack = 30;
+    public float AttackRange = 2;
 
 
     public event Action<int,int> OnChengeHealth;
@@ -37,8 +38,26 @@ public class Player : MonoBehaviour
     private void Attack(){
         _animator.SetBool("isAttack",true);
         setTimeout(()=>{
+            foreach(var enemy in Enemy_Fight.EnemyList) TryAttackEnemy(enemy);
+        },100);
+        setTimeout(()=>{
             _animator.SetBool("isAttack",false);
         },340);
+    }
+    private void TryAttackEnemy(Enemy_Fight enemy){
+        Vector2 delta = enemy.transform.position - transform.position;
+        if (delta.magnitude>AttackRange) return;
+        delta = delta.normalized;
+        Vector2 plyerDirection = PlayerMoveController.PlayerDirection.normalized;
+
+        float agle1 = Mathf.Atan2(delta.x,delta.y)*180/MathF.PI;
+        float agle2 = Mathf.Atan2(plyerDirection.x,plyerDirection.y)*180/MathF.PI;
+
+        float deltaAngle = agle1-agle2;
+
+        if (Math.Abs(deltaAngle)<60 || Math.Abs(deltaAngle)>300){
+            enemy.RemoveHealth(PowerAttack);
+        }
     }
 
 
@@ -47,7 +66,7 @@ public class Player : MonoBehaviour
         
         if (this.Health<=0){
             this.Health = 0;
-            OnDeath.Invoke();
+            OnDeath?.Invoke();
         }
         OnChengeHealth.Invoke(this.Health,this.MaxHealth);
     }

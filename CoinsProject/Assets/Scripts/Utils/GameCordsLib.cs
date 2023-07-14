@@ -90,6 +90,15 @@ public static class GameCordsLib{
     }
 
 
+    public static bool CheckObjectOnScreen(GameObject obj){
+        Vector2 summSizes = GetSizesGameObject(obj)+GetSizesGameObject(Camera.main);
+
+        Vector2 delta = Camera.main.transform.position - obj.transform.position;
+        if (delta.x > summSizes.x/2) return false;
+        if (delta.y > summSizes.y/2) return false;
+        return true;
+    }
+
     public record BorderCords{
         public float MinX = 0;
         public float MaxX = 0;
