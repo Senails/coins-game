@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public static Player Self;
 
 
+    private Vector2 _startPosition;
     private Animator _animator;
     private Action<Action> _trotlingAttack = CreateTrotlingFunc(800);
 
@@ -18,8 +19,9 @@ public class Player : MonoBehaviour
     public float AttackRange = 2;
 
 
+    public bool IsDeath = false;
+    public GameObject DeathScreen;
     public event Action<int,int> OnChengeHealth;
-    public event Action OnDeath;
 
 
     private void Awake() {
@@ -27,9 +29,11 @@ public class Player : MonoBehaviour
     }
     private void Start() {
         _animator = this.GetComponent<Animator>();
+        _startPosition = transform.position;
     }
     private void Update() {
         if (Input.GetKey(OptionsManager.Config.KyeDictionary["Атака"])){
+            if (IsDeath) return;
             _trotlingAttack(Attack);
         }
     }
@@ -38,7 +42,10 @@ public class Player : MonoBehaviour
     private void Attack(){
         _animator.SetBool("isAttack",true);
         setTimeout(()=>{
-            foreach(var enemy in Enemy_Fight.EnemyList) TryAttackEnemy(enemy);
+            foreach(var enemy in Enemy_Fight.EnemyList){
+                
+                TryAttackEnemy(enemy);
+            }
         },100);
         setTimeout(()=>{
             _animator.SetBool("isAttack",false);
@@ -56,7 +63,9 @@ public class Player : MonoBehaviour
         float deltaAngle = agle1-agle2;
 
         if (Math.Abs(deltaAngle)<60 || Math.Abs(deltaAngle)>300){
-            enemy.RemoveHealth(PowerAttack);
+            setTimeout(()=>{
+                enemy.RemoveHealth(PowerAttack);
+            },1);
         }
     }
 
@@ -66,7 +75,7 @@ public class Player : MonoBehaviour
         
         if (this.Health<=0){
             this.Health = 0;
-            OnDeath?.Invoke();
+            Death();
         }
         OnChengeHealth.Invoke(this.Health,this.MaxHealth);
     }
@@ -74,5 +83,19 @@ public class Player : MonoBehaviour
         Health += count;
         Health =  Health > MaxHealth ? MaxHealth : Health;
         OnChengeHealth?.Invoke( Health, MaxHealth);
+    }
+
+
+    public void Death(){
+        _animator.SetBool("isDeath",true);
+        IsDeath = true;
+        DeathScreen.SetActive(true);
+    }
+    public void Respawn(){
+        transform.position = _startPosition;
+        AddHealth(MaxHealth);
+        IsDeath = false;
+        _animator.SetBool("isDeath",false);
+        DeathScreen.SetActive(false);
     }
 }

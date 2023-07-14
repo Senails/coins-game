@@ -22,7 +22,10 @@ public class PlayerMoveController : MonoBehaviour
     private void Update(){
         if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
 
-        Vector2 direction = FindDirection();
+        Vector2 direction = new Vector2(0,0);
+        if (!Player.Self.IsDeath){
+            direction = FindDirection();
+        }
         MovePlayer(direction);
         ChangeAnimationProps(direction);
     }

@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+using static UiCordsLib;
+
 public static class GameCordsLib{
     public static Vector2 RandomCordsInGameRect(GameObject rect){
         BorderCords borderCords = GetBorderCordsGameRect(rect);
@@ -17,10 +19,11 @@ public static class GameCordsLib{
 
 
     public static Vector2 GetSizesGameObject(GameObject obj){
-        return new Vector2{
-            x = obj.transform.localScale.x,
-            y = obj.transform.localScale.y
-        };
+        Renderer ren = obj.GetComponent<Renderer>();
+        Vector2 rrr = ren.bounds.size;
+        // Debug.Log(rrr);
+
+        return ren.bounds.size;
     }
     public static Vector2 GetSizesGameObject(Camera camera){
         float heightCamera = camera.orthographicSize*2;
@@ -94,8 +97,8 @@ public static class GameCordsLib{
         Vector2 summSizes = GetSizesGameObject(obj)+GetSizesGameObject(Camera.main);
 
         Vector2 delta = Camera.main.transform.position - obj.transform.position;
-        if (delta.x > summSizes.x/2) return false;
-        if (delta.y > summSizes.y/2) return false;
+        if (Mathf.Abs(delta.x) > summSizes.x/2) return false;
+        if (Mathf.Abs(delta.y) > summSizes.y/2) return false;
         return true;
     }
 

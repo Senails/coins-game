@@ -32,6 +32,7 @@ public class Enemy_Move : MonoBehaviour
                 direction = FindDirection();
             }else{
                 transform.position = _startPosition;
+                return;
             }
         }
         ChangeAnimation(direction);
@@ -40,7 +41,7 @@ public class Enemy_Move : MonoBehaviour
 
     private Vector2 FindDirection(){
         Vector2 toPlayerVector = Player.Self.transform.position - transform.position;
-        if (toPlayerVector.magnitude<AgrRadius){
+        if (toPlayerVector.magnitude<AgrRadius && !Player.Self.IsDeath){
             return toPlayerVector.normalized;
         }
         Vector2 toSpawnVector = _startPosition - (Vector2)transform.position;
