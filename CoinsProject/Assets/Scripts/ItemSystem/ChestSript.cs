@@ -16,7 +16,7 @@ public class ChestSript : MonoBehaviour
     }
     private void Update() {
         if (!connect) return;
-        if (!Input.GetKeyDown(KeyCode.E)) return;
+        if (!Input.GetKeyDown(OptionsManager.Config.KyeDictionary["Взаимодействие"])) return;
         ItemManager.Self.TogleChestWindow(_chestEntiti);
     }
 

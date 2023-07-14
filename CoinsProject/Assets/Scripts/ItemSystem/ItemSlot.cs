@@ -54,7 +54,9 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
         ListAllSlotsOnScreen.Remove(this);
         GameObject.Destroy(this.gameObject);
     }
-
+    public void OnDisable() {
+        Remove();
+    }
 
     private void DragAndDropHandler(){
         Vector2 mP = findMousePositionInCanvas();

@@ -21,7 +21,7 @@ public class ItemManager : MonoBehaviour
         Self = this;
     }
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.I)){
+        if (Input.GetKeyDown(OptionsManager.Config.KyeDictionary["Инвентарь"])){
             TogleInventoryWindow();
         }
     }
