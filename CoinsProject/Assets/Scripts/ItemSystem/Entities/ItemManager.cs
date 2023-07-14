@@ -47,6 +47,7 @@ public class ItemManager : MonoBehaviour
 
     public void OpenChestWindow(ChestR chest){
         ConectedChest = chest;
+        chest.OnOpenChest?.Invoke();
         ChestWin.gameObject.SetActive(true);
         ChestWin.Init();
         OpenInventoryWindow();

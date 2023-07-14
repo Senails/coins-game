@@ -7,25 +7,29 @@ public class ChestSript : MonoBehaviour
     public int SlotsCount;
 
 
+    public ChestR ChestEntiti;
+    public PotionGenerator PotionGen;
     private bool connect = false;
-    private ChestR _chestEntiti;
 
     
     private void Start() {
-        _chestEntiti = new ChestR(BankName,MaxMass,SlotsCount);
+        ChestEntiti = new ChestR(BankName,MaxMass,SlotsCount);
+        PotionGen = new PotionGenerator(ChestEntiti);
     }
     private void Update() {
         if (!connect) return;
         if (!Input.GetKeyDown(OptionsManager.Config.KyeDictionary["Взаимодействие"])) return;
-        ItemManager.Self.TogleChestWindow(_chestEntiti);
+        ItemManager.Self.TogleChestWindow(ChestEntiti);
     }
 
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other){
+        if (other.tag != "Player") return;
         HintManager.Connect();
         this.connect = true;
     }
-    private void OnTriggerExit2D(Collider2D other) {
+    private void OnTriggerExit2D(Collider2D other){
+        if (other.tag != "Player") return;
         HintManager.Disconnect();
         this.connect = false;
         ItemManager.Self.CloseChestWindow();

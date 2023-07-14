@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 using ItemSystemTypes;
+using static ItemSystemUtils;
 
 
 public class ItemPanel: ItemListConteiner
@@ -70,14 +71,7 @@ public class ItemPanel: ItemListConteiner
 
         foreach(ItemOnInventoryR Item in ItemArray){
             if (Item.item == null) continue;
-            int count = 0;
-
-            foreach(ItemOnInventoryR invItem in invItemArray){
-                if (invItem.item == null) continue;
-                if (invItem.item.id == Item.item.id) count += invItem.count;
-            }
-
-            Item.count = count;
+            Item.count = FindCountItemsInConteiner(ItemManager.Self.Inventory,Item.item.id);
         }
     }
     

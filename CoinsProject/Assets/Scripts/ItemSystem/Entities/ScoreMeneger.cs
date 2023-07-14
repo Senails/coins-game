@@ -5,6 +5,7 @@ using TMPro;
 
 using ItemSystemTypes;
 using static AsyncLib;
+using static ItemSystemUtils;
 
 public class ScoreMeneger : MonoBehaviour
 {
@@ -32,15 +33,8 @@ public class ScoreMeneger : MonoBehaviour
     public int RecaculateScore(){
         int count = 0;
 
-        foreach(ItemOnInventoryR elem in ItemManager.Self.Inventory.ItemArray){
-            if (elem.item==null || elem.count==0) continue;
-            if (elem.item.id==0){
-                count+=elem.count;
-            }
-            if (elem.item.id==1){
-                count+=elem.count*2;
-            }
-        }
+        count+=FindCountItemsInConteiner(ItemManager.Self.Inventory,0);
+        count+= 2*FindCountItemsInConteiner(ItemManager.Self.Inventory,1);
         
         return count;
     }

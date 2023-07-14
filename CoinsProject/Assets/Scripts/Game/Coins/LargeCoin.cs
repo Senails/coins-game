@@ -15,11 +15,13 @@ public class LargeCoin : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
+        if (other.tag != "Player") return;
         _connect = true;
         HintManager.Connect();
     }
 
     private void OnTriggerExit2D(Collider2D other) {
+        if (other.tag != "Player") return;
         _connect = false;
         HintManager.Disconnect();
     }

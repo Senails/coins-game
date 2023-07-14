@@ -9,9 +9,8 @@ using static AsyncLib;
 public class CameraController : MonoBehaviour
 {
     public GameObject BorderRectForCamera;
-    public GameObject UserObject;
-
-
+    
+    private Player _playerObject;
     private Rigidbody2D _rb;
     private Vector2 _virtualCameraPosition;
     private float _normalCameraSize;
@@ -21,6 +20,8 @@ public class CameraController : MonoBehaviour
         _virtualCameraPosition = Camera.main.transform.position;
         _normalCameraSize = Camera.main.orthographicSize;
         _rb = this.GetComponent<Rigidbody2D>();
+
+        _playerObject = Player.Self;
     }
     private void LateUpdate () {
         if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
@@ -32,10 +33,11 @@ public class CameraController : MonoBehaviour
     
 
     private void MoveCamera(){
-        Vector2 userCords = this.UserObject.transform.position; 
+        Vector2 userCords = _playerObject.transform.position; 
         BorderCords borderCords = GetBorderCordsForCamera(this.BorderRectForCamera);
 
-        Vector2 needCords = (userCords - _virtualCameraPosition)*2 + _virtualCameraPosition;
+        // Vector2 needCords = (userCords - _virtualCameraPosition)*2 + _virtualCameraPosition;
+        Vector2 needCords = _virtualCameraPosition;
 
         needCords.x = Mathf.Clamp(needCords.x,borderCords.MinX,borderCords.MaxX);
         needCords.y = Mathf.Clamp(needCords.y,borderCords.MinY,borderCords.MaxY);
@@ -69,17 +71,19 @@ public class CameraController : MonoBehaviour
         }
     }
     private void CalculateNewCameraPosition(){
+        int constNum = 16;
+
         Vector2 cameraSizes = GetSizesGameObject(Camera.main);
 
-        Vector2 user = this.UserObject.transform.position; 
+        Vector2 user = _playerObject.transform.position; 
         Vector2 camera = _virtualCameraPosition; 
 
 
-        camera.x = Mathf.Clamp(camera.x,user.x-cameraSizes.x/8,user.x+cameraSizes.x/8);
-        camera.y = Mathf.Clamp(camera.y,user.y-cameraSizes.y/8,user.y+cameraSizes.y/8);
+        camera.x = Mathf.Clamp(camera.x,user.x-cameraSizes.x/constNum,user.x+cameraSizes.x/constNum);
+        camera.y = Mathf.Clamp(camera.y,user.y-cameraSizes.y/constNum,user.y+cameraSizes.y/constNum);
 
 
-        if ((user-camera).magnitude > (cameraSizes/40).magnitude){
+        if ((user-camera).magnitude > (cameraSizes/(constNum*5)).magnitude){
             camera = camera + (user-camera)*Time.deltaTime;
         }
         _virtualCameraPosition = camera;

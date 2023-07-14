@@ -1,102 +1,101 @@
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-using OptionsTypes;
-using static GameCordsLib;
+using static AsyncLib;
 
 public class Player : MonoBehaviour
 {
-    public float MaxSpeed=5;
-    public float MinSpeed=4;
+    public static Player Self;
 
 
-    public GameObject ImagesConteiner;
-    private int _indexActiveImage;
-    private Rigidbody2D _rb;
+    private Vector2 _startPosition;
+    private Animator _animator;
+    private Action<Action> _trotlingAttack = CreateTrotlingFunc(800);
 
 
+    public int MaxHealth = 100;
+    public int Health = 100;
+    public int PowerAttack = 30;
+    public float AttackRange = 2;
+
+
+    public bool IsDeath = false;
+    public GameObject DeathScreen;
+    public event Action<int,int> OnChengeHealth;
+
+
+    private void Awake() {
+        Self = this;
+    }
     private void Start() {
-        _rb = this.GetComponent<Rigidbody2D>();
+        _animator = this.GetComponent<Animator>();
+        _startPosition = transform.position;
     }
-    private void Update(){
-        if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
-
-        Vector2 direction = FindDirection();
-        MovePlayer(direction);
-        if (direction.magnitude==0) return;
-        RecalculateImage(direction);
-    }
-
-
-    private void MovePlayer(Vector2 Direction){
-        _rb.velocity = Direction;
-    }
-    private void RecalculateImage(Vector2 Direction){
-        int imageIndex = 
-        Mathf.Abs(Direction.y) > Mathf.Abs(Direction.x)?
-        (Direction.y>0 ? 1:0):
-        (Direction.x>0 ? 3:2);
-
-        if (Direction.magnitude==0) imageIndex = 0;
-
-        for(int i=0; i<ImagesConteiner.transform.childCount;i++){
-            var child = ImagesConteiner.transform.GetChild(i);
-            child.gameObject.SetActive(i==imageIndex);
+    private void Update() {
+        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Атака"])){
+            if (IsDeath) return;
+            _trotlingAttack(Attack);
         }
-
-        _indexActiveImage = imageIndex;
     }
 
 
-
-
-    private Vector2 FindDirection(){
-        if (OptionsManager.Config.MoveMode==MoveModeEnum.hybrid){
-            Vector2 direction = FindDirectionKeyboard();
-            if (direction.magnitude==0){
-                direction = FindDirectionMouse();
+    private void Attack(){
+        _animator.SetBool("isAttack",true);
+        setTimeout(()=>{
+            foreach(var enemy in Enemy_Fight.EnemyList){
+                
+                TryAttackEnemy(enemy);
             }
-            return direction;
-        }else if (OptionsManager.Config.MoveMode==MoveModeEnum.keyboard){
-            return FindDirectionKeyboard();;
+        },100);
+        setTimeout(()=>{
+            _animator.SetBool("isAttack",false);
+        },340);
+    }
+    private void TryAttackEnemy(Enemy_Fight enemy){
+        Vector2 delta = enemy.transform.position - transform.position;
+        if (delta.magnitude>AttackRange) return;
+        delta = delta.normalized;
+        Vector2 plyerDirection = PlayerMoveController.PlayerDirection.normalized;
+
+        float agle1 = Mathf.Atan2(delta.x,delta.y)*180/MathF.PI;
+        float agle2 = Mathf.Atan2(plyerDirection.x,plyerDirection.y)*180/MathF.PI;
+
+        float deltaAngle = agle1-agle2;
+
+        if (Math.Abs(deltaAngle)<60 || Math.Abs(deltaAngle)>300){
+            setTimeout(()=>{
+                enemy.RemoveHealth(PowerAttack);
+            },1);
         }
-        return FindDirectionMouse();
     }
-    private Vector2 FindDirectionKeyboard(){
-        Vector2 direction = new Vector2(){
-            x = FindDirectionKeyboardX(),
-            y = FindDirectionKeyboardY(),
-        }.normalized;
+
+
+    public void RemoveHealth(int count){
+        this.Health-=count;
         
-        return Input.GetKey(KeyCode.LeftShift)?
-        direction*MaxSpeed:
-        direction*MinSpeed;
+        if (this.Health<=0){
+            this.Health = 0;
+            Death();
+        }
+        OnChengeHealth.Invoke(this.Health,this.MaxHealth);
     }
-    private float FindDirectionKeyboardX(){
-        int i = 0;
-        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Вправо"])) i++;
-        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Влево"])) i--;
-        return i;
+    public void AddHealth(int count){
+        Health += count;
+        Health =  Health > MaxHealth ? MaxHealth : Health;
+        OnChengeHealth?.Invoke( Health, MaxHealth);
     }
-    private float FindDirectionKeyboardY(){
-        int i = 0;
-        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Вверх"])) i++;
-        if (Input.GetKey(OptionsManager.Config.KyeDictionary["Вниз"])) i--;
-        return i;
+
+
+    public void Death(){
+        _animator.SetBool("isDeath",true);
+        IsDeath = true;
+        DeathScreen.SetActive(true);
     }
-    private Vector2 FindDirectionMouse(){
-        if (!Input.GetMouseButton(0)) return new Vector2(0,0);
-        if (EventSystem.current.IsPointerOverGameObject()) return new Vector2(0,0);
-
-        Vector2 mouseCords = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 userCords = transform.position;
-        Vector2 direction = (mouseCords - userCords).normalized;
-
-        if (Input.GetKey(KeyCode.LeftShift)) return direction*MaxSpeed;
-        
-        float speedKoef = (userCords-mouseCords).magnitude/(GetSizesGameObject(Camera.main).magnitude/8);
-        speedKoef = Mathf.Clamp(speedKoef,0,1);
-
-        return direction*speedKoef*MaxSpeed;
-    } 
+    public void Respawn(){
+        transform.position = _startPosition;
+        AddHealth(MaxHealth);
+        IsDeath = false;
+        _animator.SetBool("isDeath",false);
+        DeathScreen.SetActive(false);
+    }
 }

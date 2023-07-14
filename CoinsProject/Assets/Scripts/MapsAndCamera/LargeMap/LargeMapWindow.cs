@@ -7,8 +7,14 @@ using static UiCordsLib;
 public class LargeMapWindow : MonoBehaviour
 {
     public LargeMapCamera MapCamera;
-    public GameObject Player;
 
+
+    private Player _playerObject;
+
+
+    private void Start() {
+        _playerObject = Player.Self;
+    }
     public void TogleMap(){
         if (gameObject.activeSelf){
             Close();
@@ -21,8 +27,9 @@ public class LargeMapWindow : MonoBehaviour
         gameObject.SetActive(false);
     }
     public void Open(){
+        if (_playerObject==null) Start();
         GameMeneger.PauseGame();
         gameObject.SetActive(true);
-        MapCamera.SetPosition(Player.transform.position);
+        MapCamera.SetPosition(_playerObject.gameObject.transform.position);
     }
 }
