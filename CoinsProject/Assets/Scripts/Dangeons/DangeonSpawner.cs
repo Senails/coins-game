@@ -13,11 +13,18 @@ public class DangeonSpawner : MonoBehaviour
 
 
     private static List<Room> AllRoomList = new List<Room>();
+    private Room rootRoom;
 
 
     public void Start(){
         Self = this;
         SpawnDangeon();
+    }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.U)){
+            RemoveRoom(rootRoom);
+        }
     }
     public void SpawnDangeon(){
         List<DBRoom> roomList = RoomsDB.Self.RoomList.FindAll((elem)=>elem.DoorsCount==1);
@@ -26,7 +33,7 @@ public class DangeonSpawner : MonoBehaviour
         int indexRoom = rand.Next(0,roomList.Count-1);
 
         GameObject prefab = roomList[indexRoom].RoomPrefab;
-        Room rootRoom = SpawnRoom(prefab,transform.position);
+        rootRoom = SpawnRoom(prefab,transform.position);
         rootRoom.Init(null,RoomsCount-SpawnedCount);
     }
 
@@ -39,6 +46,13 @@ public class DangeonSpawner : MonoBehaviour
         return room;
     }
     public static void RemoveRoom(Room room){
+        foreach(var ChildRoom in room.ListRooms){
+            if (ChildRoom==room.Parent){ 
+                continue;
+            }
+            RemoveRoom(ChildRoom.room);
+        }
+
         SpawnedCount--;
         AllRoomList.Remove(room);
         Destroy(room.gameObject);

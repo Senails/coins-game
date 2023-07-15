@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,67 +13,113 @@ public class Room : MonoBehaviour
     public GameObject BottomDoor = null;
 
 
-    private List<ConnectedRoom> ListRooms = new List<ConnectedRoom>();
-    private ConnectedRoom _parent = null;
+    public List<ConnectedRoom> ListRooms = new List<ConnectedRoom>();
+    public ConnectedRoom Parent = null;
 
 
     public bool Init(ConnectedRoom parent,int childrenCount){
         if (parent!=null){
-            _parent = parent;
+            Parent = parent;
             ListRooms.Add(parent);
         }
         if (DangeonSpawner.Self.RoomsCount==DangeonSpawner.SpawnedCount) return true;
         if (childrenCount==0) return true;
 
-
         bool isSucces = SpanwnChildrensRooms(childrenCount);
+
         return isSucces;
     }
 
 
     public bool SpanwnChildrensRooms(int childrenCount){
-        // Debug.Log(DangeonSpawner.Self.RoomsCount);
-        // Debug.Log(DangeonSpawner.SpawnedCount);
+        List<int> distribute = DistributeRooms(childrenCount);
+        int index = 0;
 
-        if (LeftDoor!=null && _parent?.door != ConnectedDoor.right){ 
-            return SpanwnOneChildrenRoom(ConnectedDoor.left,childrenCount);
+        if (LeftDoor!=null && Parent?.door != ConnectedDoor.right){ 
+            bool isSucces = SpanwnOneChildrenRoom(ConnectedDoor.left,distribute[index++]);
+            if (!isSucces) return false;
         }
-        if (RightDoor!=null && _parent?.door != ConnectedDoor.left){
-            return SpanwnOneChildrenRoom(ConnectedDoor.right,childrenCount);
+        if (RightDoor!=null && Parent?.door != ConnectedDoor.left){
+            bool isSucces = SpanwnOneChildrenRoom(ConnectedDoor.right,distribute[index++]);
+            if (!isSucces) return false;
         }
-        if (TopDoor!=null && _parent?.door != ConnectedDoor.bottom){
-            return SpanwnOneChildrenRoom(ConnectedDoor.top,childrenCount);
+        if (TopDoor!=null && Parent?.door != ConnectedDoor.bottom){
+            bool isSucces = SpanwnOneChildrenRoom(ConnectedDoor.top,distribute[index++]);
+            if (!isSucces) return false;
         }
-        if (BottomDoor!=null && _parent?.door != ConnectedDoor.top) {
-            return SpanwnOneChildrenRoom(ConnectedDoor.bottom,childrenCount);
+        if (BottomDoor!=null && Parent?.door != ConnectedDoor.top) {
+            bool isSucces = SpanwnOneChildrenRoom(ConnectedDoor.bottom,distribute[index++]);
+            if (!isSucces) return false;
         } 
 
         return true;
     }
     public bool SpanwnOneChildrenRoom(ConnectedDoor direction,int childrenCount){
         List<GameObject> availableRoomList = FindRoomsForDirection(direction,childrenCount);
-
         System.Random rand = new System.Random();
-        int indexRoom = rand.Next(availableRoomList.Count);
 
-        GameObject RoomPrefab = availableRoomList[indexRoom];
-        Vector2 newRoomPosition = FindPositionForRoom(RoomPrefab,direction);
-        bool isAvailablePlace = DangeonSpawner.CheckPlaceForRoom(RoomPrefab,newRoomPosition,this);
 
-        Debug.Log(isAvailablePlace);
+        while(true){
+            if (availableRoomList.Count == 0) return false;
+            int indexRoom = rand.Next(availableRoomList.Count);
+            GameObject RoomPrefab = availableRoomList[indexRoom];
 
-        Room childRoom = DangeonSpawner.SpawnRoom(RoomPrefab,newRoomPosition);
-        return childRoom.Init(new ConnectedRoom{room = this,door = direction} , childrenCount-1);
+            Vector2 newRoomPosition = FindPositionForRoom(RoomPrefab,direction);
+            bool isAvailablePlace = DangeonSpawner.CheckPlaceForRoom(RoomPrefab,newRoomPosition,this);
+
+            if (isAvailablePlace){
+                Room childRoom = DangeonSpawner.SpawnRoom(RoomPrefab,newRoomPosition);
+                bool isSucces = childRoom.Init(new ConnectedRoom{room = this,door = direction} , childrenCount-1);
+            
+                if (isSucces){
+                    ListRooms.Add(new ConnectedRoom{room = childRoom,door = ReverseDirection(direction)});
+                    return true;
+                }
+                DangeonSpawner.RemoveRoom(childRoom);
+            }
+            availableRoomList.Remove(RoomPrefab);
+        }
     }
 
 
+    private List<int> DistributeRooms(int childrenCount){
+        System.Random rand = new System.Random();
+        int roomsCount = childrenCount;
+
+
+        List<int> list = new List<int>();
+        int directionCount = FindCountFreeSlots();
+
+
+        for(int i=0; i<directionCount;i++){
+            list.Add(1);
+            roomsCount--;
+        }
+        if (roomsCount==0) return list;
+
+
+        for(int i=0; i<directionCount;i++){
+            if (roomsCount==0) continue;
+            int indexRoom = rand.Next(100);
+            if (indexRoom>50) continue;
+            list[i]+=1;
+            roomsCount--;
+        }
+        if (roomsCount==0) return list;
+
+
+        int indexDirection = rand.Next(list.Count);
+        list[indexDirection]+=roomsCount;
+
+        return list;
+    }
     private int FindCountFreeSlots(){
         int count = 0;
         if (LeftDoor != null) count++;
         if (RightDoor != null) count++;
         if (TopDoor != null) count++;
         if (BottomDoor != null) count++;
-        if (_parent != null) count--;
+        if (Parent != null) count--;
         return count;
     }
     
@@ -97,6 +143,7 @@ public class Room : MonoBehaviour
 
         Vector2 deltaCords = RoomPrefab.transform.position - Door.transform.position;
         Vector2 myDoorCords = this.FindDoor(direction).transform.position;
+
         return myDoorCords+deltaCords;
     }
 
@@ -114,5 +161,11 @@ public class Room : MonoBehaviour
         if (direction == ConnectedDoor.top) return TopDoor;
         if (direction == ConnectedDoor.bottom) return BottomDoor;
         return null;
+    }
+    private ConnectedDoor ReverseDirection(ConnectedDoor direction){
+        if (direction == ConnectedDoor.left) return ConnectedDoor.right;
+        if (direction == ConnectedDoor.right) return ConnectedDoor.left;
+        if (direction == ConnectedDoor.top) return ConnectedDoor.bottom;
+        return ConnectedDoor.top;
     }
 }
