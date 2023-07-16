@@ -9,7 +9,7 @@ public class ChestSript : MonoBehaviour
 
     public ChestR ChestEntiti;
     public PotionGenerator PotionGen;
-    private bool connect = false;
+    private bool _connected = false;
 
     
     private void Start() {
@@ -17,7 +17,7 @@ public class ChestSript : MonoBehaviour
         PotionGen = new PotionGenerator(ChestEntiti);
     }
     private void Update() {
-        if (!connect) return;
+        if (!_connected) return;
         if (!Input.GetKeyDown(OptionsManager.Config.KyeDictionary["Взаимодействие"])) return;
         ItemManager.Self.TogleChestWindow(ChestEntiti);
     }
@@ -26,12 +26,12 @@ public class ChestSript : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other){
         if (other.tag != "Player") return;
         HintManager.Connect();
-        this.connect = true;
+        _connected = true;
     }
     private void OnTriggerExit2D(Collider2D other){
         if (other.tag != "Player") return;
         HintManager.Disconnect();
-        this.connect = false;
+        _connected = false;
         ItemManager.Self.CloseChestWindow();
         ItemManager.Self.CloseChoiseWindow();
     }

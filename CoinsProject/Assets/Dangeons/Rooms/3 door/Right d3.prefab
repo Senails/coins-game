@@ -7913,6 +7913,7 @@ GameObject:
   - component: {fileID: 7677129539785937012}
   - component: {fileID: 7677129539785937013}
   - component: {fileID: 2437587246085327763}
+  - component: {fileID: 5518455408964895312}
   m_Layer: 0
   m_Name: Right d3
   m_TagString: Untagged
@@ -8023,6 +8024,19 @@ MonoBehaviour:
   RightDoor: {fileID: 0}
   TopDoor: {fileID: 1954649893660787824}
   BottomDoor: {fileID: 4896291663795855301}
+--- !u!114 &5518455408964895312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7677129539785937014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a8987882846444ab58bdb2915dcd79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefabID: 10
 --- !u!1 &8665201156865954981
 GameObject:
   m_ObjectHideFlags: 0

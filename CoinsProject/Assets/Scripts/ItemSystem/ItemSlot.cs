@@ -58,6 +58,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
         Remove();
     }
 
+
     private void DragAndDropHandler(){
         Vector2 mP = findMousePositionInCanvas();
         long startDate = getDateMilisec();

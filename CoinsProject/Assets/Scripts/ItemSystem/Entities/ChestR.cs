@@ -4,6 +4,7 @@ using UnityEngine;
 
 
 using ItemSystemTypes;
+using SaveAndLoadingTypes;
 
 
 public class ChestR: ItemListConteiner
@@ -113,6 +114,36 @@ public class ChestR: ItemListConteiner
     }
     
     
+    public List<ItemData> GetSaveList(){
+        List<ItemData> list = new List<ItemData>();
+
+        foreach(var elem in ItemArray){
+            int ID = elem.item!=null?elem.item.id:-1;
+            list.Add(new ItemData{
+                itemID = ID, 
+                count = elem.count
+            });
+        }
+
+        return list;
+    }
+    public void LoadSaveList(List<ItemData> list){
+        int i = 0;
+        foreach(var elem in ItemArray){
+            elem.count = list[i].count;
+
+            if (list[i].itemID!=-1){
+                elem.item = ItemDB.Self.itemListDB[list[i].itemID];
+            }else{
+                elem.item = null;
+            }
+            i++;
+        }
+        OnChange?.Invoke();
+    }
+
+
+
     private int TryAddItemToSlot(ItemOnInventoryR Item,ItemOnInventoryR slot){
         if (slot.count!=0 && Item.item.id != slot.item.id) return 0;
 

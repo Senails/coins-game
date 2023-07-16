@@ -16,7 +16,7 @@ public class Enemy_Fight : MonoBehaviour
 
 
     private Animator _animator;
-    private Action<Action> _trotlingAttack = CreateTrotlingFunc(1000);
+    private Action<Action> _trotlingAttack = CreateTrotlingFunc(600);
 
 
     private void Start() {
@@ -51,7 +51,7 @@ public class Enemy_Fight : MonoBehaviour
         _animator.SetBool("isDeath",true);
         IsDeath = true;
         setTimeout(()=>{
-            GameObject.Destroy(gameObject);
+            gameObject.SetActive(false);
         },600);
     }
 }

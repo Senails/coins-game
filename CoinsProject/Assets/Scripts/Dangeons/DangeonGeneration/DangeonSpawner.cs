@@ -2,22 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using SaveAndLoadingTypes;
 using DangeonsTypes;
 using static GameCordsLib;
 
 public class DangeonSpawner : MonoBehaviour
 {
     public int RoomsCount = 0;
+    public Room RootRoom = null;
+
     public static int SpawnedCount = 0;
     public static DangeonSpawner Self;
 
 
     private static List<Room> AllRoomList = new List<Room>();
-    private static Room rootRoom;
+    private static Room _rootRoom;
 
 
     public void Start(){
         Self = this;
+        if (GlobalStateSaveMeneger.SaveStatus == SaveMenegerStatus.LoadingFromSave) return;
         SpawnDangeon();
     }
 
@@ -25,14 +29,21 @@ public class DangeonSpawner : MonoBehaviour
         AllRoomList.Clear();
         SpawnedCount = 0;
 
+        if (RootRoom){
+            SpawnedCount++;
+            AllRoomList.Add(RootRoom);
+            RootRoom.Init(null,RoomsCount-SpawnedCount);
+            return;
+        }
+
         List<DBRoom> roomList = RoomsDB.Self.RoomList.FindAll((elem)=>elem.DoorsCount==1);
 
         System.Random rand = new System.Random();
         int indexRoom = rand.Next(0,roomList.Count-1);
 
         GameObject prefab = roomList[indexRoom].RoomPrefab;
-        rootRoom = SpawnRoom(prefab,transform.position);
-        rootRoom.Init(null,RoomsCount-SpawnedCount);
+        _rootRoom = SpawnRoom(prefab,transform.position);
+        _rootRoom.Init(null,RoomsCount-SpawnedCount);
     }
 
 

@@ -8,10 +8,22 @@ using SaveAndLoadingTypes;
 public class SavePrefab : MonoBehaviour
 {
     public int PrefabID;
-    public Action _onDestroyAction;
 
 
-    public void Start(){
-       
+    public static List<SavePrefab> PrefabList = new List<SavePrefab>();
+
+
+    private void Awake(){
+        PrefabList.Clear();
+    }
+    private void Start(){
+        PrefabList.Add(this);
+    }
+
+    public static List<PrefabState> SavePrefabs(){
+        return new List<PrefabState>();
+    }
+    public static void LoadPrefabs(List<PrefabState> list){
+
     }
 }

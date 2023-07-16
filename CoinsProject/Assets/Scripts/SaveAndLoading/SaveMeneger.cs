@@ -104,20 +104,6 @@ public class SaveMeneger : MonoBehaviour
     }
 
     
-
-    
-    public static LocationState SaveLocation(){
-        Debug.Log("SaveLocation "+$"{SceneManager.GetActiveScene().buildIndex}");
-        LocationState state = new LocationState();
-        state.locationID = SceneManager.GetActiveScene().buildIndex;
-    
-        return state;
-    }
-    public static void LoadLocation(LocationState state){
-        Debug.Log("LoadLocation");
-    }
-
-
     public static PlayerState SavePlayer(){
         PlayerState playerState = new PlayerState{
             IsDeath = Player.Self.IsDeath,
@@ -136,6 +122,33 @@ public class SaveMeneger : MonoBehaviour
 
         InventoryR.Self.LoadSaveList(state.InvetoryItemsSave);
         ItemPanel.Self.LoadSaveList(state.ItemPanelSave);
+    }
+
+    
+    public static LocationState SaveLocation(){
+        LocationState state = new LocationState{
+            locationID = SceneManager.GetActiveScene().buildIndex,
+            PlayerPositionX = Player.Self.transform.position.x,
+            PlayerPositionY = Player.Self.transform.position.y,
+        };
+
+        state.ConteinersOnLocation = SaveStaticConteiner.SaveStaticConteiners();
+        state.EnemysOnLocation = SaveEnemy.SaveEnemys();
+        state.PrefabsOnLocation = SavePrefab.SavePrefabs();
+
+        Debug.Log("SaveLocation "+$"{SceneManager.GetActiveScene().buildIndex}");
+    
+        return state;
+    }
+    public static void LoadLocation(LocationState state){
+        Player.Self.transform.position = 
+        new Vector2(state.PlayerPositionX,state.PlayerPositionY);
+
+        SaveStaticConteiner.LoadStaticConteiners(state.ConteinersOnLocation);
+        SaveEnemy.LoadEnemys(state.EnemysOnLocation);
+        SavePrefab.LoadPrefabs(state.PrefabsOnLocation);
+
+        Debug.Log("LoadLocation");
     }
 
 }

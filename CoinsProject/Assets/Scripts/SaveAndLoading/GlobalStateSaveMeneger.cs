@@ -7,10 +7,8 @@ using SaveAndLoadingTypes;
 public static class GlobalStateSaveMeneger{
     public static int PrevLocationID = 0;
 
-
     public static SaveMenegerStatus SaveStatus = SaveMenegerStatus.OnMainMenu;
     
-
     public static GameSaveConfig SaveConfig = null;
     public static LocationState ActiveLocationState {
         get{

@@ -31,11 +31,7 @@ namespace SaveAndLoadingTypes{
         public float EnemyPositionY {get; set;} = 0;
     }
     public record StaticConteinerState{
-        public float ConteinerPositionX {get; set;} = 0;
-        public float ConteinerPositionY {get; set;} = 0;
-
-
-        public Dictionary<int,int> ConteinerItemsSave {get; set;} = new Dictionary<int,int>();
+        public List<ItemData> ConteinerItemsSave {get; set;} = new List<ItemData>();
     }
     public record PrefabState{
         public int PrefabID {get; set;} = 0;
@@ -58,7 +54,6 @@ namespace SaveAndLoadingTypes{
         public List<EnemyState> EnemysOnLocation {get; set;} = new List<EnemyState>();
         public List<StaticConteinerState> ConteinersOnLocation {get; set;} = new List<StaticConteinerState>();
     }
-
 
 
     public record ItemData{

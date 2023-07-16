@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+using SaveAndLoadingTypes;
+
 public class SaveEnemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public static List<SaveEnemy> EnemyList = new List<SaveEnemy>();
+
+    private void Awake(){
+        EnemyList.Clear();
+    }
+    private void Start(){
+        EnemyList.Add(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public static List<EnemyState> SaveEnemys(){
+        return new List<EnemyState>();
+    }
+    public static void LoadEnemys(List<EnemyState> list){
+
     }
 }

@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 
     private Vector2 _startPosition;
     private Animator _animator;
-    private Action<Action> _trotlingAttack = CreateTrotlingFunc(800);
+    private Action<Action> _trotlingAttack = CreateTrotlingFunc(700);
 
 
     public int MaxHealth = 100;
@@ -43,7 +43,6 @@ public class Player : MonoBehaviour
         _animator.SetBool("isAttack",true);
         setTimeout(()=>{
             foreach(var enemy in Enemy_Fight.EnemyList){
-                
                 TryAttackEnemy(enemy);
             }
         },100);

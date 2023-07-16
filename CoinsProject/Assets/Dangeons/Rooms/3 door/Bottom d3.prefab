@@ -1448,6 +1448,7 @@ GameObject:
   - component: {fileID: 87642004044847415}
   - component: {fileID: 6457440559810644011}
   - component: {fileID: 1349509113308199355}
+  - component: {fileID: 6633218430152903755}
   m_Layer: 0
   m_Name: Bottom d3
   m_TagString: Untagged
@@ -1556,6 +1557,19 @@ MonoBehaviour:
   RightDoor: {fileID: 8422287888574298102}
   TopDoor: {fileID: 1594152709334705437}
   BottomDoor: {fileID: 0}
+--- !u!114 &6633218430152903755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6622153459100531466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a8987882846444ab58bdb2915dcd79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefabID: 8
 --- !u!1 &6797499397957328364
 GameObject:
   m_ObjectHideFlags: 0

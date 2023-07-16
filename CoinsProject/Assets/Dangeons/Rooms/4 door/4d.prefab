@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2030097557574286514}
   - component: {fileID: 2030097557574286525}
   - component: {fileID: 8806423952128069747}
+  - component: {fileID: 71187573369981084}
   m_Layer: 0
   m_Name: 4d
   m_TagString: Untagged
@@ -149,6 +150,19 @@ MonoBehaviour:
   RightDoor: {fileID: 6599922335602959222}
   TopDoor: {fileID: 6453790862964315631}
   BottomDoor: {fileID: 8531702405737990200}
+--- !u!114 &71187573369981084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030097557574286524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4a8987882846444ab58bdb2915dcd79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefabID: 12
 --- !u!1 &2030097558641396389
 GameObject:
   m_ObjectHideFlags: 0

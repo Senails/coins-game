@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveStaticConteiner : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+
+using SaveAndLoadingTypes;
+
+public class SaveStaticConteiner : MonoBehaviour{
+    public static List<SaveStaticConteiner> ConteinersList = new List<SaveStaticConteiner>();
+
+    private void Awake(){
+        ConteinersList.Clear();
+    }
+    private void Start(){
+        ConteinersList.Add(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public static List<StaticConteinerState> SaveStaticConteiners(){
+        return new List<StaticConteinerState>();
+    }
+    public static void LoadStaticConteiners(List<StaticConteinerState> list){
+
     }
 }
