@@ -18,8 +18,8 @@ namespace SaveAndLoadingTypes{
         public int Health {get; set;} = 100;
 
 
-        public Dictionary<int,int> InvetoryItemsSave {get; set;} = new Dictionary<int,int>();
-        public Dictionary<int,int> ItemPanelSave {get; set;} = new Dictionary<int,int>();
+        public List<ItemData> InvetoryItemsSave {get; set;} = new List<ItemData>();
+        public List<ItemData> ItemPanelSave {get; set;} = new List<ItemData>();
     }
     public record EnemyState{
         public bool isDeath = false;
@@ -60,6 +60,11 @@ namespace SaveAndLoadingTypes{
     }
 
 
+
+    public record ItemData{
+        public int itemID {get; set;} = 0;
+        public int count {get; set;} = 0;
+    }
     public enum SaveMenegerStatus{
         OnMainMenu,
         LoadingFromSave,

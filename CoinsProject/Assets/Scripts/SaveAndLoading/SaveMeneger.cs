@@ -25,7 +25,7 @@ public class SaveMeneger : MonoBehaviour
         Init();
     }
     private void Init(){
-        if (GlobalStateSaveMeneger.SaveStatus == SaveMenegerStatus.OnMainMenu) return;
+        if (SceneManager.GetActiveScene().buildIndex == 0) return;
         if (GlobalStateSaveMeneger.SaveConfig.PlayerSave == null){
             GlobalStateSaveMeneger.SaveConfig.PlayerSave = SavePlayer();
         }else{
@@ -38,6 +38,12 @@ public class SaveMeneger : MonoBehaviour
             LoadLocation(GlobalStateSaveMeneger.ActiveLocationState);
         }
 
+        WriteSaveConfig();
+    }
+    private void SaveDateToConfig(){
+        if (SceneManager.GetActiveScene().buildIndex == 0) return;
+        GlobalStateSaveMeneger.SaveConfig.PlayerSave = SavePlayer();
+        GlobalStateSaveMeneger.ActiveLocationState = SaveLocation();
         WriteSaveConfig();
     }
     
@@ -86,6 +92,9 @@ public class SaveMeneger : MonoBehaviour
         }else{
             GlobalStateSaveMeneger.SaveStatus = SaveMenegerStatus.LoadingFromSave;
         }
+
+        SaveDateToConfig();
+
         if (index == 0){
             GlobalStateSaveMeneger.SaveStatus = SaveMenegerStatus.OnMainMenu;
         }
@@ -98,8 +107,11 @@ public class SaveMeneger : MonoBehaviour
 
     
     public static LocationState SaveLocation(){
-        Debug.Log("SaveLocation");
-        return new LocationState();
+        Debug.Log("SaveLocation "+$"{SceneManager.GetActiveScene().buildIndex}");
+        LocationState state = new LocationState();
+        state.locationID = SceneManager.GetActiveScene().buildIndex;
+    
+        return state;
     }
     public static void LoadLocation(LocationState state){
         Debug.Log("LoadLocation");
@@ -107,13 +119,23 @@ public class SaveMeneger : MonoBehaviour
 
 
     public static PlayerState SavePlayer(){
-        Debug.Log("SavePlayer");
-        return new PlayerState();
+        PlayerState playerState = new PlayerState{
+            IsDeath = Player.Self.IsDeath,
+            MaxHealth = Player.Self.MaxHealth,
+            Health = Player.Self.Health
+        };
+
+        playerState.InvetoryItemsSave = InventoryR.Self.GetSaveList();
+        playerState.ItemPanelSave = ItemPanel.Self.GetSaveList();
+
+        return playerState;
     }
     public static void LoadPlayer(PlayerState state){
-        Debug.Log("LoadPlayer");
+        Player.Self.Health = state.MaxHealth;
+        Player.Self.RemoveHealth(state.MaxHealth-state.Health);
+
+        InventoryR.Self.LoadSaveList(state.InvetoryItemsSave);
+        ItemPanel.Self.LoadSaveList(state.ItemPanelSave);
     }
-
-
 
 }
