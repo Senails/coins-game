@@ -7,6 +7,9 @@ using DangeonsTypes;
 
 public class Room : MonoBehaviour
 {
+    public GameObject ExitDoor = null;
+
+
     public GameObject LeftDoor = null;
     public GameObject RightDoor = null;
     public GameObject TopDoor = null;
@@ -26,6 +29,10 @@ public class Room : MonoBehaviour
         if (childrenCount==0) return true;
 
         bool isSucces = SpanwnChildrensRooms(childrenCount);
+
+        if (parent==null){
+            ExitDoor.SetActive(true);
+        }
 
         return isSucces;
     }
@@ -132,14 +139,14 @@ public class Room : MonoBehaviour
             if (elem.DoorsCount==1 && childrenCount>3) return false;
 
             Room room = elem.RoomPrefab.GetComponent<Room>();
-            return room.FindDoorRevers(direction) != null;
+            return room.FindDoor(ReverseDirection(direction)) != null;
         });
 
         return availableRoomList.Select((elem)=>elem.RoomPrefab).ToList();
     }
     private Vector2 FindPositionForRoom(GameObject RoomPrefab,ConnectedDoor direction){
         Room room = RoomPrefab.GetComponent<Room>();
-        GameObject Door = room.FindDoorRevers(direction);
+        GameObject Door = room.FindDoor(ReverseDirection(direction));
 
         Vector2 deltaCords = RoomPrefab.transform.position - Door.transform.position;
         Vector2 myDoorCords = this.FindDoor(direction).transform.position;
@@ -148,13 +155,6 @@ public class Room : MonoBehaviour
     }
 
 
-    private GameObject FindDoorRevers(ConnectedDoor direction){
-        if (direction == ConnectedDoor.left) return RightDoor;
-        if (direction == ConnectedDoor.right) return LeftDoor;
-        if (direction == ConnectedDoor.top) return BottomDoor;
-        if (direction == ConnectedDoor.bottom) return TopDoor;
-        return null;
-    }
     private GameObject FindDoor(ConnectedDoor direction){
         if (direction == ConnectedDoor.left) return LeftDoor;
         if (direction == ConnectedDoor.right) return RightDoor;

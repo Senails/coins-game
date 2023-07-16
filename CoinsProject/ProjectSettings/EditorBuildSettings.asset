@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/DangeonScene.unity
+    guid: b09b2ddd6f7cd5b47ba0aebe6979be94
   m_configObjects: {}

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+using SaveAndLoadingTypes;
 using static GameCordsLib;
-
 
 public class SpawZone : MonoBehaviour
 {
@@ -12,8 +12,8 @@ public class SpawZone : MonoBehaviour
     public int Count = 0;
     public float MinGap { get; init; } = 0.1f;
 
-    public void Start()
-    {
+    public void Start(){
+        if (GlobalStateSaveMeneger.SaveStatus == SaveMenegerStatus.LoadingFromSave) return;
         Spawn();
     }
 

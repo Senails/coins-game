@@ -29,10 +29,15 @@ public class Enemy_Fight : MonoBehaviour
         if (other.gameObject != Player.Self.gameObject) return;
         _trotlingAttack(Attack);
     }
+    private void OnDestroy() {
+        EnemyList.Remove(this);
+    }
+
 
     private void Attack(){
         Player.Self.RemoveHealth(PowerAttack);
     }
+
 
     public void RemoveHealth(int count){
         this.Health-=count;
@@ -45,7 +50,6 @@ public class Enemy_Fight : MonoBehaviour
     private void Death(){
         _animator.SetBool("isDeath",true);
         IsDeath = true;
-        EnemyList.Remove(this);
         setTimeout(()=>{
             GameObject.Destroy(gameObject);
         },600);

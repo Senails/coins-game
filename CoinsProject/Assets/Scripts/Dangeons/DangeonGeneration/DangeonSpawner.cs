@@ -13,7 +13,7 @@ public class DangeonSpawner : MonoBehaviour
 
 
     private static List<Room> AllRoomList = new List<Room>();
-    private Room rootRoom;
+    private static Room rootRoom;
 
 
     public void Start(){
@@ -21,12 +21,10 @@ public class DangeonSpawner : MonoBehaviour
         SpawnDangeon();
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.U)){
-            RemoveRoom(rootRoom);
-        }
-    }
     public void SpawnDangeon(){
+        AllRoomList.Clear();
+        SpawnedCount = 0;
+
         List<DBRoom> roomList = RoomsDB.Self.RoomList.FindAll((elem)=>elem.DoorsCount==1);
 
         System.Random rand = new System.Random();

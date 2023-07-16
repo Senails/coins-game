@@ -1,0 +1,68 @@
+using System.Collections.Generic;
+
+
+namespace SaveAndLoadingTypes{
+
+    public record GameSaveConfig{
+        public int ActiveLocationID {get; set;} = 0;
+
+
+        public PlayerState PlayerSave {get; set;} = null;
+        public List<LocationState> LocationSaveList {get; set;} = new List<LocationState>();
+    }
+
+
+    public record PlayerState{
+        public bool IsDeath {get; set;} = false;
+        public int MaxHealth {get; set;} = 100;
+        public int Health {get; set;} = 100;
+
+
+        public Dictionary<int,int> InvetoryItemsSave {get; set;} = new Dictionary<int,int>();
+        public Dictionary<int,int> ItemPanelSave {get; set;} = new Dictionary<int,int>();
+    }
+    public record EnemyState{
+        public bool isDeath = false;
+        public int MaxHealth {get; set;} = 20;
+        public int Health {get; set;} = 20;
+
+
+        public float EnemyPositionX {get; set;} = 0;
+        public float EnemyPositionY {get; set;} = 0;
+    }
+    public record StaticConteinerState{
+        public float ConteinerPositionX {get; set;} = 0;
+        public float ConteinerPositionY {get; set;} = 0;
+
+
+        public Dictionary<int,int> ConteinerItemsSave {get; set;} = new Dictionary<int,int>();
+    }
+    public record PrefabState{
+        public int PrefabID {get; set;} = 0;
+
+
+        public float PrefabPositionX {get; set;} = 0;
+        public float PrefabPositionY {get; set;} = 0;
+    }
+
+
+    public class LocationState{
+        public int locationID {get; set;} = 1;
+
+
+        public float PlayerPositionX {get; set;} = 0;
+        public float PlayerPositionY {get; set;} = 0;
+
+
+        public List<PrefabState> PrefabsOnLocation {get; set;} = new List<PrefabState>();
+        public List<EnemyState> EnemysOnLocation {get; set;} = new List<EnemyState>();
+        public List<StaticConteinerState> ConteinersOnLocation {get; set;} = new List<StaticConteinerState>();
+    }
+
+
+    public enum SaveMenegerStatus{
+        OnMainMenu,
+        LoadingFromSave,
+        FreeGeneration,
+    }
+}
