@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 using SaveAndLoadingTypes;
+using static AsyncLib;
 
 public class SaveMeneger : MonoBehaviour
 {   
@@ -18,6 +19,10 @@ public class SaveMeneger : MonoBehaviour
     private void Awake() {
         GlobalStateSaveMeneger.SaveConfig = LoadSaveConfig();
         Self = this;
+
+        SaveEnemy.EnemyList.Clear();
+        SavePrefab.PrefabList.Clear();
+        SaveStaticConteiner.ConteinersList.Clear();
     }
     private void LateUpdate() {
         if (_isInit) return;
@@ -108,8 +113,10 @@ public class SaveMeneger : MonoBehaviour
         PlayerState playerState = new PlayerState{
             IsDeath = Player.Self.IsDeath,
             MaxHealth = Player.Self.MaxHealth,
-            Health = Player.Self.Health
+            Health = Player.Self.Health,
+            CameraSize = Camera.main.orthographicSize/CameraController.Self.NormalCameraSize
         };
+
 
         playerState.InvetoryItemsSave = InventoryR.Self.GetSaveList();
         playerState.ItemPanelSave = ItemPanel.Self.GetSaveList();
@@ -119,6 +126,8 @@ public class SaveMeneger : MonoBehaviour
     public static void LoadPlayer(PlayerState state){
         Player.Self.Health = state.MaxHealth;
         Player.Self.RemoveHealth(state.MaxHealth-state.Health);
+
+        Camera.main.orthographicSize = CameraController.Self.NormalCameraSize*state.CameraSize;
 
         InventoryR.Self.LoadSaveList(state.InvetoryItemsSave);
         ItemPanel.Self.LoadSaveList(state.ItemPanelSave);
@@ -131,24 +140,25 @@ public class SaveMeneger : MonoBehaviour
             PlayerPositionX = Player.Self.transform.position.x,
             PlayerPositionY = Player.Self.transform.position.y,
         };
+        Player.Self.StartPosition = Player.Self.transform.position;
 
+        state.PrefabsOnLocation = SavePrefab.SavePrefabs();
         state.ConteinersOnLocation = SaveStaticConteiner.SaveStaticConteiners();
         state.EnemysOnLocation = SaveEnemy.SaveEnemys();
-        state.PrefabsOnLocation = SavePrefab.SavePrefabs();
 
-        Debug.Log("SaveLocation "+$"{SceneManager.GetActiveScene().buildIndex}");
-    
         return state;
     }
     public static void LoadLocation(LocationState state){
+        Player.Self.StartPosition = 
+        new Vector2(state.PlayerPositionX,state.PlayerPositionY);
         Player.Self.transform.position = 
         new Vector2(state.PlayerPositionX,state.PlayerPositionY);
 
-        SaveStaticConteiner.LoadStaticConteiners(state.ConteinersOnLocation);
-        SaveEnemy.LoadEnemys(state.EnemysOnLocation);
         SavePrefab.LoadPrefabs(state.PrefabsOnLocation);
-
-        Debug.Log("LoadLocation");
+        setTimeout(()=>{
+            SaveStaticConteiner.LoadStaticConteiners(state.ConteinersOnLocation);
+            SaveEnemy.LoadEnemys(state.EnemysOnLocation);
+        },1);
     }
 
 }

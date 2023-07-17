@@ -18,7 +18,7 @@ public class SpawZone : MonoBehaviour
     }
 
     private void Spawn(){
-        for(int i = 0; i<=Count; i++){
+        for(int i = 0; i<Count; i++){
             try{
                 Vector2 cords = FindFreeCordsInGameRect(this.gameObject,MinGap);
                 Instantiate(PrefubForSpawn,cords,new Quaternion());

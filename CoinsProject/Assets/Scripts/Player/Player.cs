@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public static Player Self;
 
 
-    private Vector2 _startPosition;
+    public Vector2 StartPosition;
     private Animator _animator;
     private Action<Action> _trotlingAttack = CreateTrotlingFunc(700);
 
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
     }
     private void Start() {
         _animator = this.GetComponent<Animator>();
-        _startPosition = transform.position;
+        StartPosition = transform.position;
     }
     private void Update() {
         if (Input.GetKey(OptionsManager.Config.KyeDictionary["Атака"])){
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
         DeathScreen.SetActive(true);
     }
     public void Respawn(){
-        transform.position = _startPosition;
+        transform.position = StartPosition;
         AddHealth(MaxHealth);
         IsDeath = false;
         _animator.SetBool("isDeath",false);

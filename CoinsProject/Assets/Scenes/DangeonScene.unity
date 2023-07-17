@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09d04bbcb4510584aa6b26d741ed3fae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoomsCount: 5
+  RoomsCount: 3
   RootRoom: {fileID: 1307659619}
 --- !u!114 &1307659619 stripped
 MonoBehaviour:

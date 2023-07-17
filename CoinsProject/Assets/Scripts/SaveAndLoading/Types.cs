@@ -16,19 +16,15 @@ namespace SaveAndLoadingTypes{
         public bool IsDeath {get; set;} = false;
         public int MaxHealth {get; set;} = 100;
         public int Health {get; set;} = 100;
+        public float CameraSize {get; set;} = 1;
 
 
         public List<ItemData> InvetoryItemsSave {get; set;} = new List<ItemData>();
         public List<ItemData> ItemPanelSave {get; set;} = new List<ItemData>();
     }
     public record EnemyState{
-        public bool isDeath = false;
         public int MaxHealth {get; set;} = 20;
         public int Health {get; set;} = 20;
-
-
-        public float EnemyPositionX {get; set;} = 0;
-        public float EnemyPositionY {get; set;} = 0;
     }
     public record StaticConteinerState{
         public List<ItemData> ConteinerItemsSave {get; set;} = new List<ItemData>();

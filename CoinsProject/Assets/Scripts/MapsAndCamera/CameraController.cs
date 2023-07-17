@@ -8,20 +8,23 @@ using static AsyncLib;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Self;
     public GameObject BorderRectForCamera;
+    public float NormalCameraSize;
     
+
     private Player _playerObject;
     private Rigidbody2D _rb;
     private Vector2 _virtualCameraPosition;
-    private float _normalCameraSize;
     
-
+    
     private void Start(){
         _virtualCameraPosition = Camera.main.transform.position;
-        _normalCameraSize = Camera.main.orthographicSize;
+        NormalCameraSize = Camera.main.orthographicSize;
         _rb = this.GetComponent<Rigidbody2D>();
 
         _playerObject = Player.Self;
+        Self = this;
     }
     private void LateUpdate () {
         if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
@@ -63,7 +66,7 @@ public class CameraController : MonoBehaviour
                 float needSize = Camera.main.orthographicSize;
 
                 needSize = more?needSize*(1 + 0.01f):needSize*(1 - 0.01f);
-                needSize = Mathf.Clamp(needSize,_normalCameraSize/2,_normalCameraSize*2);
+                needSize = Mathf.Clamp(needSize,NormalCameraSize/2,NormalCameraSize*2);
 
                 Camera.main.orthographicSize = needSize;
                 MoveCamera();
