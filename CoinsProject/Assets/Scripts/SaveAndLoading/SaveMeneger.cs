@@ -1,9 +1,7 @@
 using System;
 using UnityEngine;
 using System.Text.Json;
-using System.Collections;
 using UnityEngine.SceneManagement;
-using System.Collections.Generic;
 
 using SaveAndLoadingTypes;
 using static AsyncLib;
@@ -15,6 +13,7 @@ public class SaveMeneger : MonoBehaviour
 
 
     private bool _isInit = false;
+    private Action _cancelAction;
 
 
     private void Awake() {
@@ -30,6 +29,8 @@ public class SaveMeneger : MonoBehaviour
         _isInit = true;
         Init();
     }
+    
+    
     private void Init(){
         if (SceneManager.GetActiveScene().buildIndex == 0) return;
         if (GlobalStateSaveMeneger.SaveConfig.PlayerSave == null){
@@ -50,6 +51,7 @@ public class SaveMeneger : MonoBehaviour
         DarkScrn.Hide();
         setTimeout(()=>{
             GameMeneger.PlayGame();
+            StartintervalSave();
         },DarkScrn.TransitionTime);
     }
     private void SaveDateToConfig(){
@@ -59,15 +61,6 @@ public class SaveMeneger : MonoBehaviour
         WriteSaveConfig();
     }
     
-
-    //develop
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.U)){
-            PlayerPrefs.DeleteAll();
-        }
-    }
-    //develop
-
 
     private GameSaveConfig LoadSaveConfig(){
         string textConfig = PlayerPrefs.GetString("GameSaveConfig");
@@ -96,6 +89,7 @@ public class SaveMeneger : MonoBehaviour
     
     
     public void LoadingScene(int index){
+        StopintervalSave();
         if (DarkScrn!=null){
             GameMeneger.PauseGame();
             DarkScrn.Show();
@@ -129,7 +123,7 @@ public class SaveMeneger : MonoBehaviour
     }
 
     
-    public static PlayerState SavePlayer(){
+    private PlayerState SavePlayer(){
         PlayerState playerState = new PlayerState{
             IsDeath = Player.Self.IsDeath,
             MaxHealth = Player.Self.MaxHealth,
@@ -143,7 +137,7 @@ public class SaveMeneger : MonoBehaviour
 
         return playerState;
     }
-    public static void LoadPlayer(PlayerState state){
+    private void LoadPlayer(PlayerState state){
         Player.Self.Health = state.MaxHealth;
         Player.Self.RemoveHealth(state.MaxHealth-state.Health);
 
@@ -154,7 +148,7 @@ public class SaveMeneger : MonoBehaviour
     }
 
     
-    public static LocationState SaveLocation(){
+    private LocationState SaveLocation(){
         LocationState state = new LocationState{
             locationID = SceneManager.GetActiveScene().buildIndex,
             PlayerPositionX = Player.Self.transform.position.x,
@@ -168,7 +162,7 @@ public class SaveMeneger : MonoBehaviour
 
         return state;
     }
-    public static void LoadLocation(LocationState state){
+    private void LoadLocation(LocationState state){
         Player.Self.transform.position = 
         new Vector2(state.PlayerPositionX,state.PlayerPositionY);
 
@@ -181,4 +175,13 @@ public class SaveMeneger : MonoBehaviour
         },1);
     }
 
+
+    private void StartintervalSave(){
+        _cancelAction = setInterval(()=>{
+            SaveDateToConfig();
+        },60000);
+    }
+    private void StopintervalSave(){
+        _cancelAction?.Invoke();
+    }
 }

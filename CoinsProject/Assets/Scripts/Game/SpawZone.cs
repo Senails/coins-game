@@ -10,7 +10,7 @@ public class SpawZone : MonoBehaviour
 {
     public GameObject PrefubForSpawn;
     public int Count = 0;
-    public float MinGap { get; init; } = 0.1f;
+    public float MinGap = 0.3f;
 
     public void Start(){
         if (GlobalStateSaveMeneger.SaveStatus == SaveMenegerStatus.LoadingFromSave) return;
