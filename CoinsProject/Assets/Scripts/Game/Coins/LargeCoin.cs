@@ -8,6 +8,7 @@ public class LargeCoin : MonoBehaviour
 
     public void Update()
     {
+        if (GameMeneger.IsPause) return;
         if (!_connect) return;
         if (Input.GetKey(OptionsManager.Config.KyeDictionary["Взаимодействие"])){
             OnHoldCoin();

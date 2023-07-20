@@ -27,7 +27,7 @@ public class Enemy_Move : MonoBehaviour
     
     private void Update(){
         Vector2 direction = new Vector2(0,0);
-        if (!_enemy.IsDeath){
+        if (!_enemy.IsDeath && !GameMeneger.IsPause){
             if(CheckObjectOnScreen(gameObject)){
                 direction = FindDirection();
             }else{

@@ -11,7 +11,8 @@ using static AsyncLib;
 public class SaveMeneger : MonoBehaviour
 {   
     public static SaveMeneger Self;
-    
+    public DarkScreen DarkScrn;
+
 
     private bool _isInit = false;
 
@@ -44,6 +45,12 @@ public class SaveMeneger : MonoBehaviour
         }
 
         WriteSaveConfig();
+
+        GameMeneger.PauseGame();
+        DarkScrn.Hide();
+        setTimeout(()=>{
+            GameMeneger.PlayGame();
+        },DarkScrn.TransitionTime);
     }
     private void SaveDateToConfig(){
         if (SceneManager.GetActiveScene().buildIndex == 0) return;
@@ -86,7 +93,20 @@ public class SaveMeneger : MonoBehaviour
         int index = GlobalStateSaveMeneger.SaveConfig.ActiveLocationID;
         LoadingScene(index);
     }
+    
+    
     public void LoadingScene(int index){
+        if (DarkScrn!=null){
+            GameMeneger.PauseGame();
+            DarkScrn.Show();
+            setTimeout(()=>{
+                ChangeScene(index);
+            },DarkScrn.TransitionTime);
+        }else{
+            ChangeScene(index);
+        }
+    }
+    private void ChangeScene(int index){
         GameSaveConfig config = GlobalStateSaveMeneger.SaveConfig;
         LocationState locState = config.LocationSaveList.Find((elem)=>{
             return elem.locationID==index;
@@ -149,10 +169,10 @@ public class SaveMeneger : MonoBehaviour
         return state;
     }
     public static void LoadLocation(LocationState state){
-        Player.Self.StartPosition = 
-        new Vector2(state.PlayerPositionX,state.PlayerPositionY);
         Player.Self.transform.position = 
         new Vector2(state.PlayerPositionX,state.PlayerPositionY);
+
+        Player.Self.StartPosition = Player.Self.transform.position;
 
         SavePrefab.LoadPrefabs(state.PrefabsOnLocation);
         setTimeout(()=>{

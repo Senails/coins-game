@@ -17,6 +17,7 @@ public class ChestSript : MonoBehaviour
         PotionGen = new PotionGenerator(ChestEntiti);
     }
     private void Update() {
+        if (GameMeneger.IsPause) return;
         if (!_connected) return;
         if (!Input.GetKeyDown(OptionsManager.Config.KyeDictionary["Взаимодействие"])) return;
         ItemManager.Self.TogleChestWindow(ChestEntiti);

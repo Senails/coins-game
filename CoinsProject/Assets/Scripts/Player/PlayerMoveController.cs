@@ -20,10 +20,8 @@ public class PlayerMoveController : MonoBehaviour
         _animator = this.GetComponent<Animator>();
     }
     private void Update(){
-        if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
-
         Vector2 direction = new Vector2(0,0);
-        if (!Player.Self.IsDeath){
+        if (!Player.Self.IsDeath && !GameMeneger.IsPause){
             direction = FindDirection();
         }
         MovePlayer(direction);

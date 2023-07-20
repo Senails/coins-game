@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
         Self = this;
     }
     private void LateUpdate () {
-        if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
+        // if (GameMeneger.IsPause) return;
 
         ResizeCamera();
         CalculateNewCameraPosition();

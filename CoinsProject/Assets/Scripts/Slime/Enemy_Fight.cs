@@ -25,6 +25,7 @@ public class Enemy_Fight : MonoBehaviour
     }
   
     private void OnCollisionStay2D(Collision2D other) {
+        if (GameMeneger.IsPause) return;
         if (IsDeath) return;
         if (other.gameObject != Player.Self.gameObject) return;
         _trotlingAttack(Attack);
