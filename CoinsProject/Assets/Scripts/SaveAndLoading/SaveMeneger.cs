@@ -140,6 +140,7 @@ public class SaveMeneger : MonoBehaviour
     private void LoadPlayer(PlayerState state){
         Player.Self.Health = state.MaxHealth;
         Player.Self.RemoveHealth(state.MaxHealth-state.Health);
+        Player.Self.lastTakeDamage = 0;
 
         Camera.main.orthographicSize = CameraController.Self.NormalCameraSize*state.CameraSize;
 

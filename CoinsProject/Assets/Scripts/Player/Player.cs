@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 using static AsyncLib;
+using static MyDateLib;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Player : MonoBehaviour
     public Vector2 StartPosition;
     private Animator _animator;
     private Action<Action> _trotlingAttack = CreateTrotlingFunc(700);
+    private Action<Action> _trotlingRegeneration = CreateTrotlingFunc(500);
+    
 
 
     public int MaxHealth = 100;
@@ -19,6 +22,7 @@ public class Player : MonoBehaviour
     public float AttackRange = 2;
 
 
+    public long lastTakeDamage = 0;
     public bool IsDeath = false;
     public GameObject DeathScreen;
     public event Action<int,int> OnChengeHealth;
@@ -35,6 +39,12 @@ public class Player : MonoBehaviour
         if (Input.GetKey(OptionsManager.Config.KyeDictionary["Атака"])){
             if (IsDeath) return;
             _trotlingAttack(Attack);
+        }
+
+        if ((getDateMilisec()-lastTakeDamage)>3000){
+            _trotlingRegeneration(()=>{
+                AddHealth(1);
+            });
         }
     }
 
@@ -70,6 +80,7 @@ public class Player : MonoBehaviour
 
 
     public void RemoveHealth(int count){
+        lastTakeDamage = getDateMilisec();
         this.Health-=count;
         
         if (this.Health<=0){
@@ -77,6 +88,10 @@ public class Player : MonoBehaviour
             Death();
         }
         OnChengeHealth.Invoke(this.Health,this.MaxHealth);
+
+        if (this.Health>0){
+
+        }
     }
     public void AddHealth(int count){
         Health += count;
