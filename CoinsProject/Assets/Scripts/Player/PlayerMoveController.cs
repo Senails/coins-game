@@ -20,10 +20,8 @@ public class PlayerMoveController : MonoBehaviour
         _animator = this.GetComponent<Animator>();
     }
     private void Update(){
-        if (GameMeneger.Status == GameMeneger.GameStatus.pause) return;
-
         Vector2 direction = new Vector2(0,0);
-        if (!Player.Self.IsDeath){
+        if (!Player.Self.IsDeath && !GameMeneger.IsPause){
             direction = FindDirection();
         }
         MovePlayer(direction);
@@ -32,7 +30,8 @@ public class PlayerMoveController : MonoBehaviour
 
 
     private void MovePlayer(Vector2 Direction){
-        _rb.velocity = Direction;
+        float x = 0.3f*((float)Player.Self.Health/(float)Player.Self.MaxHealth);
+        _rb.velocity = Direction*(1+x-0.3f);
     }
     private void ChangeAnimationProps(Vector2 Direction){
         Vector2 vector = Direction.normalized;

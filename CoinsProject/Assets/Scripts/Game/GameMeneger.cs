@@ -6,7 +6,7 @@ public class GameMeneger : MonoBehaviour
 {
     public LargeMapWindow LargeMap;
     public MenuScript Menu;
-    public static GameStatus Status = GameStatus.play;
+    public static bool IsPause = false;
     private static int blockGameLavel = 0;
 
 
@@ -36,16 +36,16 @@ public class GameMeneger : MonoBehaviour
 
     private static void PlayPauseGame(){
         if (blockGameLavel>0){
-            Status = GameStatus.pause;
-            Time.timeScale=0;
+            IsPause = true;
+            // Time.timeScale=0;
             return;
         }
         if (blockGameLavel<0){
             blockGameLavel = 0;
         }
 
-        Status = GameStatus.play;
-        Time.timeScale=1;
+        IsPause = false;
+        // Time.timeScale=1;
     }
     public enum GameStatus{
         play,

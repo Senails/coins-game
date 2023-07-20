@@ -4,11 +4,14 @@ using UnityEngine;
 
 
 using ItemSystemTypes;
+using SaveAndLoadingTypes;
 using static ItemSystemUtils;
 
 
 public class InventoryR: ItemListConteiner
 {
+    public static InventoryR Self;
+
     public bool CanDrop { get; set; } = true;
     public bool CanPlace { get; set; } = true;
     public bool CanTake { get; set; } = true;
@@ -26,6 +29,7 @@ public class InventoryR: ItemListConteiner
         for (int i = 0; i < ItemArray.Length; i++){
             ItemArray[i] = new ItemOnInventoryR();
         }
+        Self = this;
     }
 
 
@@ -112,6 +116,36 @@ public class InventoryR: ItemListConteiner
         OnChange?.Invoke();
     }
     public void Render(){
+        OnChange?.Invoke();
+    }
+
+
+
+    public List<ItemData> GetSaveList(){
+        List<ItemData> list = new List<ItemData>();
+
+        foreach(var elem in ItemArray){
+            int ID = elem.item!=null?elem.item.id:-1;
+            list.Add(new ItemData{
+                itemID = ID, 
+                count = elem.count
+            });
+        }
+
+        return list;
+    }
+    public void LoadSaveList(List<ItemData> list){
+        int i = 0;
+        foreach(var elem in ItemArray){
+            elem.count = list[i].count;
+
+            if (list[i].itemID!=-1){
+                elem.item = ItemDB.Self.itemListDB[list[i].itemID];
+            }else{
+                elem.item = null;
+            }
+            i++;
+        }
         OnChange?.Invoke();
     }
 

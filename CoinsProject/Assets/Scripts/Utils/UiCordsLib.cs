@@ -8,9 +8,6 @@ using UnityEngine.SceneManagement;
 using static GameCordsLib;
 
 public static class UiCordsLib{
-    private static GameObject _canvas = null;
-
-
     public static Vector2 findMousePositionInCanvas(){
         Vector2 mouseRelativeCords = GetMouseCordsRelativeScreen();
         Vector2 canvasSizes = GetUiSizes(getCanvas());    
@@ -42,6 +39,7 @@ public static class UiCordsLib{
         RectTransform rectTr = uiObject.GetComponent<RectTransform>();
         Rect rect = rectTr.rect;
 
+
         return new Vector2 {
             x = rect.width,
             y = rect.height
@@ -63,6 +61,7 @@ public static class UiCordsLib{
         return true;
     }
 
+
     public static Vector2 GetMouseCordsRelativeScreen(){
         return new Vector2{
             x = Input.mousePosition.x/Screen.width-0.5f,
@@ -70,14 +69,6 @@ public static class UiCordsLib{
         };
     }
     public static GameObject getCanvas(){
-        if (_canvas!=null) return _canvas;
-
-        GameObject[] rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-        _canvas = Array.Find<GameObject>(rootObjects,(elem)=>{
-            Canvas can = elem.GetComponent<Canvas>();
-            return can != null;
-        });
-
-        return _canvas;
+        return MainCanvas.Self.gameObject;
     }
 }

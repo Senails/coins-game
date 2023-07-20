@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 
 using ItemSystemTypes;
+using SaveAndLoadingTypes;
 using static ItemSystemUtils;
 
 
 public class ItemPanel: ItemListConteiner
 {
+    public static ItemPanel Self;
+
     public bool CanDrop { get; set; } = true;
     public bool CanPlace { get; set; } = false;
     public bool CanTake { get; set; } = false;
@@ -27,6 +29,7 @@ public class ItemPanel: ItemListConteiner
             RecalculateCount();
             Render();
         };
+        Self = this;
     }
 
 
@@ -44,8 +47,40 @@ public class ItemPanel: ItemListConteiner
         RecalculateCount();
         OnChange?.Invoke();
     }
+    public void Render(){
+        OnChange?.Invoke();
+    }
     
-    
+
+    public List<ItemData> GetSaveList(){
+        List<ItemData> list = new List<ItemData>();
+
+        foreach(var elem in ItemArray){
+            int ID = elem.item!=null?elem.item.id:-1;
+            list.Add(new ItemData{
+                itemID = ID, 
+                count = elem.count
+            });
+        }
+
+        return list;
+    }
+    public void LoadSaveList(List<ItemData> list){
+        int i = 0;
+        foreach(var elem in ItemArray){
+            elem.count = list[i].count;
+
+            if (list[i].itemID!=-1){
+                elem.item = ItemDB.Self.itemListDB[list[i].itemID];
+            }else{
+                elem.item = null;
+            }
+            i++;
+        }
+        OnChange?.Invoke();
+    }
+
+
     public void RemoveClonLink(ItemOnInventoryR Item){
         foreach(ItemOnInventoryR elem in ItemArray){
             if (elem.item != null && elem.item.id == Item.item.id){
@@ -75,8 +110,4 @@ public class ItemPanel: ItemListConteiner
         }
     }
     
-    
-    public void Render(){
-        OnChange?.Invoke();
-    }
 }

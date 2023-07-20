@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
-
+using SaveAndLoadingTypes;
 namespace ItemSystemTypes{
     [Serializable]
     public class ItemR {
@@ -31,6 +32,12 @@ namespace ItemSystemTypes{
         public void AddItem(ItemOnInventoryR item,ItemSlot preferSlot = null);
         public void RemoveItem(ItemOnInventoryR item,ItemSlot preferSlot);
         public void Render();
+
+
+        public List<ItemData> GetSaveList();
+        public void LoadSaveList(List<ItemData> list);
+
+
     }
 
     public abstract class ActionBase : MonoBehaviour

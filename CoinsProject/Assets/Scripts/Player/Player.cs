@@ -2,15 +2,18 @@ using System;
 using UnityEngine;
 
 using static AsyncLib;
+using static MyDateLib;
 
 public class Player : MonoBehaviour
 {
     public static Player Self;
 
 
-    private Vector2 _startPosition;
+    public Vector2 StartPosition;
     private Animator _animator;
-    private Action<Action> _trotlingAttack = CreateTrotlingFunc(800);
+    private Action<Action> _trotlingAttack = CreateTrotlingFunc(700);
+    private Action<Action> _trotlingRegeneration = CreateTrotlingFunc(500);
+    
 
 
     public int MaxHealth = 100;
@@ -19,6 +22,7 @@ public class Player : MonoBehaviour
     public float AttackRange = 2;
 
 
+    public long lastTakeDamage = 0;
     public bool IsDeath = false;
     public GameObject DeathScreen;
     public event Action<int,int> OnChengeHealth;
@@ -29,12 +33,18 @@ public class Player : MonoBehaviour
     }
     private void Start() {
         _animator = this.GetComponent<Animator>();
-        _startPosition = transform.position;
+        StartPosition = transform.position;
     }
     private void Update() {
         if (Input.GetKey(OptionsManager.Config.KyeDictionary["Атака"])){
             if (IsDeath) return;
             _trotlingAttack(Attack);
+        }
+
+        if ((getDateMilisec()-lastTakeDamage)>3000){
+            _trotlingRegeneration(()=>{
+                AddHealth(1);
+            });
         }
     }
 
@@ -43,7 +53,6 @@ public class Player : MonoBehaviour
         _animator.SetBool("isAttack",true);
         setTimeout(()=>{
             foreach(var enemy in Enemy_Fight.EnemyList){
-                
                 TryAttackEnemy(enemy);
             }
         },100);
@@ -71,6 +80,7 @@ public class Player : MonoBehaviour
 
 
     public void RemoveHealth(int count){
+        lastTakeDamage = getDateMilisec();
         this.Health-=count;
         
         if (this.Health<=0){
@@ -78,6 +88,10 @@ public class Player : MonoBehaviour
             Death();
         }
         OnChengeHealth.Invoke(this.Health,this.MaxHealth);
+
+        if (this.Health>0){
+
+        }
     }
     public void AddHealth(int count){
         Health += count;
@@ -92,7 +106,7 @@ public class Player : MonoBehaviour
         DeathScreen.SetActive(true);
     }
     public void Respawn(){
-        transform.position = _startPosition;
+        transform.position = StartPosition;
         AddHealth(MaxHealth);
         IsDeath = false;
         _animator.SetBool("isDeath",false);
